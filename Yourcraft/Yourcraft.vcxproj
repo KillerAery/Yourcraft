@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BatchRender.cpp" />
+    <ClCompile Include="Collider.cpp" />
+    <ClCompile Include="Component.cpp" />
+    <ClCompile Include="DirectX11\BasicFX.cpp" />
+    <ClCompile Include="DirectX11\Camera.cpp" />
+    <ClCompile Include="DirectX11\Collision.cpp" />
+    <ClCompile Include="DirectX11\d3dApp.cpp" />
+    <ClCompile Include="DirectX11\dxerr.cpp" />
+    <ClCompile Include="DirectX11\GameApp.cpp" />
+    <ClCompile Include="DirectX11\TestObject.cpp" />
+    <ClCompile Include="DirectX11\GameTimer.cpp" />
+    <ClCompile Include="DirectX11\MeshData.cpp" />
+    <ClCompile Include="DirectX11\Model.cpp" />
+    <ClCompile Include="DirectX11\ObjReader.cpp" />
+    <ClCompile Include="DirectX11\RenderStates.cpp" />
+    <ClCompile Include="Factory.cpp" />
+    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Object.cpp" />
+    <ClCompile Include="RefZonePool.cpp" />
+    <ClCompile Include="MeshRender.cpp" />
+    <ClCompile Include="Render.cpp" />
+    <ClCompile Include="Rigidbody.cpp" />
+    <ClCompile Include="TextruePool.cpp" />
+    <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="EngineApp.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BatchRender.h" />
+    <ClInclude Include="Collider.h" />
+    <ClInclude Include="Component.h" />
+    <ClInclude Include="DirectX11\Camera.h" />
+    <ClInclude Include="DirectX11\Collision.h" />
+    <ClInclude Include="DirectX11\d3dApp.h" />
+    <ClInclude Include="DirectX11\d3dUtil.h" />
+    <ClInclude Include="DirectX11\dxerr.h" />
+    <ClInclude Include="DirectX11\EffectHelper.h" />
+    <ClInclude Include="DirectX11\Effects.h" />
+    <ClInclude Include="DirectX11\GameApp.h" />
+    <ClInclude Include="DirectX11\TestObject.h" />
+    <ClInclude Include="DirectX11\GameTimer.h" />
+    <ClInclude Include="DirectX11\LightHelper.h" />
+    <ClInclude Include="DirectX11\MeshData.h" />
+    <ClInclude Include="DirectX11\Model.h" />
+    <ClInclude Include="DirectX11\ObjReader.h" />
+    <ClInclude Include="DirectX11\RenderStates.h" />
+    <ClInclude Include="Factory.h" />
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="RefZonePool.h" />
+    <ClInclude Include="Ref.h" />
+    <ClInclude Include="ObjectPool.h" />
+    <ClInclude Include="MeshRender.h" />
+    <ClInclude Include="Render.h" />
+    <ClInclude Include="Rigidbody.h" />
+    <ClInclude Include="Singleton.h" />
+    <ClInclude Include="TextruePool.h" />
+    <ClInclude Include="Transform.h" />
+    <ClInclude Include="EngineApp.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{0E4E8735-769D-430E-B302-71071F025EA1}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Yourcraft</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\SettingOfProject\Bullet_DEBUG.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>DirectX11;Bullet\inc;DirectXTK\Src;DirectXTK\Inc;$(IncludePath)</IncludePath>
+    <LibraryPath>Bullet\lib;DirectXTK\Lib\$(PlatForm)\$(Configuration);$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>DirectX11;Bullet\inc;DirectXTK\Src;DirectXTK\Inc;$(IncludePath)</IncludePath>
+    <LibraryPath>Bullet\lib;DirectXTK\Lib\$(PlatForm)\$(Configuration);$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>LinearMathd.lib;BulletSoftBodyd.lib;BulletInverseDynamicsUtilsd.lib;BulletInverseDynamicsd.lib;BulletDynamicsd.lib;BulletCollisiond.lib;Bullet3Geometryd.lib;Bullet3Dynamicsd.lib;Bullet3Collisiond.lib;Bullet3Commond.lib;DirectXTK.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>LinearMath.lib;BulletSoftBody.lib;BulletInverseDynamicsUtils.lib;BulletInverseDynamics.lib;BulletDynamics.lib;BulletCollision.lib;Bullet3Geometry.lib;Bullet3Dynamics.lib;Bullet3Collisiond.lib;Bullet3Common.lib;DirectXTK.lib;user32.lib;kernel32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

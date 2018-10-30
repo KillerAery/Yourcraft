@@ -1,0 +1,235 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="引擎框架层">
+      <UniqueIdentifier>{dec90081-7f38-452b-b8e9-2155023a9b8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="引擎框架层\应用类">
+      <UniqueIdentifier>{0a8cbc22-8eb9-488e-a96a-01446d980c57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="引擎框架层\变换类">
+      <UniqueIdentifier>{e7b04cf8-56ad-4ff4-a1cc-40d23082563e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="引擎框架层\组件类">
+      <UniqueIdentifier>{5fd373db-c439-45ad-8433-4162d479f97b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="引擎框架层\游戏对象类">
+      <UniqueIdentifier>{d55dc00b-9a20-403d-938a-94f0c7438782}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="游戏逻辑层">
+      <UniqueIdentifier>{2e222291-131f-4de4-8fe6-44b5decec6b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="引擎框架层\组件类\渲染组件">
+      <UniqueIdentifier>{1370e6f9-cf3c-4a39-92ac-bbbaa63795f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="引擎框架层\组件类\物理组件">
+      <UniqueIdentifier>{d1513197-cc9a-47b7-ba2d-2462b6f1191e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="引擎框架层\组件类\物理组件\碰撞组件">
+      <UniqueIdentifier>{c5178145-f6c5-4856-9637-2eb3a611f088}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="引擎框架层\内存管理类">
+      <UniqueIdentifier>{78ef1f99-8b42-468c-9744-093ac0c05504}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="引擎框架层\内存管理类\工厂类">
+      <UniqueIdentifier>{022d58b0-f381-43e0-a2c1-78de3570058b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="引擎框架层\内存管理类\内存池类">
+      <UniqueIdentifier>{e7f1c814-4301-41c5-a683-5eb67296e7d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="图形库框架层">
+      <UniqueIdentifier>{19aa2ab7-a9cf-446b-bfaf-c760018b279f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="图形库框架层\DirectX11">
+      <UniqueIdentifier>{0caf6b37-e098-4eab-b0ae-ea6a3f5a57b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="引擎框架层\组件类\物理组件\刚体组件">
+      <UniqueIdentifier>{2eb2572c-6427-4bda-bcd6-a5b4359848d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="引擎框架层\杂项">
+      <UniqueIdentifier>{731f4e05-10b3-4c27-9c11-98ccb3665c53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="引擎框架层\内存管理类\引用内存类">
+      <UniqueIdentifier>{6ee768ac-1029-46e0-a3ee-0befbba6c2f9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Transform.cpp">
+      <Filter>引擎框架层\变换类</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>引擎框架层\组件类</Filter>
+    </ClCompile>
+    <ClCompile Include="Render.cpp">
+      <Filter>引擎框架层\组件类\渲染组件</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshRender.cpp">
+      <Filter>引擎框架层\组件类\渲染组件</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineApp.cpp">
+      <Filter>引擎框架层\应用类</Filter>
+    </ClCompile>
+    <ClCompile Include="Factory.cpp">
+      <Filter>引擎框架层\内存管理类\工厂类</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>引擎框架层\组件类\物理组件\碰撞组件</Filter>
+    </ClCompile>
+    <ClCompile Include="Rigidbody.cpp">
+      <Filter>引擎框架层\组件类\物理组件\刚体组件</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectX11\dxerr.cpp">
+      <Filter>图形库框架层\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectX11\GameApp.cpp">
+      <Filter>图形库框架层\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectX11\GameTimer.cpp">
+      <Filter>图形库框架层\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectX11\Model.cpp">
+      <Filter>图形库框架层\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectX11\ObjReader.cpp">
+      <Filter>图形库框架层\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectX11\RenderStates.cpp">
+      <Filter>图形库框架层\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectX11\BasicFX.cpp">
+      <Filter>图形库框架层\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectX11\Camera.cpp">
+      <Filter>图形库框架层\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectX11\Collision.cpp">
+      <Filter>图形库框架层\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectX11\d3dApp.cpp">
+      <Filter>图形库框架层\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectX11\MeshData.cpp">
+      <Filter>图形库框架层\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectX11\TestObject.cpp">
+      <Filter>图形库框架层\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>引擎框架层\游戏对象类</Filter>
+    </ClCompile>
+    <ClCompile Include="TextruePool.cpp">
+      <Filter>引擎框架层\内存管理类\内存池类</Filter>
+    </ClCompile>
+    <ClCompile Include="BatchRender.cpp">
+      <Filter>引擎框架层\组件类\渲染组件</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>引擎框架层\应用类</Filter>
+    </ClCompile>
+    <ClCompile Include="RefZonePool.cpp">
+      <Filter>引擎框架层\内存管理类\内存池类</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>引擎框架层\内存管理类\引用内存类</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Transform.h">
+      <Filter>引擎框架层\变换类</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>引擎框架层\组件类</Filter>
+    </ClInclude>
+    <ClInclude Include="Render.h">
+      <Filter>引擎框架层\组件类\渲染组件</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshRender.h">
+      <Filter>引擎框架层\组件类\渲染组件</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineApp.h">
+      <Filter>引擎框架层\应用类</Filter>
+    </ClInclude>
+    <ClInclude Include="Factory.h">
+      <Filter>引擎框架层\内存管理类\工厂类</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>引擎框架层\组件类\物理组件\碰撞组件</Filter>
+    </ClInclude>
+    <ClInclude Include="Rigidbody.h">
+      <Filter>引擎框架层\组件类\物理组件\刚体组件</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX11\d3dApp.h">
+      <Filter>图形库框架层\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX11\dxerr.h">
+      <Filter>图形库框架层\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX11\EffectHelper.h">
+      <Filter>图形库框架层\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX11\Effects.h">
+      <Filter>图形库框架层\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX11\GameApp.h">
+      <Filter>图形库框架层\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX11\GameTimer.h">
+      <Filter>图形库框架层\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX11\LightHelper.h">
+      <Filter>图形库框架层\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX11\Model.h">
+      <Filter>图形库框架层\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX11\ObjReader.h">
+      <Filter>图形库框架层\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX11\RenderStates.h">
+      <Filter>图形库框架层\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX11\Camera.h">
+      <Filter>图形库框架层\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX11\Collision.h">
+      <Filter>图形库框架层\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX11\MeshData.h">
+      <Filter>图形库框架层\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX11\TestObject.h">
+      <Filter>图形库框架层\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>引擎框架层\游戏对象类</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX11\d3dUtil.h">
+      <Filter>图形库框架层\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>引擎框架层\杂项</Filter>
+    </ClInclude>
+    <ClInclude Include="TextruePool.h">
+      <Filter>引擎框架层\内存管理类\内存池类</Filter>
+    </ClInclude>
+    <ClInclude Include="BatchRender.h">
+      <Filter>引擎框架层\组件类\渲染组件</Filter>
+    </ClInclude>
+    <ClInclude Include="Ref.h">
+      <Filter>引擎框架层\内存管理类\引用内存类</Filter>
+    </ClInclude>
+    <ClInclude Include="RefZonePool.h">
+      <Filter>引擎框架层\内存管理类\内存池类</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectPool.h">
+      <Filter>引擎框架层\内存管理类\内存池类</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>引擎框架层\内存管理类\引用内存类</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
