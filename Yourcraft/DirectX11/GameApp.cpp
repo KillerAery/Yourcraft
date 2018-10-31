@@ -134,11 +134,11 @@ void GameApp::DrawScene()
 	md3dImmediateContext->ClearDepthStencilView(mDepthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
 	// 按对象绘制
-	mBasicEffect.SetRenderDefault(md3dImmediateContext, BasicFX::RenderObject);
+	mBasicEffect.SetRenderDefault(md3dImmediateContext, BasicEffect::RenderObject);
 	// 绘制不需要纹理的模型
 	mBasicEffect.SetTextureUsed(false);
-	//mSphere.Draw(md3dImmediateContext, mBasicEffect);
-	//mCube.Draw(md3dImmediateContext, mBasicEffect);
+	mSphere.Draw(md3dImmediateContext, mBasicEffect);
+	mCube.Draw(md3dImmediateContext, mBasicEffect);
 	//mCylinder.Draw(md3dImmediateContext, mBasicEffect);
 	//mTriangle.Draw(md3dImmediateContext, mBasicEffect);
 
@@ -152,8 +152,8 @@ void GameApp::DrawScene()
 	vec.push_back(XMMatrixTranslation(0, 155, 555));
 	vec.push_back(XMMatrixTranslation(0, 255, 555));
 
-	// 只按实例绘制
-	mBasicEffect.SetRenderDefault(md3dImmediateContext, BasicFX::RenderInstance);
+	// 按实例绘制
+	mBasicEffect.SetRenderDefault(md3dImmediateContext, BasicEffect::RenderInstance);
 	mHouse.DrawInstanced(md3dImmediateContext, mBasicEffect,vec);
 
 	// ******************

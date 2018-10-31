@@ -15,6 +15,7 @@ ComPtr<ID3D11BlendState> RenderStates::BSNoColorWrite			= nullptr;
 ComPtr<ID3D11BlendState> RenderStates::BSTransparent			= nullptr;
 ComPtr<ID3D11BlendState> RenderStates::BSAdditive				= nullptr;
 
+ComPtr<ID3D11DepthStencilState> RenderStates::DSSLessEqual		= nullptr;
 ComPtr<ID3D11DepthStencilState> RenderStates::DSSWriteStencil	= nullptr;
 ComPtr<ID3D11DepthStencilState> RenderStates::DSSDrawWithStencil= nullptr;
 ComPtr<ID3D11DepthStencilState> RenderStates::DSSNoDoubleBlend	= nullptr;
@@ -145,6 +146,16 @@ void RenderStates::InitAll(ComPtr<ID3D11Device> device)
 	// 初始化深度/模板状态
 	//
 	D3D11_DEPTH_STENCIL_DESC dsDesc;
+
+	// 允许使用深度值一致的像素进行替换的深度/模板状态
+	// 该状态用于绘制天空盒，因为深度值为1.0时默认无法通过深度测试
+	dsDesc.DepthEnable = true;
+	dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	dsDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
+
+	dsDesc.StencilEnable = false;
+
+	HR(device->CreateDepthStencilState(&dsDesc, DSSLessEqual.GetAddressOf()));
 
 	// 写入模板值的深度/模板状态
 	// 这里不写入深度信息

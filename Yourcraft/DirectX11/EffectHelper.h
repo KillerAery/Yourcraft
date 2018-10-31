@@ -1,10 +1,10 @@
 //
 // 该头文件需要在包含特效类实现的源文件中使用，且必须晚于Effects.h和d3dUtil.h包含
 // 
+
 #ifndef EFFECTHELPER_H
 #define EFFECTHELPER_H
 
-#include "d3dUtil.h"
 
 // 若类需要内存对齐，从该类派生
 template<class DerivedType>

@@ -1,5 +1,6 @@
 #ifndef EFFECTS_H
 #define EFFECTS_H
+
 #include <memory>
 #include "LightHelper.h"
 #include "RenderStates.h"
@@ -29,24 +30,24 @@ public:
 };
 
 
-class BasicFX : public IEffect
+class BasicEffect : public IEffect
 {
 public:
 
 	enum RenderType { RenderObject, RenderInstance };
 
-	BasicFX();
-	virtual ~BasicFX() override;
+	BasicEffect();
+	virtual ~BasicEffect() override;
 
-	BasicFX(BasicFX&& moveFrom);
-	BasicFX& operator=(BasicFX&& moveFrom);
+	BasicEffect(BasicEffect&& moveFrom);
+	BasicEffect& operator=(BasicEffect&& moveFrom);
 
 	// 获取单例
-	static BasicFX& Get();
+	static BasicEffect& Get();
 
 	
 
-	// 初始化Basic.fx所需资源并初始化渲染状态
+	// 初始化Basic.hlsli所需资源并初始化渲染状态
 	bool InitAll(ComPtr<ID3D11Device> device);
 
 
@@ -84,10 +85,16 @@ public:
 
 	void SetTextureAmbient(ComPtr<ID3D11ShaderResourceView> texture);
 	void SetTextureDiffuse(ComPtr<ID3D11ShaderResourceView> texture);
-	
+	void SetTextureCube(ComPtr<ID3D11ShaderResourceView> textureCube);
 
 	void XM_CALLCONV SetEyePos(DirectX::FXMVECTOR eyePos);
 	
+	//
+	// 状态开关设置
+	//
+
+	void SetReflectionEnabled(bool isEnable);
+
 
 	// 应用常量缓冲区和纹理资源的变更
 	void Apply(ComPtr<ID3D11DeviceContext> deviceContext);
@@ -97,7 +104,49 @@ private:
 	std::unique_ptr<Impl> pImpl;
 };
 
+class SkyEffect : IEffect
+{
+public:
+	SkyEffect();
+	virtual ~SkyEffect() override;
 
+	SkyEffect(SkyEffect&& moveFrom);
+	SkyEffect& operator=(SkyEffect&& moveFrom);
+
+	// 获取单例
+	static SkyEffect& Get();
+
+	// 初始化Sky.hlsli所需资源并初始化渲染状态
+	bool InitAll(ComPtr<ID3D11Device> device);
+
+	// 
+	// 渲染模式的变更
+	//
+
+	// 默认状态来绘制
+	void SetRenderDefault(ComPtr<ID3D11DeviceContext> deviceContext);
+
+	//
+	// 矩阵设置
+	//
+
+	void XM_CALLCONV SetWorldViewProjMatrix(DirectX::FXMMATRIX W, DirectX::CXMMATRIX V, DirectX::CXMMATRIX P);
+	void XM_CALLCONV SetWorldViewProjMatrix(DirectX::FXMMATRIX WVP);
+
+	//
+	// 纹理立方体映射设置
+	//
+
+	void SetTextureCube(ComPtr<ID3D11ShaderResourceView> textureCube);
+
+
+	// 应用常量缓冲区和纹理资源的变更
+	void Apply(ComPtr<ID3D11DeviceContext> deviceContext);
+
+private:
+	class Impl;
+	std::unique_ptr<Impl> pImpl;
+};
 
 
 

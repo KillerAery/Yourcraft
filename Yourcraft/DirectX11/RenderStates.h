@@ -30,6 +30,7 @@ public:
 	static ComPtr<ID3D11BlendState> BSAdditive;			// 混合状态：加法混合
 
 
+	static ComPtr<ID3D11DepthStencilState> DSSLessEqual;		// 深度/模板状态：允许绘制深度值相等的像素
 	static ComPtr<ID3D11DepthStencilState> DSSWriteStencil;		// 深度/模板状态：写入模板值
 	static ComPtr<ID3D11DepthStencilState> DSSDrawWithStencil;	// 深度/模板状态：对指定模板值的区域进行绘制
 	static ComPtr<ID3D11DepthStencilState> DSSNoDoubleBlend;	// 深度/模板状态：无二次混合区域

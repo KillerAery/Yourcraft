@@ -1,15 +1,16 @@
-#include "Basic.fx"
+#include "Basic.hlsli"
 
 // ¶¥µã×ÅÉ«Æ÷
-VertexPosHWNormalTex VS(InstancePosNormalTex pIn)
+VertexPosHWNormalTex VS(InstancePosNormalTex vIn)
 {
-    VertexPosHWNormalTex pOut;
+    VertexPosHWNormalTex vOut;
     
-    row_major matrix viewProj = mul(gView, gProj);
-    
-    pOut.PosW = mul(float4(pIn.PosL, 1.0f), pIn.World).xyz;
-    pOut.PosH = mul(float4(pOut.PosW, 1.0f), viewProj);
-    pOut.NormalW = mul(pIn.NormalL, (float3x3) pIn.WorldInvTranspose);
-    pOut.Tex = pIn.Tex;
-    return pOut;
+    matrix viewProj = mul(gView, gProj);
+    vector posW = mul(float4(vIn.PosL, 1.0f), vIn.World);
+
+    vOut.PosW = posW.xyz;
+    vOut.PosH = mul(posW, viewProj);
+    vOut.NormalW = mul(vIn.NormalL, (float3x3) vIn.WorldInvTranspose);
+    vOut.Tex = vIn.Tex;
+    return vOut;
 }

@@ -10,7 +10,5 @@ Component::~Component()
 {
 }
 
-void Component::Update()
-{
-}
+
 

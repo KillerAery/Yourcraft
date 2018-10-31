@@ -1,6 +1,7 @@
 #include "Model.h"
 #include "d3dUtil.h"
 
+
 using namespace DirectX;
 
 Model::Model()
@@ -133,7 +134,7 @@ void Model::SetMesh(ComPtr<ID3D11Device> device, const std::vector<DirectX::Vert
 		(UINT)indices.size(), DXGI_FORMAT_R32_UINT);
 }
 
-void Model::SetMesh(ComPtr<ID3D11Device> device, const DirectX::VertexPositionNormalTexture * vertices, UINT vertexCount, const void * indices, UINT indexCount, DXGI_FORMAT indexFormat)
+void Model::SetMesh(ComPtr<ID3D11Device> device, const DirectX::VertexPositionNormalTexture* vertices, UINT vertexCount, const void * indices, UINT indexCount, DXGI_FORMAT indexFormat)
 {
 	modelParts.resize(1);
 
@@ -156,7 +157,6 @@ void Model::SetMesh(ComPtr<ID3D11Device> device, const DirectX::VertexPositionNo
 	D3D11_SUBRESOURCE_DATA InitData;
 	ZeroMemory(&InitData, sizeof(InitData));
 	InitData.pSysMem = vertices;
-
 	HR(device->CreateBuffer(&vbd, &InitData, modelParts[0].vertexBuffer.ReleaseAndGetAddressOf()));
 
 	// …Ë÷√À˜“˝ª∫≥Â«¯√Ë ˆ

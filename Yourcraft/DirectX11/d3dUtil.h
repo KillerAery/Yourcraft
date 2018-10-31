@@ -8,10 +8,10 @@
 #include <DDSTextureLoader.h>	
 #include <WICTextureLoader.h>
 #include <wrl/client.h>
-#include <filesystem>
 #include <vector>
-#include <SimpleMath.h>
 #include <string>
+#include <filesystem>
+#include <SimpleMath.h>
 #include "dxerr.h"
 
 // 移植过来的错误检查，该项目仅允许使用Unicode字符集
@@ -36,11 +36,8 @@
 // 着色器编译相关函数
 //
 
-// objFileNameInOut为编译好的着色器二进制文件(.*so)，若有指定则优先寻找该文件并读取
-// hlslFileName为着色器代码，若未找到着色器二进制文件则编译着色器代码
-// 编译成功后，若指定了objFileNameInOut，则保存编译好的着色器二进制信息到该文件
-// ppBlobOut输出着色器二进制信息
-HRESULT CreateShaderFromFile(const WCHAR* objFileNameInOut, const WCHAR* hlslFileName, LPCSTR entryPoint, LPCSTR shaderModel, ID3DBlob** ppBlobOut);
+HRESULT CreateShaderFromFile(const WCHAR * objFileNameInOut, const WCHAR * hlslFileName, LPCSTR entryPoint, LPCSTR shaderModel, ID3DBlob ** ppBlobOut);
+
 
 //
 // 纹理数组相关函数
@@ -58,6 +55,29 @@ Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> CreateDDSTexture2DArrayFromFile
 
 
 
+//
+// 纹理立方体相关函数
+//
 
+// 根据给定的一张包含立方体六个面的纹理，创建纹理立方体
+// 要求纹理宽高比为4:3，且按下面形式布局:
+// .  +Y .  .
+// -X +Z +X -Z 
+// .  -Y .  .
+// 该函数默认不生成mipmap(即等级仅为1)，若需要则设置generateMips为true
+Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> CreateWICTextureCubeFromFile(
+	Microsoft::WRL::ComPtr<ID3D11Device> device,
+	Microsoft::WRL::ComPtr<ID3D11DeviceContext> deviceContext,
+	std::wstring cubemapFileName,
+	bool generateMips = false);
+
+// 根据按D3D11_TEXTURECUBE_FACE索引顺序给定的六张纹理，创建纹理立方体
+// 要求纹理是同样大小的正方形
+// 该函数默认不生成mipmap(即等级仅为1)，若需要则设置generateMips为true
+Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> CreateWICTextureCubeFromFile(
+	Microsoft::WRL::ComPtr<ID3D11Device> device,
+	Microsoft::WRL::ComPtr<ID3D11DeviceContext> deviceContext,
+	std::vector<std::wstring> cubemapFileNames,
+	bool generateMips = false);
 
 #endif

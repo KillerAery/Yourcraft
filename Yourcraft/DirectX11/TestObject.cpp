@@ -87,7 +87,7 @@ void TestObject::SetWorldMatrix(FXMMATRIX world)
 	XMStoreFloat4x4(&mWorldMatrix, world);
 }
 
-void TestObject::Draw(ComPtr<ID3D11DeviceContext> deviceContext, BasicFX & effect)
+void TestObject::Draw(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect)
 {
 	UINT strides = sizeof(DirectX::VertexPositionNormalTexture);
 	UINT offsets = 0;
@@ -109,7 +109,7 @@ void TestObject::Draw(ComPtr<ID3D11DeviceContext> deviceContext, BasicFX & effec
 	}
 }
 
-void TestObject::DrawInstanced(ComPtr<ID3D11DeviceContext> deviceContext, BasicFX & effect, const std::vector<DirectX::XMMATRIX>& data)
+void TestObject::DrawInstanced(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect, const std::vector<DirectX::XMMATRIX>& data)
 {
 	D3D11_MAPPED_SUBRESOURCE mappedData;
 	UINT numInsts = (UINT)data.size();

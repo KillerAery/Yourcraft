@@ -103,9 +103,6 @@
     <ClCompile Include="DirectX11\RenderStates.cpp">
       <Filter>图形库框架层\DirectX11</Filter>
     </ClCompile>
-    <ClCompile Include="DirectX11\BasicFX.cpp">
-      <Filter>图形库框架层\DirectX11</Filter>
-    </ClCompile>
     <ClCompile Include="DirectX11\Camera.cpp">
       <Filter>图形库框架层\DirectX11</Filter>
     </ClCompile>
@@ -141,6 +138,18 @@
     </ClCompile>
     <ClCompile Include="BatchMeshRender.cpp">
       <Filter>引擎框架层\组件类\渲染组件</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectX11\BasicEffect.cpp">
+      <Filter>图形库框架层\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectX11\SkyEffect.cpp">
+      <Filter>图形库框架层\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectX11\SkyRender.cpp">
+      <Filter>图形库框架层\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectX11\d3dUtil.cpp">
+      <Filter>图形库框架层\DirectX11</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -239,6 +248,9 @@
     </ClInclude>
     <ClInclude Include="BatchMeshRender.h">
       <Filter>引擎框架层\组件类\渲染组件</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX11\SkyRender.h">
+      <Filter>图形库框架层\DirectX11</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

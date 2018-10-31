@@ -1,6 +1,5 @@
 #pragma once
 #include "d3dUtil.h"
-#include "Ref.h"
 #include "Object.h"
 
 using namespace DirectX::SimpleMath;

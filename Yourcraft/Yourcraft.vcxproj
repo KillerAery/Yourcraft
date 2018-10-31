@@ -23,12 +23,15 @@
     <ClCompile Include="BatchRender.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Component.cpp" />
-    <ClCompile Include="DirectX11\BasicFX.cpp" />
+    <ClCompile Include="DirectX11\BasicEffect.cpp" />
     <ClCompile Include="DirectX11\Camera.cpp" />
     <ClCompile Include="DirectX11\Collision.cpp" />
     <ClCompile Include="DirectX11\d3dApp.cpp" />
+    <ClCompile Include="DirectX11\d3dUtil.cpp" />
     <ClCompile Include="DirectX11\dxerr.cpp" />
     <ClCompile Include="DirectX11\GameApp.cpp" />
+    <ClCompile Include="DirectX11\SkyEffect.cpp" />
+    <ClCompile Include="DirectX11\SkyRender.cpp" />
     <ClCompile Include="DirectX11\TestObject.cpp" />
     <ClCompile Include="DirectX11\GameTimer.cpp" />
     <ClCompile Include="DirectX11\MeshData.cpp" />
@@ -60,6 +63,7 @@
     <ClInclude Include="DirectX11\EffectHelper.h" />
     <ClInclude Include="DirectX11\Effects.h" />
     <ClInclude Include="DirectX11\GameApp.h" />
+    <ClInclude Include="DirectX11\SkyRender.h" />
     <ClInclude Include="DirectX11\TestObject.h" />
     <ClInclude Include="DirectX11\GameTimer.h" />
     <ClInclude Include="DirectX11\LightHelper.h" />

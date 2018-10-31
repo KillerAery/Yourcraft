@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Ref.h"
+
 class Object
 {
 public:
