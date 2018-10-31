@@ -2,7 +2,7 @@
 
 Object::~Object()
 {
-	Kill();
+	Dead();
 }
 
 Object::Object():mAlive(false), mEnabled(false)
@@ -31,7 +31,7 @@ void Object::Init()
 	mEnabled = true;
 }
 
-void Object::operator delete(void * address) noexcept
+void Object::Dead()
 {
-	static_cast<Object*>(address)->Kill();
+
 }

@@ -1,11 +1,12 @@
 #pragma once
 #include "Object.h"
 
-class Component : public Object
+class Component
 {
 public:
 	Component();
-	virtual ~Component() = 0;
-	void Update(float dt);
+	virtual ~Component();
+protected:
+	virtual void Update() = 0;
 };
 

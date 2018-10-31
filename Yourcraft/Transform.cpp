@@ -13,6 +13,20 @@ mChildren(nullptr)
 
 }
 
+void Transform::Init()
+{
+	Object::Init();
+	mPosition = Vector3(0, 0, 0);
+	mWorldPosition = Vector3(0, 0, 0);
+	mScale = Vector3(1, 1, 1);
+	mWorldScale = Vector3(1, 1, 1);
+	mRotation = Vector4(0, 0, 0, 0);
+	mWorldRotation = Vector4(0, 0, 0, 0);
+	mParent = nullptr;
+	mNext = nullptr;
+	mChildren = nullptr;
+}
+
 Transform::~Transform()
 {
 

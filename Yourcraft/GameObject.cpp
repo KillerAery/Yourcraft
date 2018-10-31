@@ -9,20 +9,24 @@ mTag("Default")
 
 }
 
+
+void GameObject::Init()
+{
+	Transform::Init();
+	mName = "GameObject";
+	mTag = "Default";
+}
+
+
 GameObject::~GameObject()
 {
 }
 
+
+
 void GameObject::Update()
 {
 	Transform::Update();
-}
-
-void GameObject::Init()
-{
-	Object::Init();
-	mName = "GameObject";
-	mTag = "Default";
 }
 
 void GameObject::SetName(const std::string& name)

@@ -1,6 +1,7 @@
 #pragma once
 #include "RefZonePool.h"
 
+//引用指针   :一种智能指针，其分配的计数空间以内存池的形式管理
 template<class T>
 class Ref
 {
@@ -11,7 +12,7 @@ public:
 		if(raw)
 		{
 			mPtr = raw;
-			mRefZone = RefZonePool::Create();
+			mRefZone = RefZonePool::Instance()->Create();
 			mRefZone->count = mRefZone->weakcount = 1;
 		}
 	}
@@ -27,16 +28,20 @@ public:
 		ReduceCount();
 		ReduceWeakCount();
 	}
+
+	//资源是否存活
 	bool IsAlive()
 	{
 		return mPtr && mRefZone->count > 0;
 	}
+
+	//释放资源
 	void Release()
 	{
 		if(mPtr)
 		{
 			mRefZone->count = 0;
-			delete mPtr;
+			mPtr->Kill();
 			mPtr = nullptr;
 		}
 	}
@@ -54,6 +59,7 @@ public:
 	}
 
 	T* Get() { return mRefZone->mPtr; }
+
 	void Set(const Ref<T>& other) {
 		if(mPtr)
 		{
@@ -65,7 +71,9 @@ public:
 		AddCount();
 		AddWeakCount();
 	}
+
 private:
+	//减少资源计数
 	void ReduceCount() {
 		//资源存活才处理
 		if (!IsAlive())return;
@@ -75,22 +83,23 @@ private:
 			Release();
 		}
 	}
+	//减少计数空间计数
 	void ReduceWeakCount()
 	{
 		//引用空间存在才处理
 		if (!mRefZone)return;
-
 		mRefZone->weakcount--;
 		if (mRefZone->weakcount <= 0) {
-			RefZonePool::Release(mRefZone);
+			RefZonePool::Instance()->Release(mRefZone);
 		}
-		
 	}
+	//增加资源计数
 	void AddCount() {
 		//资源存活才处理
 		if (!IsAlive())return;
 		mRefZone->count++;
 	}
+	//增加计数空间计数
 	void AddWeakCount()
 	{
 		//引用空间存在才处理
@@ -98,8 +107,8 @@ private:
 		mRefZone->weakcount++;
 	}
 private:
-	T* mPtr;
-	RefZonePool::RefZone* mRefZone;
+	T* mPtr;					   //资源指针
+	RefZonePool::RefZone* mRefZone;//计数空间指针
 };
 
 

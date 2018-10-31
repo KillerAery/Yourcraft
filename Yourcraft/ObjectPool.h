@@ -53,8 +53,7 @@ template <class T, int MAX_SIZE>
 bool ObjectPool<T, MAX_SIZE>::DeleteObject(int index)
 {
 	if (index >= mSize)return false;
-	//删除对象，只需要修改存活标记
-	mObjects[index].SetAlive(false);
+	mObjects[index].Kill();
 	return true;
 }
 
@@ -73,7 +72,7 @@ T* ObjectPool<T, MAX_SIZE>::AddObject(FORWARD_T&& object)
 		mItr++;
 	}
 	//复制内存到区域
-	mObjects[mItr] = T(object);
+	mObjects[mItr] = object;
 	//如果使用的内存区域数量还没达到最大值，则记录数量+1.
 	if(mItr >= mSize && mSize < MAX_SIZE){mSize++;}
 

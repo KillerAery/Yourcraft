@@ -6,5 +6,6 @@ class BatchRender :
 public:
 	BatchRender();
 	virtual ~BatchRender();
+	virtual void Update() = 0;
 };
 

@@ -1,10 +1,12 @@
 #pragma once
 #include <array>
+#include "Singleton.h"
 
-
-//引用指针空间池
-class RefZonePool
+//计数空间 内存池
+//(单例类)
+class RefZonePool : public Singleton<RefZonePool>
 {
+	friend class Singleton<RefZonePool>;
 public:
 	struct RefZone {
 		int count;
@@ -13,12 +15,13 @@ public:
 	};
 protected:
 	static const int MAX_PTRZONE_NUMS = 5000;
-	static std::array<RefZone, MAX_PTRZONE_NUMS> sPtrZones;
-	static int sAvailableItr;
-	RefZonePool() = delete;
-	~RefZonePool() = delete;
+	std::array<RefZone, MAX_PTRZONE_NUMS> mPtrZones;
+	int mAvailableItr;
+	RefZonePool();
 public:
-	static RefZone* Create();
-	static void Release(RefZone* zone);
+	bool Init();
+	~RefZonePool();
+	RefZone* Create();
+	void Release(RefZone* zone);
 };
 

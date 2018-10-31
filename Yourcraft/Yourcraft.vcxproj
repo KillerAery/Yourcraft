@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BatchMeshRender.cpp" />
     <ClCompile Include="BatchRender.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Component.cpp" />
@@ -47,6 +48,7 @@
     <ClCompile Include="EngineApp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BatchMeshRender.h" />
     <ClInclude Include="BatchRender.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Component.h" />

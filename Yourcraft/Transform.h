@@ -10,6 +10,7 @@ class Transform : public Object
 
 public:
 	Transform();
+	virtual void Init();
 	virtual ~Transform();
 
 	void SetPosition(const Vector3& pos);
@@ -28,7 +29,7 @@ public:
 	//Vector3 GetWorldRotation();
 
 	void CaculateWorldMatrix();
-	void Update();
+	virtual void Update();
 
 	Transform* GetParent();
 	Transform* GetChild();

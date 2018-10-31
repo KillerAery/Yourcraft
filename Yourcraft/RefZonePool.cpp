@@ -1,20 +1,28 @@
 #include "RefZonePool.h"
 
 
-//静态变量初始化
-std::array<RefZonePool::RefZone, RefZonePool::MAX_PTRZONE_NUMS> RefZonePool::sPtrZones
-= std::array<RefZonePool::RefZone, MAX_PTRZONE_NUMS>();
-int RefZonePool::sAvailableItr = -1;
+RefZonePool::RefZonePool():mAvailableItr(-1), mPtrZones()
+{
+}
+
+bool RefZonePool::Init()
+{
+	return true;
+}
+
+RefZonePool::~RefZonePool()
+{
+}
 
 RefZonePool::RefZone * RefZonePool::Create()
 {
 	do
 	{
-		sAvailableItr++;
-		sAvailableItr %= MAX_PTRZONE_NUMS;
-	} while ((sPtrZones[sAvailableItr].weakcount > 0));
+		mAvailableItr++;
+		mAvailableItr %= MAX_PTRZONE_NUMS;
+	} while ((mPtrZones[mAvailableItr].weakcount > 0));
 
-	return &sPtrZones[sAvailableItr];
+	return &mPtrZones[mAvailableItr];
 }
 
 void RefZonePool::Release(RefZone * zone)

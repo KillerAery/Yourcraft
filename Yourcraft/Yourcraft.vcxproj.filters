@@ -53,7 +53,10 @@
     <Filter Include="引擎框架层\杂项">
       <UniqueIdentifier>{731f4e05-10b3-4c27-9c11-98ccb3665c53}</UniqueIdentifier>
     </Filter>
-    <Filter Include="引擎框架层\内存管理类\引用内存类">
+    <Filter Include="引擎框架层\内存管理类\引用类">
+      <UniqueIdentifier>{ed49432e-9ad6-40f6-a4b9-ead18d22bd16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="引擎框架层\内存管理类\内存对象类">
       <UniqueIdentifier>{6ee768ac-1029-46e0-a3ee-0befbba6c2f9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -134,7 +137,10 @@
       <Filter>引擎框架层\内存管理类\内存池类</Filter>
     </ClCompile>
     <ClCompile Include="Object.cpp">
-      <Filter>引擎框架层\内存管理类\引用内存类</Filter>
+      <Filter>引擎框架层\内存管理类\内存对象类</Filter>
+    </ClCompile>
+    <ClCompile Include="BatchMeshRender.cpp">
+      <Filter>引擎框架层\组件类\渲染组件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -219,9 +225,6 @@
     <ClInclude Include="BatchRender.h">
       <Filter>引擎框架层\组件类\渲染组件</Filter>
     </ClInclude>
-    <ClInclude Include="Ref.h">
-      <Filter>引擎框架层\内存管理类\引用内存类</Filter>
-    </ClInclude>
     <ClInclude Include="RefZonePool.h">
       <Filter>引擎框架层\内存管理类\内存池类</Filter>
     </ClInclude>
@@ -229,7 +232,13 @@
       <Filter>引擎框架层\内存管理类\内存池类</Filter>
     </ClInclude>
     <ClInclude Include="Object.h">
-      <Filter>引擎框架层\内存管理类\引用内存类</Filter>
+      <Filter>引擎框架层\内存管理类\内存对象类</Filter>
+    </ClInclude>
+    <ClInclude Include="Ref.h">
+      <Filter>引擎框架层\内存管理类\引用类</Filter>
+    </ClInclude>
+    <ClInclude Include="BatchMeshRender.h">
+      <Filter>引擎框架层\组件类\渲染组件</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

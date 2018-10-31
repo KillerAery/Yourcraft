@@ -5,9 +5,10 @@ class GameObject : public Transform
 {
 public:
 	GameObject();
+	virtual void Init();
 	virtual ~GameObject();
-	void Update();
-	void Init();
+	virtual void Update();
+
 
 	void SetName(const std::string& name);
 	const std::string& GetName();
