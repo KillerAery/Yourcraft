@@ -89,11 +89,11 @@ void GameApp::UpdateScene(float dt)
 
 	theta += dt * 0.5f;
 	phi += dt * 0.3f;
-	// 更新物体运动
-	mSphere.SetWorldMatrix(Left);
-	mCube.SetWorldMatrix(XMMatrixRotationX(-phi) * XMMatrixRotationY(theta) * Top);
-	mCylinder.SetWorldMatrix(XMMatrixRotationX(phi) * XMMatrixRotationY(theta) * Right);
-	mHouse.SetWorldMatrix(XMMatrixScaling(0.005f, 0.005f, 0.005f) * XMMatrixRotationY(theta) * Bottom);
+	//// 更新物体运动
+	//mSphere.SetWorldMatrix(Left);
+	//mCube.SetWorldMatrix(XMMatrixRotationX(-phi) * XMMatrixRotationY(theta) * Top);
+	//mCylinder.SetWorldMatrix(XMMatrixRotationX(phi) * XMMatrixRotationY(theta) * Right);
+	//mHouse.SetWorldMatrix(XMMatrixScaling(0.005f, 0.005f, 0.005f) * XMMatrixRotationY(theta) * Bottom);
 
 	// ******************
 	// 拾取检测
@@ -101,22 +101,22 @@ void GameApp::UpdateScene(float dt)
 	mPickedObjStr = L"无";
 	Ray ray = Ray::ScreenToRay(*mCamera, (float)mouseState.x, (float)mouseState.y);
 
-	if (ray.Hit(mBoundingSphere))
-	{
-		mPickedObjStr = L"球体";
-	}
-	else if (ray.Hit(mCube.GetBoundingOrientedBox()))
-	{
-		mPickedObjStr = L"立方体";
-	}
-	else if (ray.Hit(mCylinder.GetBoundingOrientedBox()))
-	{
-		mPickedObjStr = L"圆柱体";
-	}
-	else if (ray.Hit(mHouse.GetBoundingOrientedBox()))
-	{
-		mPickedObjStr = L"房屋";
-	}
+	//if (ray.Hit(mBoundingSphere))
+	//{
+	//	mPickedObjStr = L"球体";
+	//}
+	//else if (ray.Hit(mCube.GetBoundingOrientedBox()))
+	//{
+	//	mPickedObjStr = L"立方体";
+	//}
+	//else if (ray.Hit(mCylinder.GetBoundingOrientedBox()))
+	//{
+	//	mPickedObjStr = L"圆柱体";
+	//}
+	//else if (ray.Hit(mHouse.GetBoundingOrientedBox()))
+	//{
+	//	mPickedObjStr = L"房屋";
+	//}
 
 	// 重置滚轮值
 	mMouse->ResetScrollWheelValue();
@@ -137,8 +137,9 @@ void GameApp::DrawScene()
 	mBasicEffect.SetRenderDefault(md3dImmediateContext, BasicEffect::RenderObject);
 	// 绘制不需要纹理的模型
 	mBasicEffect.SetTextureUsed(false);
-	mSphere.Draw(md3dImmediateContext, mBasicEffect);
-	mCube.Draw(md3dImmediateContext, mBasicEffect);
+
+	//mSphere.Draw(md3dImmediateContext, mBasicEffect);
+	//mCube.Draw(md3dImmediateContext, mBasicEffect);
 	//mCylinder.Draw(md3dImmediateContext, mBasicEffect);
 	//mTriangle.Draw(md3dImmediateContext, mBasicEffect);
 
@@ -154,7 +155,7 @@ void GameApp::DrawScene()
 
 	// 按实例绘制
 	mBasicEffect.SetRenderDefault(md3dImmediateContext, BasicEffect::RenderInstance);
-	mHouse.DrawInstanced(md3dImmediateContext, mBasicEffect,vec);
+	//mHouse.DrawInstanced(md3dImmediateContext, mBasicEffect,vec);
 
 	// ******************
 	// 绘制Direct2D部分
@@ -177,17 +178,17 @@ bool GameApp::InitResource()
 	// 初始化游戏对象
 	//
 	
-	// 球体(预先设好包围球)
-	mSphere.SetModel(Model(md3dDevice, MeshData::CreateSphere()));
-	mBoundingSphere.Center = XMFLOAT3(-5.0f, 0.0f, 0.0f);
-	mBoundingSphere.Radius = 1.0f;
-	// 立方体
-	mCube.SetModel(Model(md3dDevice, MeshData::CreateBox()));
-	// 圆柱体
-	mCylinder.SetModel(Model(md3dDevice,MeshData::CreateCylinder()));
-	// 房屋
-	mObjReader.Read(L"Model\\house.mbo", L"Model\\house.obj");
-	mHouse.SetModel(Model(md3dDevice, mObjReader));
+	//// 球体(预先设好包围球)
+	//mSphere.SetModel(Model(md3dDevice, MeshData::CreateSphere()));
+	//mBoundingSphere.Center = XMFLOAT3(-5.0f, 0.0f, 0.0f);
+	//mBoundingSphere.Radius = 1.0f;
+	//// 立方体
+	//mCube.SetModel(Model(md3dDevice, MeshData::CreateBox()));
+	//// 圆柱体
+	//mCylinder.SetModel(Model(md3dDevice,MeshData::CreateCylinder()));
+	//// 房屋
+	//mObjReader.Read(L"Model\\house.mbo", L"Model\\house.obj");
+	//mHouse.SetModel(Model(md3dDevice, mObjReader));
 
 	// ******************
 	// 初始化摄像机

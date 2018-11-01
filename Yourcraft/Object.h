@@ -6,12 +6,12 @@ class Object
 {
 public:
 	Object();
+	virtual void Init();
 	void Kill();
 	bool IsAlive();
 	bool IsEnabled();
 protected:
 	~Object();
-	virtual void Init();
 	void Dead();
 protected:
 	bool mAlive;

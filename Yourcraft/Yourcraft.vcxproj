@@ -20,9 +20,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BatchMeshRender.cpp" />
-    <ClCompile Include="BatchRender.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="CSkyRender.cpp" />
     <ClCompile Include="DirectX11\BasicEffect.cpp" />
     <ClCompile Include="DirectX11\Camera.cpp" />
     <ClCompile Include="DirectX11\Collision.cpp" />
@@ -52,9 +52,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BatchMeshRender.h" />
-    <ClInclude Include="BatchRender.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="CSkyRender.h" />
     <ClInclude Include="DirectX11\Camera.h" />
     <ClInclude Include="DirectX11\Collision.h" />
     <ClInclude Include="DirectX11\d3dApp.h" />

@@ -34,6 +34,8 @@ public:
 	Transform* GetChild();
 	std::vector<Transform*> GetChildren();
 
+	DirectX::XMFLOAT4X4& GetWorldMatrix();
+
 	void AddChild(Transform* child);
 private:
 	void PositionChanged();

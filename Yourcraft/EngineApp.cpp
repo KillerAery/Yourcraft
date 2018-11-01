@@ -13,7 +13,10 @@ bool EngineApp::Init()
 {
 	if (!GameApp::Init())return false;
 
-	Factory::SetGameObjectPool(&mGameObjectPool);
+	Factory::SetPool(&mGameObjectPool);
+	Factory::SetPool(&mBatchMeshRenderPool);
+	Factory::SetPool(&mMeshRenderPool);
+
 
 	return true;
 }
@@ -23,28 +26,11 @@ void EngineApp::UpdateScene(float dt)
 	GameApp::UpdateScene(dt);
 
 	auto i = Factory::CreateGameObject();
-	auto b = i;
-	auto c = i;
-	auto d = b;
-	d = c;
-	c = c;
-	Ref<GameObject> s[100];
-	for(int j = 0 ;j<50;++j)
-	s[j] = Factory::CreateGameObject();
+	auto c = Factory::CreateMeshRender(i);
+
 
 	mGameObjectPool.Update();
-
-	//auto i = std::make_shared<GameObject>();
-	//auto b = i;
-	//auto c = i;
-	//auto d = b;
-	//d = c;
-	//c = c;
-	//std::shared_ptr<GameObject> s[100];
-	//for (int j = 0; j < 50; ++j)
-	//	s[j] = std::make_shared<GameObject>();
-
-
+	mMeshRenderPool.Update(md3dImmediateContext,mBasicEffect);
 }
 
 void EngineApp::DrawScene()

@@ -26,18 +26,18 @@ public:
 private:
 	bool InitResource();
 	
-private:
+protected:
 	
 	ComPtr<ID2D1SolidColorBrush> mColorBrush;				// 单色笔刷
 	ComPtr<IDWriteFont> mFont;								// 字体
 	ComPtr<IDWriteTextFormat> mTextFormat;					// 文本格式
 
 	
-	TestObject mSphere;										// 球
-	TestObject mCube;										// 立方体
-	TestObject mCylinder;									// 圆柱体
-	TestObject mHouse;										// 房屋
-	DirectX::BoundingSphere mBoundingSphere;				// 球的包围盒
+	//TestObject mSphere;										// 球
+	//TestObject mCube;										// 立方体
+	//TestObject mCylinder;									// 圆柱体
+	//TestObject mHouse;										// 房屋
+	//DirectX::BoundingSphere mBoundingSphere;				// 球的包围盒
 
 	std::wstring mPickedObjStr;								// 已经拾取的对象名
 

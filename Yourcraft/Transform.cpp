@@ -8,7 +8,8 @@ mScale(1,1,1),mWorldScale(1,1,1),
 mRotation(0,0,0,0),mWorldRotation(0,0,0,0),
 mParent(nullptr),
 mNext(nullptr),
-mChildren(nullptr)
+mChildren(nullptr),
+mChanged(true)
 {
 
 }
@@ -22,6 +23,7 @@ void Transform::Init()
 	mWorldScale = Vector3(1, 1, 1);
 	mRotation = Vector4(0, 0, 0, 0);
 	mWorldRotation = Vector4(0, 0, 0, 0);
+	mChanged = true;
 	mParent = nullptr;
 	mNext = nullptr;
 	mChildren = nullptr;
@@ -125,6 +127,11 @@ std::vector<Transform*> Transform::GetChildren()
 	}
 
 	return vec;
+}
+
+DirectX::XMFLOAT4X4& Transform::GetWorldMatrix()
+{
+	return mWorldMatrix;
 }
 
 void Transform::AddChild(Transform* child)

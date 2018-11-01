@@ -1,6 +1,8 @@
 #pragma once
 #include "RefZonePool.h"
 
+
+
 //引用指针   :一种智能指针，其分配的计数空间以内存池的形式管理
 template<class T>
 class Ref
@@ -19,6 +21,12 @@ public:
 	Ref(const Ref<T>& other) {
 		Set(other);
 	}
+
+	template<class U>
+	Ref(const Ref<U>& other):Ref(other.Get()){
+
+	}
+
 	Ref& operator =(const Ref<T>& other) {
 		Set(other);
 		return *this;
@@ -58,7 +66,11 @@ public:
 		return mPtr != right;
 	}
 
-	T* Get() { return mRefZone->mPtr; }
+	bool operator < (const Ref<T>& other)const{
+		return mPtr < other.mPtr;
+	}
+
+	T* Get()const { return mPtr; }
 
 	void Set(const Ref<T>& other) {
 		if(mPtr)
@@ -112,6 +124,6 @@ private:
 };
 
 
-
-
-
+// 简化传参的命名
+template <class T>
+using CRef = const Ref<T>&;

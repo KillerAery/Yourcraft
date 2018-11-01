@@ -10,6 +10,12 @@ Object::Object():mAlive(false), mEnabled(false)
 	
 }
 
+void Object::Init()
+{
+	mAlive = true;
+	mEnabled = true;
+}
+
 void Object::Kill()
 {
 	mAlive = false;
@@ -25,11 +31,6 @@ bool Object::IsEnabled()
 	return mEnabled;
 }
 
-void Object::Init()
-{
-	mAlive = true;
-	mEnabled = true;
-}
 
 void Object::Dead()
 {

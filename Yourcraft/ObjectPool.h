@@ -10,9 +10,15 @@ public:
 	ObjectPool();
 	~ObjectPool();
 	void Update();
+	template<typename A1>void Update(const A1& a1);
+	template<typename A1>void Update(A1&& a1);
+	template<typename A1, typename A2>void Update(const A1& a1, const A2& a2);
+	template<typename A1, typename A2>void Update(const A1& a1, A2&& a2);
+	template<typename A1, typename A2>void Update(A1&& a1, const A2& a2);
+	template<typename A1, typename A2>void Update(A1&& a1,A2&& a2);
+
 	bool DeleteObject(int index);
-		template<class FORWARD_T>
-	T* AddObject(FORWARD_T && object);
+	template<class FORWARD_T>T* AddObject(FORWARD_T && object);
 	T* AddObject();
 private:
 	std::array<T, MAX_SIZE> mObjects;
@@ -35,19 +41,128 @@ template <class T, int MAX_SIZE>
 void ObjectPool<T, MAX_SIZE>::Update()
 {
 	mDeletedIndexs.clear();
-	for(int i =0;i<mSize;++i)
+	for (int i = 0; i < mSize; ++i)
 	{
-		if(!mObjects[i].IsAlive())
+		if (!mObjects[i].IsAlive())
 		{
 			mDeletedIndexs.push_back(i);
 		}
-		else if(mObjects[i].IsEnabled())
+		else if (mObjects[i].IsEnabled())
 		{
 			mObjects[i].Update();
 		}
 	}
-
 }
+
+template<class T, int MAX_SIZE>
+template<typename A1>
+inline void ObjectPool<T, MAX_SIZE>::Update(const A1& a1)
+{
+	mDeletedIndexs.clear();
+	for (int i = 0; i < mSize; ++i)
+	{
+		if (!mObjects[i].IsAlive())
+		{
+			mDeletedIndexs.push_back(i);
+		}
+		else if (mObjects[i].IsEnabled())
+		{
+			mObjects[i].Update(a1);
+		}
+	}
+}
+
+template <class T, int MAX_SIZE>
+template <typename A1>
+void ObjectPool<T, MAX_SIZE>::Update(A1&& a1)
+{
+	mDeletedIndexs.clear();
+	for (int i = 0; i < mSize; ++i)
+	{
+		if (!mObjects[i].IsAlive())
+		{
+			mDeletedIndexs.push_back(i);
+		}
+		else if (mObjects[i].IsEnabled())
+		{
+			mObjects[i].Update(a1);
+		}
+	}
+}
+
+template <class T, int MAX_SIZE>
+template <typename A1, typename A2>
+void ObjectPool<T, MAX_SIZE>::Update(const A1& a1, const A2& a2)
+{
+	mDeletedIndexs.clear();
+	for (int i = 0; i < mSize; ++i)
+	{
+		if (!mObjects[i].IsAlive())
+		{
+			mDeletedIndexs.push_back(i);
+		}
+		else if (mObjects[i].IsEnabled())
+		{
+			mObjects[i].Update(a1,a2);
+		}
+	}
+}
+
+template<class T, int MAX_SIZE>
+template<typename A1, typename A2>
+inline void ObjectPool<T, MAX_SIZE>::Update(const A1 & a1, A2 && a2)
+{
+	mDeletedIndexs.clear();
+	for (int i = 0; i < mSize; ++i)
+	{
+		if (!mObjects[i].IsAlive())
+		{
+			mDeletedIndexs.push_back(i);
+		}
+		else if (mObjects[i].IsEnabled())
+		{
+			mObjects[i].Update(a1, a2);
+		}
+	}
+}
+
+template<class T, int MAX_SIZE>
+template<typename A1, typename A2>
+inline void ObjectPool<T, MAX_SIZE>::Update(A1 && a1, const A2 & a2)
+{
+	mDeletedIndexs.clear();
+	for (int i = 0; i < mSize; ++i)
+	{
+		if (!mObjects[i].IsAlive())
+		{
+			mDeletedIndexs.push_back(i);
+		}
+		else if (mObjects[i].IsEnabled())
+		{
+			mObjects[i].Update(a1, a2);
+		}
+	}
+}
+
+template<class T, int MAX_SIZE>
+template<typename A1, typename A2>
+inline void ObjectPool<T, MAX_SIZE>::Update(A1 && a1, A2 && a2)
+{
+	mDeletedIndexs.clear();
+	for (int i = 0; i < mSize; ++i)
+	{
+		if (!mObjects[i].IsAlive())
+		{
+			mDeletedIndexs.push_back(i);
+		}
+		else if (mObjects[i].IsEnabled())
+		{
+			mObjects[i].Update(a1, a2);
+		}
+	}
+}
+
+
 
 template <class T, int MAX_SIZE>
 bool ObjectPool<T, MAX_SIZE>::DeleteObject(int index)
@@ -72,7 +187,7 @@ T* ObjectPool<T, MAX_SIZE>::AddObject(FORWARD_T&& object)
 		mItr++;
 	}
 	//复制内存到区域
-	mObjects[mItr] = object;
+	mObjects[mItr].Init(object);
 	//如果使用的内存区域数量还没达到最大值，则记录数量+1.
 	if(mItr >= mSize && mSize < MAX_SIZE){mSize++;}
 

@@ -3,6 +3,8 @@
 #include "TextruePool.h"
 #include "ObjectPool.h"
 #include "GameObject.h"
+#include "BatchMeshRender.h"
+#include "MeshRender.h"
 
 class EngineApp :public GameApp
 {
@@ -15,5 +17,8 @@ public:
 private:
 	TextruePool mTextPool;
 	ObjectPool<GameObject,500> mGameObjectPool;
+	ObjectPool<BatchMeshRender,10> mBatchMeshRenderPool;
+	ObjectPool<MeshRender, 100> mMeshRenderPool;
+
 };
 
