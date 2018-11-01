@@ -78,10 +78,13 @@ public:
 			ReduceCount();
 			ReduceWeakCount();
 		}
-		mRefZone = other.mRefZone;
-		mPtr = other.mPtr;
-		AddCount();
-		AddWeakCount();
+		if(other.mPtr)
+		{
+			mRefZone = other.mRefZone;
+			mPtr = other.mPtr;
+			AddCount();
+			AddWeakCount();
+		}
 	}
 
 private:

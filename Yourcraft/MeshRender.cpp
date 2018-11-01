@@ -2,13 +2,15 @@
 
 using namespace DirectX;
 
-MeshRender::MeshRender()
+MeshRender::MeshRender():mTransform(nullptr)
 {
 }
 
 void MeshRender::Init(CRef<Transform> object)
 {
 	Render::Init();
+	mModel = Model();
+	mTransform = nullptr;
 	BindTransform(object);
 }
 
@@ -47,4 +49,16 @@ void MeshRender::BindTransform(CRef<Transform> object)
 void MeshRender::UnbindTransform()
 {
 	mTransform = nullptr;
+}
+
+void MeshRender::SetModel(Model&& model)
+{
+	std::swap(mModel, model);
+	model.modelParts.clear();
+	model.boundingBox = BoundingBox();
+}
+
+void MeshRender::SetModel(const Model& model)
+{
+	mModel = model;
 }

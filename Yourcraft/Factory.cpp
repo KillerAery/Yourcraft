@@ -36,7 +36,7 @@ Ref<BatchMeshRender> Factory::CreateBatchMeshRender()
 	return Ref<BatchMeshRender>(sFactory.rBatchMeshRenderPool->AddObject());
 }
 
-Ref<MeshRender> Factory::CreateMeshRender(const Ref<GameObject>& gameobject)
+Ref<MeshRender> Factory::CreateMeshRender(CRef<GameObject> gameobject)
 {
 	return Ref<MeshRender>(sFactory.rMeshRenderPool->AddObject(gameobject));
 }

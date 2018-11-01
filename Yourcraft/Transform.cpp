@@ -6,10 +6,15 @@ Transform::Transform():
 mPosition(0,0,0),mWorldPosition(0,0,0),
 mScale(1,1,1),mWorldScale(1,1,1),
 mRotation(0,0,0,0),mWorldRotation(0,0,0,0),
+mWorldMatrix(
+	1.0f, 0.0f, 0.0f, 0.0f,
+	0.0f, 1.0f, 0.0f, 0.0f,
+	0.0f, 0.0f, 1.0f, 0.0f,
+	0.0f, 0.0f, 0.0f, 1.0f),
 mParent(nullptr),
 mNext(nullptr),
 mChildren(nullptr),
-mChanged(true)
+mChanged(false)
 {
 
 }
@@ -23,7 +28,12 @@ void Transform::Init()
 	mWorldScale = Vector3(1, 1, 1);
 	mRotation = Vector4(0, 0, 0, 0);
 	mWorldRotation = Vector4(0, 0, 0, 0);
-	mChanged = true;
+	mWorldMatrix = DirectX::XMFLOAT4X4(
+		1.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f);
+	mChanged = false;
 	mParent = nullptr;
 	mNext = nullptr;
 	mChildren = nullptr;
@@ -38,7 +48,6 @@ void Transform::SetPosition(const Vector3 & pos)
 {
 	mPosition = pos;
 	mWorldPosition = mParent->mWorldPosition + mPosition;
-	mChanged = true;
 	PositionChanged();
 }
 
@@ -46,7 +55,6 @@ void Transform::SetWorldPosition(const Vector3& pos)
 {
 	mPosition = pos - mParent->mWorldPosition;
 	mWorldPosition = pos;
-	mChanged = true;
 	PositionChanged();
 }
 
@@ -64,7 +72,6 @@ void Transform::SetScale(const Vector3& s)
 {
 	mScale = s;
 	mWorldScale = s * mParent->mWorldScale;
-	mChanged = true;
 	ScaleChanged();
 }
 
@@ -72,7 +79,6 @@ void Transform::SetWorldScale(const Vector3& s)
 {
 	mScale = s / mParent->mWorldScale;
 	mWorldScale = s;
-	mChanged = true;
 	ScaleChanged();
 }
 
@@ -105,19 +111,19 @@ void Transform::Update()
 	}
 }
 
-Transform* Transform::GetParent()
+Ref<Transform> Transform::GetParent()
 {
 	return mParent;
 }
 
-Transform* Transform::GetChild()
+Ref<Transform> Transform::GetChild()
 {
 	return mChildren;
 }
 
-std::vector<Transform*> Transform::GetChildren()
+std::vector<Ref<Transform>> Transform::GetChildren()
 {
-	std::vector<Transform*> vec;
+	std::vector<Ref<Transform>> vec;
 
 	auto itr = mChildren;
 	while(itr != nullptr)
@@ -134,15 +140,18 @@ DirectX::XMFLOAT4X4& Transform::GetWorldMatrix()
 	return mWorldMatrix;
 }
 
-void Transform::AddChild(Transform* child)
+void Transform::AddChild(Ref<Transform> child)
 {
-	auto itr = child;
-	if(itr == nullptr)
+	//孩子为空则滚粗
+	if (child == nullptr)return;
+
+	if(mChildren == nullptr)
 	{
 		mChildren = child;
 	}
 	else
 	{
+		auto itr = mChildren;
 		while (itr->mNext != nullptr)
 		{
 			itr = itr->mNext;
@@ -155,9 +164,15 @@ void Transform::AddChild(Transform* child)
 	//child->RotateChanged();
 }
 
+void Transform::SetParent(Ref<Transform> parent)
+{
+	mParent = parent;
+}
+
 //位置属性发生改变
 void Transform::PositionChanged()
 {
+	mChanged = true;
 	//所有孩子的位置属性也会发生改变 
 	auto itr = mChildren;
 	while (itr != nullptr)
@@ -172,6 +187,7 @@ void Transform::PositionChanged()
 //缩放属性发生改变
 void Transform::ScaleChanged()
 {
+	mChanged = true;
 	//所有孩子的变换属性也会发生改变 
 	auto itr = mChildren;
 	while (itr != nullptr)

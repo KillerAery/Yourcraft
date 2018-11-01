@@ -17,6 +17,8 @@ public:
 	void Update(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect);
 	void BindTransform(CRef<Transform> object);
 	void UnbindTransform();
+	void SetModel(Model&& model);
+	void SetModel(const Model& model);
 protected:
 	Ref<Transform> mTransform;									// ±ä»»
 	Model mModel;												// Ä£ÐÍ

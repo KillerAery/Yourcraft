@@ -162,8 +162,6 @@ inline void ObjectPool<T, MAX_SIZE>::Update(A1 && a1, A2 && a2)
 	}
 }
 
-
-
 template <class T, int MAX_SIZE>
 bool ObjectPool<T, MAX_SIZE>::DeleteObject(int index)
 {

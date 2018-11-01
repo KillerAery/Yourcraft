@@ -62,9 +62,6 @@ void TestObject::ResizeBuffer(ComPtr<ID3D11Device> device, size_t count)
 	HR(device->CreateBuffer(&vbd, nullptr, mInstancedBuffer.ReleaseAndGetAddressOf()));
 }
 
-
-
-
 void TestObject::SetModel(Model && model)
 {
 	std::swap(mModel, model);

@@ -6,7 +6,6 @@ using namespace DirectX::SimpleMath;
 
 class Transform : public Object
 {
-
 public:
 	Transform();
 	virtual void Init();
@@ -30,13 +29,14 @@ public:
 	void CaculateWorldMatrix();
 	virtual void Update();
 
-	Transform* GetParent();
-	Transform* GetChild();
-	std::vector<Transform*> GetChildren();
+	Ref<Transform> GetParent();
+	Ref<Transform> GetChild();
+	std::vector<Ref<Transform>> GetChildren();
 
 	DirectX::XMFLOAT4X4& GetWorldMatrix();
 
-	void AddChild(Transform* child);
+	void AddChild(Ref<Transform> child);
+	void SetParent(Ref<Transform> parent);
 private:
 	void PositionChanged();
 	void ScaleChanged();
@@ -52,8 +52,8 @@ protected:
 	bool mChanged;								// 是否改变了位置/伸缩/旋转(更新矩阵用)
 	DirectX::XMFLOAT4X4 mWorldMatrix;			// 世界矩阵
 
-	Transform* mParent;
-	Transform* mNext;
-	Transform* mChildren;
+	Ref<Transform> mParent;
+	Ref<Transform> mNext;
+	Ref<Transform> mChildren;
 };
 

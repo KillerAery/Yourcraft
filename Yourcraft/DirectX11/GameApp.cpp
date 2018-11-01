@@ -124,50 +124,7 @@ void GameApp::UpdateScene(float dt)
 
 void GameApp::DrawScene()
 {
-	assert(md3dImmediateContext);
-	assert(mSwapChain);
 
-	// ******************
-	// 绘制Direct3D部分
-	//
-	md3dImmediateContext->ClearRenderTargetView(mRenderTargetView.Get(), reinterpret_cast<const float*>(&Colors::Black));
-	md3dImmediateContext->ClearDepthStencilView(mDepthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
-
-	// 按对象绘制
-	mBasicEffect.SetRenderDefault(md3dImmediateContext, BasicEffect::RenderObject);
-	// 绘制不需要纹理的模型
-	mBasicEffect.SetTextureUsed(false);
-
-	//mSphere.Draw(md3dImmediateContext, mBasicEffect);
-	//mCube.Draw(md3dImmediateContext, mBasicEffect);
-	//mCylinder.Draw(md3dImmediateContext, mBasicEffect);
-	//mTriangle.Draw(md3dImmediateContext, mBasicEffect);
-
-	// 绘制需要纹理的模型
-	mBasicEffect.SetTextureUsed(true);
-	//mHouse.Draw(md3dImmediateContext, mBasicEffect);
-
-	auto vec = std::vector<DirectX::XMMATRIX>();
-
-	vec.push_back(XMMatrixTranslation(0, 55, 555));
-	vec.push_back(XMMatrixTranslation(0, 155, 555));
-	vec.push_back(XMMatrixTranslation(0, 255, 555));
-
-	// 按实例绘制
-	mBasicEffect.SetRenderDefault(md3dImmediateContext, BasicEffect::RenderInstance);
-	//mHouse.DrawInstanced(md3dImmediateContext, mBasicEffect,vec);
-
-	// ******************
-	// 绘制Direct2D部分
-	//
-	md2dRenderTarget->BeginDraw();
-	std::wstring text = L"当前拾取物体: " + mPickedObjStr;
-
-	md2dRenderTarget->DrawTextW(text.c_str(), (UINT32)text.length(), mTextFormat.Get(),
-		D2D1_RECT_F{ 0.0f, 0.0f, 600.0f, 200.0f }, mColorBrush.Get());
-	HR(md2dRenderTarget->EndDraw());
-
-	HR(mSwapChain->Present(0, 0));
 }
 
 
@@ -186,7 +143,7 @@ bool GameApp::InitResource()
 	//mCube.SetModel(Model(md3dDevice, MeshData::CreateBox()));
 	//// 圆柱体
 	//mCylinder.SetModel(Model(md3dDevice,MeshData::CreateCylinder()));
-	//// 房屋
+	// 房屋
 	//mObjReader.Read(L"Model\\house.mbo", L"Model\\house.obj");
 	//mHouse.SetModel(Model(md3dDevice, mObjReader));
 
@@ -219,8 +176,6 @@ bool GameApp::InitResource()
 	dirLight.Specular = XMFLOAT4(0.0f, 0.0f, 0.0f, 16.0f);
 	dirLight.Direction = XMFLOAT3(-0.707f, -0.707f, 0.707f);
 	mBasicEffect.SetDirLight(0, dirLight);
-
-
 
 	return true;
 }
