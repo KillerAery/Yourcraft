@@ -6,7 +6,7 @@ MeshRender::MeshRender():mTransform(nullptr)
 {
 }
 
-void MeshRender::Init(CRef<Transform> object)
+void MeshRender::Init(GameObject* object)
 {
 	Render::Init();
 	mModel = Model();
@@ -41,7 +41,7 @@ void MeshRender::Update(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect &
 	}
 }
 
-void MeshRender::BindTransform(CRef<Transform> object)
+void MeshRender::BindTransform(Transform* object)
 {
 	mTransform = object;
 }

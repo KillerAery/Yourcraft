@@ -20,8 +20,8 @@ private:
 	ObjectPool<BatchMeshRender,10> mBatchMeshRenderPool;
 	ObjectPool<MeshRender, 100> mMeshRenderPool;
 
-	Ref<GameObject> mWorld;
-	Ref<GameObject> mGameObject;
-	Ref<MeshRender> mMeshRender;
+	GameObject* mWorld;
+	GameObject* mGameObject;
+	MeshRender* mMeshRender;
 };
 

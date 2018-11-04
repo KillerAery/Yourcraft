@@ -42,7 +42,6 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Object.cpp" />
-    <ClCompile Include="RefZonePool.cpp" />
     <ClCompile Include="MeshRender.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
@@ -74,8 +73,6 @@
     <ClInclude Include="Factory.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Object.h" />
-    <ClInclude Include="RefZonePool.h" />
-    <ClInclude Include="Ref.h" />
     <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="MeshRender.h" />
     <ClInclude Include="Render.h" />

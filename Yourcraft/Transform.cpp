@@ -111,19 +111,19 @@ void Transform::Update()
 	}
 }
 
-WeakRef<Transform> Transform::GetParent()
+Transform* Transform::GetParent()
 {
 	return mParent;
 }
 
-WeakRef<Transform> Transform::GetChild()
+Transform* Transform::GetChild()
 {
 	return mChildren;
 }
 
-std::vector<WeakRef<Transform>> Transform::GetChildren()
+std::vector<Transform*> Transform::GetChildren()
 {
-	std::vector<WeakRef<Transform>> vec;
+	std::vector<Transform*> vec;
 
 	auto itr = mChildren;
 	while(itr != nullptr)
@@ -140,7 +140,7 @@ DirectX::XMFLOAT4X4& Transform::GetWorldMatrix()
 	return mWorldMatrix;
 }
 
-void Transform::AddChild(Ref<Transform>& child)
+void Transform::AddChild(Transform* child)
 {
 	//º¢×ÓÎª¿ÕÔò¹ö´Ö
 	if (child == nullptr)return;
@@ -164,7 +164,7 @@ void Transform::AddChild(Ref<Transform>& child)
 	//child->RotateChanged();
 }
 
-void Transform::SetParent(CRef<Transform> parent)
+void Transform::SetParent(Transform* parent)
 {
 	mParent = parent;
 }

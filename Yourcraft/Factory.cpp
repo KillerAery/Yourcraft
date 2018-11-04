@@ -26,17 +26,17 @@ void Factory::SetPool(ObjectPool<MeshRender, 100>* pool)
 	sFactory.rMeshRenderPool = pool;
 }
 
-Ref<GameObject> Factory::CreateGameObject()
+GameObject* Factory::CreateGameObject()
 {
-	return Ref<GameObject>(sFactory.rGameObjectPool->AddObject());
+	return sFactory.rGameObjectPool->AddObject();
 }
 
-Ref<BatchMeshRender> Factory::CreateBatchMeshRender()
+BatchMeshRender* Factory::CreateBatchMeshRender()
 {
-	return Ref<BatchMeshRender>(sFactory.rBatchMeshRenderPool->AddObject());
+	return sFactory.rBatchMeshRenderPool->AddObject();
 }
 
-Ref<MeshRender> Factory::CreateMeshRender(CRef<GameObject> gameobject)
+MeshRender* Factory::CreateMeshRender(GameObject* gameobject)
 {
-	return Ref<MeshRender>(sFactory.rMeshRenderPool->AddObject(gameobject));
+	return sFactory.rMeshRenderPool->AddObject(gameobject);
 }

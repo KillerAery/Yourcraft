@@ -1,6 +1,6 @@
 #pragma once
 #include "Render.h"
-#include "Transform.h"
+#include "GameObject.h"
 #include "Model.h"
 
 
@@ -12,15 +12,15 @@ public:
 	using ComPtr = Microsoft::WRL::ComPtr<T>;
 public:
 	MeshRender();
-	virtual void Init(CRef<Transform> object);
+	virtual void Init(GameObject* object);
 	virtual ~MeshRender();
 	void Update(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect);
-	void BindTransform(CRef<Transform> object);
+	void BindTransform(Transform* transform);
 	void UnbindTransform();
 	void SetModel(Model&& model);
 	void SetModel(const Model& model);
 protected:
-	WeakRef<Transform> mTransform;									// 变换
+	Transform* mTransform;									// 变换
 	Model mModel;												// 模型
 	ComPtr<ID3D11Buffer> mInstancedBuffer;						// 实例缓冲区
 	size_t mCapacity;											// 缓冲区容量

@@ -19,8 +19,8 @@ public:
 	static void SetPool(ObjectPool<MeshRender, 100>* pool);
 
 
-	static Ref<GameObject> CreateGameObject();
-	static Ref<BatchMeshRender> CreateBatchMeshRender();
-	static Ref<MeshRender> CreateMeshRender(CRef<GameObject> gameobject);
+	static GameObject* CreateGameObject();
+	static BatchMeshRender* CreateBatchMeshRender();
+	static MeshRender* CreateMeshRender(GameObject* gameobject);
 };
 

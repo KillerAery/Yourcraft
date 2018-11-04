@@ -124,9 +124,6 @@
     <ClCompile Include="Main.cpp">
       <Filter>引擎框架层\应用类</Filter>
     </ClCompile>
-    <ClCompile Include="RefZonePool.cpp">
-      <Filter>引擎框架层\内存管理类\内存池类</Filter>
-    </ClCompile>
     <ClCompile Include="Object.cpp">
       <Filter>引擎框架层\内存管理类\内存对象类</Filter>
     </ClCompile>
@@ -228,9 +225,6 @@
     <ClInclude Include="Singleton.h">
       <Filter>引擎框架层\杂项</Filter>
     </ClInclude>
-    <ClInclude Include="RefZonePool.h">
-      <Filter>引擎框架层\内存管理类\内存池类</Filter>
-    </ClInclude>
     <ClInclude Include="ObjectPool.h">
       <Filter>引擎框架层\内存管理类\内存池类</Filter>
     </ClInclude>
@@ -248,9 +242,6 @@
     </ClInclude>
     <ClInclude Include="TextruePool.h">
       <Filter>引擎框架层\内存管理类</Filter>
-    </ClInclude>
-    <ClInclude Include="Ref.h">
-      <Filter>引擎框架层\内存管理类\引用类</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

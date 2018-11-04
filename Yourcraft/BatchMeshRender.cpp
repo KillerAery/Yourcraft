@@ -40,10 +40,10 @@ void BatchMeshRender::Update(ComPtr<ID3D11DeviceContext> deviceContext, BasicEff
 	InstancedData * iter = reinterpret_cast<InstancedData*>(mappedData.pData);
 	
 
-	for (const WeakRef<Transform>& transform : mTransforms)
+	for (auto transform : mTransforms)
 	{
 		//二叉树要求const&遍历，因此此处用const强制转换
-		XMMATRIX matrix = XMLoadFloat4x4(& const_cast<WeakRef<Transform>&>(transform)->GetWorldMatrix());
+		XMMATRIX matrix = XMLoadFloat4x4(&transform->GetWorldMatrix());
 		iter->world = XMMatrixTranspose(matrix);
 		iter->worldInvTranspose = XMMatrixInverse(nullptr, matrix);	// 两次转置抵消
 		iter++;
@@ -72,12 +72,12 @@ void BatchMeshRender::Update(ComPtr<ID3D11DeviceContext> deviceContext, BasicEff
 	}
 }
 
-void BatchMeshRender::BindTransform(CRef<Transform> object)
+void BatchMeshRender::BindTransform(Transform* object)
 {
 	mTransforms.insert(object);
 }
 
-bool BatchMeshRender::UnbindTransform(CRef<Transform> object)
+bool BatchMeshRender::UnbindTransform(Transform* object)
 {
 	auto toDelete = mTransforms.find(object);
 	//若没找到要删除的目标，则返还失败
