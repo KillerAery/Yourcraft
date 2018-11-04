@@ -27,7 +27,7 @@ bool EngineApp::Init()
 	mGameObject->SetPosition(Vector3(0,-100,700));
 	mGameObject->SetScale(Vector3(2,1,1));
 
-	// 房屋
+	//房屋
 	mObjReader.Read(L"Model\\house.mbo", L"Model\\house.obj");
 	mMeshRender->SetModel(Model(md3dDevice, mObjReader));
 
@@ -53,37 +53,17 @@ void EngineApp::DrawScene()
 	md3dImmediateContext->ClearRenderTargetView(mRenderTargetView.Get(), reinterpret_cast<const float*>(&DirectX::Colors::Black));
 	md3dImmediateContext->ClearDepthStencilView(mDepthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
-	//// 按对象绘制
-	//mBasicEffect.SetRenderDefault(md3dImmediateContext, BasicEffect::RenderObject);
-	//// 绘制不需要纹理的模型
-	//mBasicEffect.SetTextureUsed(false);
-
-	//mSphere.Draw(md3dImmediateContext, mBasicEffect);
-	//mCube.Draw(md3dImmediateContext, mBasicEffect);
-	//mCylinder.Draw(md3dImmediateContext, mBasicEffect);
-	//mTriangle.Draw(md3dImmediateContext, mBasicEffect);
-
-	//// 绘制需要纹理的模型
-	//mBasicEffect.SetTextureUsed(true);
-	//mHouse.Draw(md3dImmediateContext, mBasicEffect);
-
-	//auto vec = std::vector<DirectX::XMMATRIX>();
-
-	//vec.push_back(XMMatrixTranslation(0, 55, 555));
-	//vec.push_back(XMMatrixTranslation(0, 155, 555));
-	//vec.push_back(XMMatrixTranslation(0, 255, 555));
-
-
-	// 按对象绘制
+	//--------- 按对象绘制 ----------//
 	mBasicEffect.SetRenderDefault(md3dImmediateContext, BasicEffect::RenderObject);
+
 	// 绘制纹理
 	mBasicEffect.SetTextureUsed(true);
-
+	// 网格渲染组件 全部渲染
 	mMeshRenderPool.Update(md3dImmediateContext, mBasicEffect);
 
-	//// 按实例绘制
-	//mBasicEffect.SetRenderDefault(md3dImmediateContext, BasicEffect::RenderInstance);
-	//mHouse.DrawInstanced(md3dImmediateContext, mBasicEffect,vec);
+	//---------- 按实例批量绘制 ----------//
+	mBasicEffect.SetRenderDefault(md3dImmediateContext, BasicEffect::RenderInstance);
+
 
 	// ******************
 	// 绘制Direct2D部分

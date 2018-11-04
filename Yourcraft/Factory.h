@@ -21,6 +21,6 @@ public:
 
 	static Ref<GameObject> CreateGameObject();
 	static Ref<BatchMeshRender> CreateBatchMeshRender();
-	static Ref<MeshRender> CreateMeshRender(const Ref<GameObject>& gameobject);
+	static Ref<MeshRender> CreateMeshRender(CRef<GameObject> gameobject);
 };
 

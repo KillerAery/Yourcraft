@@ -29,14 +29,14 @@ public:
 	void CaculateWorldMatrix();
 	virtual void Update();
 
-	Ref<Transform> GetParent();
-	Ref<Transform> GetChild();
-	std::vector<Ref<Transform>> GetChildren();
+	WeakRef<Transform> GetParent();
+	WeakRef<Transform> GetChild();
+	std::vector<WeakRef<Transform>> GetChildren();
 
 	DirectX::XMFLOAT4X4& GetWorldMatrix();
 
-	void AddChild(Ref<Transform> child);
-	void SetParent(Ref<Transform> parent);
+	void AddChild(Ref<Transform>& child);
+	void SetParent(CRef<Transform> parent);
 private:
 	void PositionChanged();
 	void ScaleChanged();
@@ -52,7 +52,7 @@ protected:
 	bool mChanged;								// 是否改变了位置/伸缩/旋转(更新矩阵用)
 	DirectX::XMFLOAT4X4 mWorldMatrix;			// 世界矩阵
 
-	Ref<Transform> mParent;
+	WeakRef<Transform> mParent;
 	Ref<Transform> mNext;
 	Ref<Transform> mChildren;
 };

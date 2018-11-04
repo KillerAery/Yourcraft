@@ -22,7 +22,7 @@ protected:
 	// 重新设置实例缓冲区可容纳实例的数目
 	void ResizeBuffer(ComPtr<ID3D11Device> device, size_t count);
 protected:
-	std::set<Ref<Transform>> mTransforms;						// 批量实例的所有变换
+	std::set<WeakRef<Transform>> mTransforms;						// 批量实例的所有变换
 	Model mModel;												// 模型
 	ComPtr<ID3D11Buffer> mInstancedBuffer;						// 实例缓冲区
 	size_t mCapacity;											// 缓冲区容量

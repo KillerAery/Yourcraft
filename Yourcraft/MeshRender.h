@@ -20,7 +20,7 @@ public:
 	void SetModel(Model&& model);
 	void SetModel(const Model& model);
 protected:
-	Ref<Transform> mTransform;									// 变换
+	WeakRef<Transform> mTransform;									// 变换
 	Model mModel;												// 模型
 	ComPtr<ID3D11Buffer> mInstancedBuffer;						// 实例缓冲区
 	size_t mCapacity;											// 缓冲区容量

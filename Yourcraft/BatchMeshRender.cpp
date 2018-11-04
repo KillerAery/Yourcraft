@@ -40,10 +40,10 @@ void BatchMeshRender::Update(ComPtr<ID3D11DeviceContext> deviceContext, BasicEff
 	InstancedData * iter = reinterpret_cast<InstancedData*>(mappedData.pData);
 	
 
-	for (const Ref<Transform>& transform : mTransforms)
+	for (const WeakRef<Transform>& transform : mTransforms)
 	{
 		//二叉树要求const&遍历，因此此处用const强制转换
-		XMMATRIX matrix = XMLoadFloat4x4(& const_cast<Ref<Transform>&>(transform)->GetWorldMatrix());
+		XMMATRIX matrix = XMLoadFloat4x4(& const_cast<WeakRef<Transform>&>(transform)->GetWorldMatrix());
 		iter->world = XMMatrixTranspose(matrix);
 		iter->worldInvTranspose = XMMatrixInverse(nullptr, matrix);	// 两次转置抵消
 		iter++;
