@@ -23,7 +23,13 @@ BatchMeshRender::~BatchMeshRender()
 
 }
 
+//存活条件：自身存活 或者 存在寄生的活游戏对象时
 bool BatchMeshRender::IsAlive(){
+	if(Render::IsAlive())return true;
+	for(auto tf : mTransforms)
+	{
+		if (tf->IsAlive()) { return true; }
+	}
 	return false;
 }
 
@@ -91,6 +97,19 @@ bool BatchMeshRender::UnbindTransform(Transform* object)
 	mTransforms.erase(toDelete);
 	return true;
 }
+
+void BatchMeshRender::SetModel(Model&& model)
+{
+	std::swap(mModel, model);
+	model.modelParts.clear();
+	model.boundingBox = BoundingBox();
+}
+
+void BatchMeshRender::SetModel(const Model& model)
+{
+	mModel = model;
+}
+
 
 void BatchMeshRender::ResizeBuffer(ComPtr<ID3D11Device> device, size_t count)
 {	

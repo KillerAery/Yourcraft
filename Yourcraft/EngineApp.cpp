@@ -34,21 +34,24 @@ bool EngineApp::Init()
 	Factory::SetPool(&mMeshRenderPool);
 
 	mWorld = Factory::CreateGameObject();
-	mWorld->AddRefCount();
+	mWorld->BecomeRoot();
 
-	mGameObject = Factory::CreateGameObject();
+	mObjReader.Read(L"Model\\house.mbo", L"Model\\house.obj");	//房屋
 
-	mMeshRender = Factory::CreateMeshRender(mGameObject);
-	mMeshRender->AddRefCount();
+	auto br = Factory::CreateBatchMeshRender();
+	br->SetModel(Model(md3dDevice, mObjReader));
 
- 	mWorld->AddChild(mGameObject);
+	for(int i =0;i<10;++i)
+	{
+		mGameObject[i] = Factory::CreateGameObject();
+		mGameObject[i]->SetPosition(Vector3(0, 400-80*i, 700));
+		mGameObject[i]->SetScale(Vector3(0.2, 0.2, 0.2));
+		mWorld->AddChild(mGameObject[i]);
+	//	mMeshRender = Factory::CreateMeshRender(mGameObject[i]);
+	//	mMeshRender->SetModel(Model(md3dDevice, mObjReader));
+		br->BindTransform(mGameObject[i]);
+	}
 
-	mGameObject->SetPosition(Vector3(0,-100,700));
-	mGameObject->SetScale(Vector3(2,1,1));
-
-	//房屋
-	mObjReader.Read(L"Model\\house.mbo", L"Model\\house.obj");
-	mMeshRender->SetModel(Model(md3dDevice, mObjReader));
 
 	return true;
 }
@@ -116,15 +119,15 @@ void EngineApp::DrawScene()
 
 	//--------- 按对象绘制 ----------//
 	mBasicEffect.SetRenderDefault(md3dImmediateContext, BasicEffect::RenderObject);
-
-	// 绘制纹理
-	mBasicEffect.SetTextureUsed(true);
+	mBasicEffect.SetTextureUsed(true);	// 绘制纹理
 	// 网格渲染组件 全部渲染
 	mMeshRenderPool.Update(md3dImmediateContext, mBasicEffect);
 
 	//---------- 按实例批量绘制 ----------//
 	mBasicEffect.SetRenderDefault(md3dImmediateContext, BasicEffect::RenderInstance);
-
+	mBasicEffect.SetTextureUsed(true);	// 绘制纹理
+	// 批量网格渲染组件 全部渲染
+	mBatchMeshRenderPool.Update(md3dImmediateContext, mBasicEffect);
 
 	// ******************
 	// 绘制Direct2D部分

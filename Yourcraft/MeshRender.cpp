@@ -19,9 +19,8 @@ MeshRender::~MeshRender()
 {
 }
 
-bool MeshRender::IsAlive()
-{
-	return Render::IsAlive() && (mTransform&&mTransform->IsAlive());
+bool MeshRender::IsAlive(){
+	return mTransform&&mTransform->IsAlive();
 }
 
 void MeshRender::Update(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect)

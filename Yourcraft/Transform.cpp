@@ -60,16 +60,26 @@ bool Transform::IsEnabled()
 	return Object::IsEnabled() && mParentEnabled;
 }
 
+void Transform::BecomeRoot()
+{
+	this->AddRefCount();
+	this->mParentEnabled = true;
+}
+
 void Transform::SetPosition(const Vector3 & pos)
 {
 	mPosition = pos;
-	mWorldPosition = mParent->mWorldPosition + mPosition;
-	PositionChanged();
+	if(mParent){
+		mWorldPosition = mParent->mWorldPosition + mPosition;
+		PositionChanged();
+	}
 }
 
 void Transform::SetWorldPosition(const Vector3& pos)
 {
-	mPosition = pos - mParent->mWorldPosition;
+	if(mParent) mPosition = pos - mParent->mWorldPosition;
+	else mPosition = mWorldPosition;
+
 	mWorldPosition = pos;
 	PositionChanged();
 }
@@ -87,13 +97,17 @@ const Vector3& Transform::GetWorldPosition()
 void Transform::SetScale(const Vector3& s)
 {
 	mScale = s;
-	mWorldScale = s * mParent->mWorldScale;
-	ScaleChanged();
+	if (mParent) {
+		mWorldScale = s * mParent->mWorldScale;
+		ScaleChanged();
+	}
 }
 
 void Transform::SetWorldScale(const Vector3& s)
 {
-	mScale = s / mParent->mWorldScale;
+	if (mParent)mScale = s / mParent->mWorldScale;
+	else mScale = s;
+
 	mWorldScale = s;
 	ScaleChanged();
 }
@@ -179,8 +193,11 @@ bool Transform::AddChild(Transform* child)
 	mChildren->mParentEnabled = this->IsEnabled();
 	mChildren->SetChildrenIsAliveAndEnabled();
 	//添加的新孩子要重新计算变换属性
+	mChildren->mWorldPosition = mWorldPosition + mChildren->mPosition;
 	mChildren->PositionChanged();
+	mChildren->mWorldScale = mWorldScale * mChildren->mScale;
 	mChildren->ScaleChanged();
+	//mChildren->Set;
 	//child->RotateChanged();
 	return true;
 }

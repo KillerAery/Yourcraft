@@ -53,9 +53,6 @@
     <Filter Include="引擎框架层\杂项">
       <UniqueIdentifier>{731f4e05-10b3-4c27-9c11-98ccb3665c53}</UniqueIdentifier>
     </Filter>
-    <Filter Include="引擎框架层\内存管理类\引用类">
-      <UniqueIdentifier>{ed49432e-9ad6-40f6-a4b9-ead18d22bd16}</UniqueIdentifier>
-    </Filter>
     <Filter Include="引擎框架层\内存管理类\内存对象类">
       <UniqueIdentifier>{6ee768ac-1029-46e0-a3ee-0befbba6c2f9}</UniqueIdentifier>
     </Filter>
@@ -86,9 +83,6 @@
       <Filter>引擎框架层\组件类\物理组件\刚体组件</Filter>
     </ClCompile>
     <ClCompile Include="DirectX11\dxerr.cpp">
-      <Filter>图形库框架层\DirectX11</Filter>
-    </ClCompile>
-    <ClCompile Include="DirectX11\GameApp.cpp">
       <Filter>图形库框架层\DirectX11</Filter>
     </ClCompile>
     <ClCompile Include="DirectX11\GameTimer.cpp">
@@ -184,9 +178,6 @@
       <Filter>图形库框架层\DirectX11</Filter>
     </ClInclude>
     <ClInclude Include="DirectX11\Effects.h">
-      <Filter>图形库框架层\DirectX11</Filter>
-    </ClInclude>
-    <ClInclude Include="DirectX11\GameApp.h">
       <Filter>图形库框架层\DirectX11</Filter>
     </ClInclude>
     <ClInclude Include="DirectX11\GameTimer.h">

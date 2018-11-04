@@ -12,7 +12,7 @@ public:
 	virtual ~Transform();
 	virtual bool IsAlive();
 	virtual bool IsEnabled();
-
+	void BecomeRoot();
 
 	void SetPosition(const Vector3& pos);
 	void SetWorldPosition(const Vector3& pos);

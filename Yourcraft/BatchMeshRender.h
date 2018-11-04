@@ -20,6 +20,8 @@ public:
 	void Update(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect);
 	void BindTransform(Transform* object);
 	bool UnbindTransform(Transform* object);
+	void SetModel(Model&& model);
+	void SetModel(const Model& model);
 protected:
 	// 重新设置实例缓冲区可容纳实例的数目
 	void ResizeBuffer(ComPtr<ID3D11Device> device, size_t count);

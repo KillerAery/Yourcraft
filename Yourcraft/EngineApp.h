@@ -38,7 +38,7 @@ protected:
 	ObjectPool<MeshRender, 100> mMeshRenderPool;
 
 	GameObject* mWorld;
-	GameObject* mGameObject;
+	GameObject* mGameObject[10];
 	MeshRender* mMeshRender;
 };
 
