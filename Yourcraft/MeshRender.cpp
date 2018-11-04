@@ -19,6 +19,11 @@ MeshRender::~MeshRender()
 {
 }
 
+bool MeshRender::IsAlive()
+{
+	return Render::IsAlive() && (mTransform&&mTransform->IsAlive());
+}
+
 void MeshRender::Update(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect)
 {
 	UINT strides = sizeof(DirectX::VertexPositionNormalTexture);

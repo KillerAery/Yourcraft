@@ -9,7 +9,6 @@ public:
 	virtual ~GameObject();
 	virtual void Update();
 
-
 	void SetName(const std::string& name);
 	const std::string& GetName();
 

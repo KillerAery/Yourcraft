@@ -18,12 +18,15 @@ bool EngineApp::Init()
 
 
 	mWorld = Factory::CreateGameObject();
+	mWorld->AddRefCount();
 
 	mGameObject = Factory::CreateGameObject();
-	mMeshRender = Factory::CreateMeshRender(mGameObject);
 
-	mWorld->AddChild(mGameObject);
-	mGameObject->SetParent(mWorld);
+	mMeshRender = Factory::CreateMeshRender(mGameObject);
+	mMeshRender->AddRefCount();
+
+ 	mWorld->AddChild(mGameObject);
+
 	mGameObject->SetPosition(Vector3(0,-100,700));
 	mGameObject->SetScale(Vector3(2,1,1));
 
@@ -43,7 +46,6 @@ void EngineApp::UpdateScene(float dt)
 void EngineApp::DrawScene()
 {
 	GameApp::DrawScene();
-
 	assert(md3dImmediateContext);
 	assert(mSwapChain);
 

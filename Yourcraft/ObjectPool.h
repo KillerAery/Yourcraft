@@ -28,7 +28,7 @@ private:
 };
 
 template <class T, int MAX_SIZE>
-ObjectPool<T, MAX_SIZE>::ObjectPool():mSize(0), mItr(0)
+ObjectPool<T, MAX_SIZE>::ObjectPool():mSize(0), mItr(-1)
 {
 }
 
@@ -180,9 +180,12 @@ T* ObjectPool<T, MAX_SIZE>::AddObject(FORWARD_T&& object)
 		mItr = mDeletedIndexs.back();
 		mDeletedIndexs.pop_back();
 	}
-	//判断索引所代表的区域是否存活,若存活则继续往下增加索引
-	while(mObjects[mItr].IsAlive()){
-		mItr++;
+	else
+	{
+		//判断索引所代表的区域是否存活,若存活则继续往下增加索引
+		do {
+			mItr++;
+		} while (mObjects[mItr].IsAlive());
 	}
 	//复制内存到区域
 	mObjects[mItr].Init(object);
@@ -201,9 +204,12 @@ T* ObjectPool<T, MAX_SIZE>::AddObject()
 		mItr = mDeletedIndexs.back();
 		mDeletedIndexs.pop_back();
 	}
-	//判断索引所代表的区域是否存活,若存活则继续往下增加索引
-	while (mObjects[mItr].IsAlive()) {
-		mItr++;
+	else
+	{
+		//判断索引所代表的区域是否存活,若存活则继续往下增加索引
+		do {
+			mItr++;
+		} while (mObjects[mItr].IsAlive());
 	}
 	//对分配的内存区域进行初始化
 	mObjects[mItr].Init();

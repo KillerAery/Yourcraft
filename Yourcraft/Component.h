@@ -6,5 +6,6 @@ class Component : public Object
 public:
 	Component();
 	virtual ~Component() = 0;
+
 };
 

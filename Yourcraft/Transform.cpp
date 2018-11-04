@@ -11,10 +11,13 @@ mWorldMatrix(
 	0.0f, 1.0f, 0.0f, 0.0f,
 	0.0f, 0.0f, 1.0f, 0.0f,
 	0.0f, 0.0f, 0.0f, 1.0f),
+mChanged(false),
 mParent(nullptr),
+mParentAlive(false),
+mParentEnabled(false),
+mLast(nullptr),
 mNext(nullptr),
-mChildren(nullptr),
-mChanged(false)
+mChildren(nullptr)
 {
 
 }
@@ -35,6 +38,9 @@ void Transform::Init()
 		0.0f, 0.0f, 0.0f, 1.0f);
 	mChanged = false;
 	mParent = nullptr;
+	mParentAlive = false;
+	mParentEnabled = false;
+	mLast = nullptr;
 	mNext = nullptr;
 	mChildren = nullptr;
 }
@@ -42,6 +48,16 @@ void Transform::Init()
 Transform::~Transform()
 {
 
+}
+
+bool Transform::IsAlive()
+{
+	return Object::IsAlive() || mParentAlive;
+}
+
+bool Transform::IsEnabled()
+{
+	return Object::IsEnabled() && mParentEnabled;
 }
 
 void Transform::SetPosition(const Vector3 & pos)
@@ -140,33 +156,76 @@ DirectX::XMFLOAT4X4& Transform::GetWorldMatrix()
 	return mWorldMatrix;
 }
 
-void Transform::AddChild(Transform* child)
+bool Transform::AddChild(Transform* child)
 {
-	//孩子为空则滚粗
-	if (child == nullptr)return;
-
+	//要添加的孩子为空或者本来就有父母 则滚粗
+	if (child == nullptr || child->mParent)return false;
+	//添加孩子操作
 	if(mChildren == nullptr)
 	{
 		mChildren = child;
 	}
 	else
 	{
-		auto itr = mChildren;
-		while (itr->mNext != nullptr)
-		{
-			itr = itr->mNext;
-		}
-		itr->mNext = child;
+		auto temp = mChildren;
+		mChildren = child;
+		mChildren->mNext = temp;
+		temp->mLast = mChildren;
 	}
+	//最后给孩子设置父母
+	mChildren->mParent = this;
+	//给其孩子们更新父母存活属性
+	mChildren->mParentAlive = this->IsAlive();
+	mChildren->mParentEnabled = this->IsEnabled();
+	mChildren->SetChildrenIsAliveAndEnabled();
 	//添加的新孩子要重新计算变换属性
-	child->PositionChanged();
-	child->ScaleChanged();
+	mChildren->PositionChanged();
+	mChildren->ScaleChanged();
 	//child->RotateChanged();
+	return true;
 }
+
+void Transform::RemoveChild(Transform* child)
+{
+	if(child->mLast){
+		child->mLast->mNext = child->mNext;
+	}
+	else{
+		this->mChildren = child->mLast;
+	}
+
+	//给孩子设置空关系
+	child->mNext = child->mLast = child->mParent = nullptr;
+	//然后给其孩子们更新父母存活属性
+	mChildren->mParentAlive = this->IsAlive();
+	mChildren->mParentEnabled = this->IsEnabled();
+	child->SetChildrenIsAliveAndEnabled();
+}
+
+bool Transform::FindChild(Transform* child)
+{
+	if(!child)return false;
+	auto itr = mChildren;
+	while (itr != nullptr)
+	{
+		//若其中一项是目标，则存在孩子
+		if (child == itr)return true;
+		itr = itr->mNext;
+	}
+	//不然则不存在
+	return false;
+}
+
 
 void Transform::SetParent(Transform* parent)
 {
-	mParent = parent;
+	if(mParent){
+		mParent->RemoveChild(this);
+	}
+	if(parent)
+	{
+		parent->AddChild(this);
+	}
 }
 
 //位置属性发生改变
@@ -192,8 +251,21 @@ void Transform::ScaleChanged()
 	auto itr = mChildren;
 	while (itr != nullptr)
 	{	//更新孩子的缩放属性
-		itr->SetWorldScale(itr->GetScale() + mWorldScale);
+		itr->SetWorldScale(itr->GetScale() * mWorldScale);
 		itr->ScaleChanged();
+		itr = itr->mNext;
+	}
+}
+
+void Transform::SetChildrenIsAliveAndEnabled(){
+	bool isParentAlive = this->IsAlive();
+	bool isParentEnabled = this->IsEnabled();
+	auto itr = mChildren;
+	while (itr != nullptr)
+	{
+		itr->mParentAlive = isParentAlive;
+		itr->mParentEnabled = isParentEnabled;
+		itr->SetChildrenIsAliveAndEnabled();
 		itr = itr->mNext;
 	}
 }

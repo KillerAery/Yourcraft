@@ -15,6 +15,8 @@ public:
 	BatchMeshRender();
 	virtual void Init();
 	virtual ~BatchMeshRender();
+	virtual bool IsAlive();
+
 	void Update(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect);
 	void BindTransform(Transform* object);
 	bool UnbindTransform(Transform* object);

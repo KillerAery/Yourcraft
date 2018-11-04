@@ -10,6 +10,9 @@ public:
 	Transform();
 	virtual void Init();
 	virtual ~Transform();
+	virtual bool IsAlive();
+	virtual bool IsEnabled();
+
 
 	void SetPosition(const Vector3& pos);
 	void SetWorldPosition(const Vector3& pos);
@@ -35,12 +38,15 @@ public:
 
 	DirectX::XMFLOAT4X4& GetWorldMatrix();
 
-	void AddChild(Transform* child);
+	bool AddChild(Transform* child);
+	void RemoveChild(Transform* child);
+	bool FindChild(Transform* child);
 	void SetParent(Transform* parent);
 private:
 	void PositionChanged();
 	void ScaleChanged();
 	//void RotationChanged();
+	void SetChildrenIsAliveAndEnabled();
 protected:
 	Vector3 mPosition;
 	Vector3 mScale;
@@ -50,9 +56,12 @@ protected:
 	Vector4 mWorldRotation;
 
 	bool mChanged;								// 是否改变了位置/伸缩/旋转(更新矩阵用)
+	bool mParentAlive;							// 父母是否存活
+	bool mParentEnabled;						// 父母是否开启
 	DirectX::XMFLOAT4X4 mWorldMatrix;			// 世界矩阵
 
 	Transform* mParent;
+	Transform* mLast;
 	Transform* mNext;
 	Transform* mChildren;
 };

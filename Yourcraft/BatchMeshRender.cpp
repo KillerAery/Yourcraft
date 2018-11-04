@@ -23,6 +23,10 @@ BatchMeshRender::~BatchMeshRender()
 
 }
 
+bool BatchMeshRender::IsAlive(){
+	return false;
+}
+
 void BatchMeshRender::Update(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect)
 {
 	D3D11_MAPPED_SUBRESOURCE mappedData;

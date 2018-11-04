@@ -539,11 +539,8 @@ bool D3DApp::InitDirect3D()
 		HR(dxgiFactory1->CreateSwapChain(md3dDevice.Get(), &sd, mSwapChain.GetAddressOf()));
 	}
 	
-	
-
 	// 可以禁止alt+enter全屏
 	dxgiFactory1->MakeWindowAssociation(mhMainWnd, DXGI_MWA_NO_ALT_ENTER | DXGI_MWA_NO_WINDOW_CHANGES);
-
 
 	// 每当窗口被重新调整大小的时候，都需要调用这个OnResize函数。现在调用
 	// 以避免代码重复
