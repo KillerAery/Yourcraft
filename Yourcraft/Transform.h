@@ -13,6 +13,9 @@ public:
 	void Update();
 	virtual bool IsAlive();
 	virtual bool IsEnabled();
+	virtual void AddRefCount();
+	virtual void ReduceRefCount();
+
 	void BecomeRoot();
 
 	void SetPosition(const Vector3& pos);
@@ -31,7 +34,6 @@ public:
 	//Vector3 GetWorldRotation();
 
 	void CaculateWorldMatrix();
-
 
 	Transform* GetParent();
 	Transform* GetChild();

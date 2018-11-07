@@ -69,10 +69,22 @@ bool Transform::IsEnabled()
 	return Object::IsEnabled() && mParentEnabled;
 }
 
+void Transform::AddRefCount()
+{
+	Object::AddRefCount();
+	SetChildrenIsAliveAndEnabled();
+}
+
+void Transform::ReduceRefCount()
+{
+	Object::ReduceRefCount();
+	SetChildrenIsAliveAndEnabled();
+}
+
 void Transform::BecomeRoot()
 {
-	this->AddRefCount();
 	this->mParentEnabled = true;
+	this->AddRefCount();
 }
 
 void Transform::SetPosition(const Vector3 & pos)

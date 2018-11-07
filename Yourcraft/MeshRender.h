@@ -14,7 +14,7 @@ public:
 	MeshRender();
 	~MeshRender();
 	void Init(GameObject* gameObject);
-	virtual bool IsAlive();
+
 	void Update(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect);
 	void BindGameObject(GameObject* gameObject);
 	void UnbindGameObject();

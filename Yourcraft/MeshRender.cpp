@@ -13,13 +13,8 @@ void MeshRender::Init(GameObject* object)
 
 }
 
-
 MeshRender::~MeshRender()
 {
-}
-
-bool MeshRender::IsAlive(){
-	return mGameObject&&mGameObject->IsAlive();
 }
 
 void MeshRender::Update(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect)

@@ -9,8 +9,8 @@ public:
 	void Kill();
 	virtual bool IsAlive();
 	virtual bool IsEnabled();
-	void AddRefCount();
-	void ReduceRefCount();
+	virtual void AddRefCount();
+	virtual void ReduceRefCount();
 	void SetEnabled(bool enabled);
 protected:
 	~Object();

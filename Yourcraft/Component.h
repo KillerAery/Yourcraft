@@ -9,6 +9,7 @@ class Component : public Object
 public:
 	Component();
 	void Init(GameObject* gameObject);
+	virtual bool IsAlive();
 	virtual bool IsEnabled();
 	void SetGameObject(GameObject* gameObject);
 	GameObject* GetGameObject()const;

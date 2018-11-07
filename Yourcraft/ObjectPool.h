@@ -66,7 +66,7 @@ template <class T, int MAX_SIZE>
 template <class ...Args>
 T* ObjectPool<T, MAX_SIZE>::AddObject(Args&&... args)
 {
-	int itr = 0;
+	int itr = mSize;
 	//先从删除栈中取得已经被删除的索引
 	if(!mDeletedIndexs.empty())
 	{
@@ -76,9 +76,9 @@ T* ObjectPool<T, MAX_SIZE>::AddObject(Args&&... args)
 	else
 	{
 		//判断索引所代表的区域是否存活,若存活则继续往下增加索引
-		while (mObjects[itr].IsAlive()) {
+		while (mObjects[itr].IsAlive()){
 			itr++;
-		}
+		};
 	}
 	//复制内存到区域
 	mObjects[itr].Init(std::forward<Args>(args)...);
