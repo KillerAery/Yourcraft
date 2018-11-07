@@ -11,26 +11,8 @@
     <Filter Include="引擎框架层\应用类">
       <UniqueIdentifier>{0a8cbc22-8eb9-488e-a96a-01446d980c57}</UniqueIdentifier>
     </Filter>
-    <Filter Include="引擎框架层\变换类">
-      <UniqueIdentifier>{e7b04cf8-56ad-4ff4-a1cc-40d23082563e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="引擎框架层\组件类">
-      <UniqueIdentifier>{5fd373db-c439-45ad-8433-4162d479f97b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="引擎框架层\游戏对象类">
-      <UniqueIdentifier>{d55dc00b-9a20-403d-938a-94f0c7438782}</UniqueIdentifier>
-    </Filter>
     <Filter Include="游戏逻辑层">
       <UniqueIdentifier>{2e222291-131f-4de4-8fe6-44b5decec6b7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="引擎框架层\组件类\渲染组件">
-      <UniqueIdentifier>{1370e6f9-cf3c-4a39-92ac-bbbaa63795f1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="引擎框架层\组件类\物理组件">
-      <UniqueIdentifier>{d1513197-cc9a-47b7-ba2d-2462b6f1191e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="引擎框架层\组件类\物理组件\碰撞组件">
-      <UniqueIdentifier>{c5178145-f6c5-4856-9637-2eb3a611f088}</UniqueIdentifier>
     </Filter>
     <Filter Include="引擎框架层\内存管理类">
       <UniqueIdentifier>{78ef1f99-8b42-468c-9744-093ac0c05504}</UniqueIdentifier>
@@ -47,28 +29,52 @@
     <Filter Include="图形库框架层\DirectX11">
       <UniqueIdentifier>{0caf6b37-e098-4eab-b0ae-ea6a3f5a57b5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="引擎框架层\组件类\物理组件\刚体组件">
-      <UniqueIdentifier>{2eb2572c-6427-4bda-bcd6-a5b4359848d5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="引擎框架层\杂项">
-      <UniqueIdentifier>{731f4e05-10b3-4c27-9c11-98ccb3665c53}</UniqueIdentifier>
-    </Filter>
     <Filter Include="引擎框架层\内存管理类\内存对象类">
       <UniqueIdentifier>{6ee768ac-1029-46e0-a3ee-0befbba6c2f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="引擎框架层\对象类">
+      <UniqueIdentifier>{686a972f-0dd3-45c4-9700-1786c423fc48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="引擎框架层\对象类\变换类">
+      <UniqueIdentifier>{e7b04cf8-56ad-4ff4-a1cc-40d23082563e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="引擎框架层\对象类\游戏对象类">
+      <UniqueIdentifier>{d55dc00b-9a20-403d-938a-94f0c7438782}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="引擎框架层\对象类\组件类">
+      <UniqueIdentifier>{5fd373db-c439-45ad-8433-4162d479f97b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="引擎框架层\对象类\组件类\渲染组件">
+      <UniqueIdentifier>{1370e6f9-cf3c-4a39-92ac-bbbaa63795f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="引擎框架层\对象类\组件类\物理组件">
+      <UniqueIdentifier>{d1513197-cc9a-47b7-ba2d-2462b6f1191e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="引擎框架层\对象类\组件类\物理组件\刚体组件">
+      <UniqueIdentifier>{2eb2572c-6427-4bda-bcd6-a5b4359848d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="引擎框架层\工具类">
+      <UniqueIdentifier>{731f4e05-10b3-4c27-9c11-98ccb3665c53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="引擎框架层\物理引擎类">
+      <UniqueIdentifier>{e9b1cf44-768f-4390-adea-19dd15492f32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="引擎框架层\对象类\组件类\物理组件\碰撞组件">
+      <UniqueIdentifier>{b9c99e77-0e92-40e6-b9ad-20f4fd1167e2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Transform.cpp">
-      <Filter>引擎框架层\变换类</Filter>
+      <Filter>引擎框架层\对象类\变换类</Filter>
     </ClCompile>
     <ClCompile Include="Component.cpp">
-      <Filter>引擎框架层\组件类</Filter>
+      <Filter>引擎框架层\对象类\组件类</Filter>
     </ClCompile>
     <ClCompile Include="Render.cpp">
-      <Filter>引擎框架层\组件类\渲染组件</Filter>
+      <Filter>引擎框架层\对象类\组件类\渲染组件</Filter>
     </ClCompile>
     <ClCompile Include="MeshRender.cpp">
-      <Filter>引擎框架层\组件类\渲染组件</Filter>
+      <Filter>引擎框架层\对象类\组件类\渲染组件</Filter>
     </ClCompile>
     <ClCompile Include="EngineApp.cpp">
       <Filter>引擎框架层\应用类</Filter>
@@ -76,11 +82,8 @@
     <ClCompile Include="Factory.cpp">
       <Filter>引擎框架层\内存管理类\工厂类</Filter>
     </ClCompile>
-    <ClCompile Include="Collider.cpp">
-      <Filter>引擎框架层\组件类\物理组件\碰撞组件</Filter>
-    </ClCompile>
     <ClCompile Include="Rigidbody.cpp">
-      <Filter>引擎框架层\组件类\物理组件\刚体组件</Filter>
+      <Filter>引擎框架层\对象类\组件类\物理组件\刚体组件</Filter>
     </ClCompile>
     <ClCompile Include="DirectX11\dxerr.cpp">
       <Filter>图形库框架层\DirectX11</Filter>
@@ -113,7 +116,7 @@
       <Filter>图形库框架层\DirectX11</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
-      <Filter>引擎框架层\游戏对象类</Filter>
+      <Filter>引擎框架层\对象类\游戏对象类</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>引擎框架层\应用类</Filter>
@@ -122,7 +125,7 @@
       <Filter>引擎框架层\内存管理类\内存对象类</Filter>
     </ClCompile>
     <ClCompile Include="BatchMeshRender.cpp">
-      <Filter>引擎框架层\组件类\渲染组件</Filter>
+      <Filter>引擎框架层\对象类\组件类\渲染组件</Filter>
     </ClCompile>
     <ClCompile Include="DirectX11\BasicEffect.cpp">
       <Filter>图形库框架层\DirectX11</Filter>
@@ -137,24 +140,30 @@
       <Filter>图形库框架层\DirectX11</Filter>
     </ClCompile>
     <ClCompile Include="CSkyRender.cpp">
-      <Filter>引擎框架层\组件类\渲染组件</Filter>
+      <Filter>引擎框架层\对象类\组件类\渲染组件</Filter>
     </ClCompile>
     <ClCompile Include="TextruePool.cpp">
-      <Filter>引擎框架层\内存管理类</Filter>
+      <Filter>引擎框架层</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsWorld.cpp">
+      <Filter>引擎框架层\物理引擎类</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>引擎框架层\对象类\组件类\物理组件\碰撞组件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Transform.h">
-      <Filter>引擎框架层\变换类</Filter>
+      <Filter>引擎框架层\对象类\变换类</Filter>
     </ClInclude>
     <ClInclude Include="Component.h">
-      <Filter>引擎框架层\组件类</Filter>
+      <Filter>引擎框架层\对象类\组件类</Filter>
     </ClInclude>
     <ClInclude Include="Render.h">
-      <Filter>引擎框架层\组件类\渲染组件</Filter>
+      <Filter>引擎框架层\对象类\组件类\渲染组件</Filter>
     </ClInclude>
     <ClInclude Include="MeshRender.h">
-      <Filter>引擎框架层\组件类\渲染组件</Filter>
+      <Filter>引擎框架层\对象类\组件类\渲染组件</Filter>
     </ClInclude>
     <ClInclude Include="EngineApp.h">
       <Filter>引擎框架层\应用类</Filter>
@@ -162,11 +171,8 @@
     <ClInclude Include="Factory.h">
       <Filter>引擎框架层\内存管理类\工厂类</Filter>
     </ClInclude>
-    <ClInclude Include="Collider.h">
-      <Filter>引擎框架层\组件类\物理组件\碰撞组件</Filter>
-    </ClInclude>
     <ClInclude Include="Rigidbody.h">
-      <Filter>引擎框架层\组件类\物理组件\刚体组件</Filter>
+      <Filter>引擎框架层\对象类\组件类\物理组件\刚体组件</Filter>
     </ClInclude>
     <ClInclude Include="DirectX11\d3dApp.h">
       <Filter>图形库框架层\DirectX11</Filter>
@@ -208,13 +214,13 @@
       <Filter>图形库框架层\DirectX11</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
-      <Filter>引擎框架层\游戏对象类</Filter>
+      <Filter>引擎框架层\对象类\游戏对象类</Filter>
     </ClInclude>
     <ClInclude Include="DirectX11\d3dUtil.h">
       <Filter>图形库框架层\DirectX11</Filter>
     </ClInclude>
     <ClInclude Include="Singleton.h">
-      <Filter>引擎框架层\杂项</Filter>
+      <Filter>引擎框架层\工具类</Filter>
     </ClInclude>
     <ClInclude Include="ObjectPool.h">
       <Filter>引擎框架层\内存管理类\内存池类</Filter>
@@ -223,16 +229,22 @@
       <Filter>引擎框架层\内存管理类\内存对象类</Filter>
     </ClInclude>
     <ClInclude Include="BatchMeshRender.h">
-      <Filter>引擎框架层\组件类\渲染组件</Filter>
+      <Filter>引擎框架层\对象类\组件类\渲染组件</Filter>
     </ClInclude>
     <ClInclude Include="DirectX11\SkyRender.h">
       <Filter>图形库框架层\DirectX11</Filter>
     </ClInclude>
     <ClInclude Include="CSkyRender.h">
-      <Filter>引擎框架层\组件类\渲染组件</Filter>
+      <Filter>引擎框架层\对象类\组件类\渲染组件</Filter>
     </ClInclude>
     <ClInclude Include="TextruePool.h">
-      <Filter>引擎框架层\内存管理类</Filter>
+      <Filter>引擎框架层</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsWorld.h">
+      <Filter>引擎框架层\物理引擎类</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>引擎框架层\对象类\组件类\物理组件\碰撞组件</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

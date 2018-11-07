@@ -7,6 +7,7 @@ class Render :
 {
 public:
 	Render();
-	virtual ~Render() = 0;
+protected:
+	~Render();
 };
 

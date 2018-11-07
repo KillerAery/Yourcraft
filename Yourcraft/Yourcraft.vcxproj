@@ -42,6 +42,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="MeshRender.cpp" />
+    <ClCompile Include="PhysicsWorld.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="TextruePool.cpp" />
@@ -73,6 +74,7 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="MeshRender.h" />
+    <ClInclude Include="PhysicsWorld.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="Singleton.h" />
@@ -155,7 +157,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -186,7 +188,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>

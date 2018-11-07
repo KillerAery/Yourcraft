@@ -8,8 +8,9 @@ class Transform : public Object
 {
 public:
 	Transform();
-	virtual void Init();
-	virtual ~Transform();
+	~Transform();
+	void Init();
+	void Update();
 	virtual bool IsAlive();
 	virtual bool IsEnabled();
 	void BecomeRoot();
@@ -30,7 +31,7 @@ public:
 	//Vector3 GetWorldRotation();
 
 	void CaculateWorldMatrix();
-	virtual void Update();
+
 
 	Transform* GetParent();
 	Transform* GetChild();

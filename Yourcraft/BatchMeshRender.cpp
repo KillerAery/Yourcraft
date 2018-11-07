@@ -11,24 +11,32 @@ BatchMeshRender::BatchMeshRender()
 {
 }
 
-void BatchMeshRender::Init()
-{
-	Render::Init();
-	mTransforms.clear();
-}
-
-
 BatchMeshRender::~BatchMeshRender()
 {
-
+}
+void BatchMeshRender::Init(GameObject* object)
+{
+	Render::Init(object);
+	mGameObjects.clear();
+	this->BindGameObject(object);
 }
 
 //存活条件：自身存活 或者 存在寄生的活游戏对象时
 bool BatchMeshRender::IsAlive(){
 	if(Render::IsAlive())return true;
-	for(auto tf : mTransforms)
+	for(auto tf : mGameObjects)
 	{
 		if (tf->IsAlive()) { return true; }
+	}
+	return false;
+}
+
+bool BatchMeshRender::IsEnabled()
+{
+	if (Render::IsEnabled())return true;
+	for (auto tf : mGameObjects)
+	{
+		if (tf->IsEnabled()) { return true; }
 	}
 	return false;
 }
@@ -36,7 +44,7 @@ bool BatchMeshRender::IsAlive(){
 void BatchMeshRender::Update(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect)
 {
 	D3D11_MAPPED_SUBRESOURCE mappedData;
-	UINT numInsts = (UINT)mTransforms.size();
+	UINT numInsts = (UINT)mGameObjects.size();
 	//若传入的数据比实例缓冲区还大，需要重新分配
 	if (numInsts > mCapacity)
 	{
@@ -50,7 +58,7 @@ void BatchMeshRender::Update(ComPtr<ID3D11DeviceContext> deviceContext, BasicEff
 	InstancedData * iter = reinterpret_cast<InstancedData*>(mappedData.pData);
 	
 
-	for (auto transform : mTransforms)
+	for (auto transform : mGameObjects)
 	{
 		//二叉树要求const&遍历，因此此处用const强制转换
 		XMMATRIX matrix = XMLoadFloat4x4(&transform->GetWorldMatrix());
@@ -82,19 +90,20 @@ void BatchMeshRender::Update(ComPtr<ID3D11DeviceContext> deviceContext, BasicEff
 	}
 }
 
-void BatchMeshRender::BindTransform(Transform* object)
+void BatchMeshRender::BindGameObject(GameObject* object)
 {
-	mTransforms.insert(object);
+	if(object)
+		mGameObjects.insert(object);
 }
 
-bool BatchMeshRender::UnbindTransform(Transform* object)
+bool BatchMeshRender::UnbindGameObject(GameObject* object)
 {
-	auto toDelete = mTransforms.find(object);
+	auto toDelete = mGameObjects.find(object);
 	//若没找到要删除的目标，则返还失败
-	if (toDelete == mTransforms.end()) {
+	if (toDelete == mGameObjects.end()) {
 		return false;
 	}
-	mTransforms.erase(toDelete);
+	mGameObjects.erase(toDelete);
 	return true;
 }
 

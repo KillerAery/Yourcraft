@@ -23,7 +23,6 @@ GameObject::~GameObject()
 }
 
 
-
 void GameObject::Update()
 {
 	Transform::Update();

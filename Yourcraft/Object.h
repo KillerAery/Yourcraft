@@ -5,12 +5,13 @@ class Object
 {
 public:
 	Object();
-	virtual void Init();
+	void Init();
 	void Kill();
 	virtual bool IsAlive();
 	virtual bool IsEnabled();
 	void AddRefCount();
 	void ReduceRefCount();
+	void SetEnabled(bool enabled);
 protected:
 	~Object();
 	void Dead();

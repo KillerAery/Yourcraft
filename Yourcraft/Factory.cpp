@@ -31,9 +31,9 @@ GameObject* Factory::CreateGameObject()
 	return sFactory.rGameObjectPool->AddObject();
 }
 
-BatchMeshRender* Factory::CreateBatchMeshRender()
+BatchMeshRender* Factory::CreateBatchMeshRender(GameObject* gameobject)
 {
-	return sFactory.rBatchMeshRenderPool->AddObject();
+	return sFactory.rBatchMeshRenderPool->AddObject(gameobject);
 }
 
 MeshRender* Factory::CreateMeshRender(GameObject* gameobject)

@@ -2,16 +2,15 @@
 
 using namespace DirectX;
 
-MeshRender::MeshRender():mTransform(nullptr)
+MeshRender::MeshRender()
 {
 }
 
 void MeshRender::Init(GameObject* object)
 {
-	Render::Init();
+	Render::Init(object);
 	mModel = Model();
-	mTransform = nullptr;
-	BindTransform(object);
+
 }
 
 
@@ -20,7 +19,7 @@ MeshRender::~MeshRender()
 }
 
 bool MeshRender::IsAlive(){
-	return mTransform&&mTransform->IsAlive();
+	return mGameObject&&mGameObject->IsAlive();
 }
 
 void MeshRender::Update(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect)
@@ -35,7 +34,7 @@ void MeshRender::Update(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect &
 		deviceContext->IASetIndexBuffer(part.indexBuffer.Get(), part.indexFormat, 0);
 
 		// 更新数据并应用
-		effect.SetWorldMatrix(XMLoadFloat4x4(&mTransform->GetWorldMatrix()));
+		effect.SetWorldMatrix(XMLoadFloat4x4(&mGameObject->GetWorldMatrix()));
 		effect.SetTextureAmbient(part.texA);
 		effect.SetTextureDiffuse(part.texD);
 		effect.SetMaterial(part.material);
@@ -45,14 +44,14 @@ void MeshRender::Update(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect &
 	}
 }
 
-void MeshRender::BindTransform(Transform* object)
+void MeshRender::BindGameObject(GameObject* object)
 {
-	mTransform = object;
+	mGameObject = object;
 }
 
-void MeshRender::UnbindTransform()
+void MeshRender::UnbindGameObject()
 {
-	mTransform = nullptr;
+	mGameObject = nullptr;
 }
 
 void MeshRender::SetModel(Model&& model)

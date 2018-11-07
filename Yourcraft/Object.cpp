@@ -35,6 +35,11 @@ bool Object::IsEnabled()
 	return mEnabled;
 }
 
+void Object::SetEnabled(bool enabled)
+{
+	mEnabled = enabled;
+}
+
 void Object::AddRefCount()
 {
 	mCount++;

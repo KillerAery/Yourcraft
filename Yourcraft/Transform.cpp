@@ -22,6 +22,11 @@ mChildren(nullptr)
 
 }
 
+Transform::~Transform()
+{
+
+}
+
 void Transform::Init()
 {
 	Object::Init();
@@ -45,9 +50,13 @@ void Transform::Init()
 	mChildren = nullptr;
 }
 
-Transform::~Transform()
-{
-
+void Transform::Update()
+{	//如果改变了位置/缩放/旋转，则重新计算世界变换
+	if (mChanged)
+	{
+		CaculateWorldMatrix();
+		mChanged = false;
+	}
 }
 
 bool Transform::IsAlive()
@@ -132,14 +141,6 @@ void Transform::CaculateWorldMatrix()
 	DirectX::XMStoreFloat4x4(&mWorldMatrix,matrix);
 }
 
-void Transform::Update()
-{	//如果改变了位置/缩放/旋转，则重新计算世界变换
-	if (mChanged)
-	{
-		CaculateWorldMatrix();
-		mChanged = false;
-	}
-}
 
 Transform* Transform::GetParent()
 {

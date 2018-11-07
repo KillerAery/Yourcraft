@@ -20,7 +20,7 @@ public:
 
 
 	static GameObject* CreateGameObject();
-	static BatchMeshRender* CreateBatchMeshRender();
+	static BatchMeshRender* CreateBatchMeshRender(GameObject* gameobject);
 	static MeshRender* CreateMeshRender(GameObject* gameobject);
 };
 

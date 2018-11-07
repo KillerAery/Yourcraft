@@ -38,7 +38,7 @@ bool EngineApp::Init()
 
 	mObjReader.Read(L"Model\\house.mbo", L"Model\\house.obj");	//·¿ÎÝ
 
-	auto br = Factory::CreateBatchMeshRender();
+	auto br = Factory::CreateBatchMeshRender(nullptr);
 	br->SetModel(Model(md3dDevice, mObjReader));
 
 	for(int i =0;i<10;++i)
@@ -47,9 +47,9 @@ bool EngineApp::Init()
 		mGameObject[i]->SetPosition(Vector3(0, 400-80*i, 700));
 		mGameObject[i]->SetScale(Vector3(0.2, 0.2, 0.2));
 		mWorld->AddChild(mGameObject[i]);
-	//	mMeshRender = Factory::CreateMeshRender(mGameObject[i]);
-	//	mMeshRender->SetModel(Model(md3dDevice, mObjReader));
-		br->BindTransform(mGameObject[i]);
+		//mMeshRender = Factory::CreateMeshRender(mGameObject[i]);
+		//mMeshRender->SetModel(Model(md3dDevice, mObjReader));
+		br->BindGameObject(mGameObject[i]);
 	}
 
 
