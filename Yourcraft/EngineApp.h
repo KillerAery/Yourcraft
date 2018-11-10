@@ -11,6 +11,8 @@
 #include "GameObject.h"
 #include "BatchMeshRender.h"
 #include "MeshRender.h"
+#include "Rigidbody.h"
+#include "PhysicsWorld.h"
 
 class EngineApp :public D3DApp
 {
@@ -32,10 +34,13 @@ protected:
 	CameraMode mCameraMode;									// 摄像机模式
 	ObjReader mObjReader;									// 模型读取对象
 
+	PhysicsWorld mPhysicsWorld;								// 物理世界
+
 	TextruePool mTextPool;
 	ObjectPool<GameObject,500> mGameObjectPool;
 	ObjectPool<BatchMeshRender,10> mBatchMeshRenderPool;
 	ObjectPool<MeshRender, 100> mMeshRenderPool;
+	ObjectPool<Rigidbody, 100> mRigidbodyPool;
 
 	GameObject* mWorld;
 	GameObject* mGameObject[10];

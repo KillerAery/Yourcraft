@@ -10,7 +10,3 @@ Collider::Collider()
 Collider::~Collider()
 {
 }
-
-void Collider::Init()
-{
-}

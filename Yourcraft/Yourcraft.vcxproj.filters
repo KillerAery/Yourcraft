@@ -112,9 +112,6 @@
     <ClCompile Include="DirectX11\MeshData.cpp">
       <Filter>图形库框架层\DirectX11</Filter>
     </ClCompile>
-    <ClCompile Include="DirectX11\TestObject.cpp">
-      <Filter>图形库框架层\DirectX11</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>引擎框架层\对象类\游戏对象类</Filter>
     </ClCompile>
@@ -150,6 +147,9 @@
     </ClCompile>
     <ClCompile Include="Collider.cpp">
       <Filter>引擎框架层\对象类\组件类\物理组件\碰撞组件</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsHelper.cpp">
+      <Filter>引擎框架层\物理引擎类</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -210,9 +210,6 @@
     <ClInclude Include="DirectX11\MeshData.h">
       <Filter>图形库框架层\DirectX11</Filter>
     </ClInclude>
-    <ClInclude Include="DirectX11\TestObject.h">
-      <Filter>图形库框架层\DirectX11</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>引擎框架层\对象类\游戏对象类</Filter>
     </ClInclude>
@@ -245,6 +242,9 @@
     </ClInclude>
     <ClInclude Include="Collider.h">
       <Filter>引擎框架层\对象类\组件类\物理组件\碰撞组件</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsHelper.h">
+      <Filter>引擎框架层\物理引擎类</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

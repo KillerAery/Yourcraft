@@ -13,8 +13,4 @@ public:
 protected:
 	//物理刚体
 	btRigidBody * mBody;
-	//密度
-	btScalar mMass;
-	//惯性
-	btVector3 mInertia;
 };

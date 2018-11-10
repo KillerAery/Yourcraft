@@ -31,7 +31,6 @@
     <ClCompile Include="DirectX11\dxerr.cpp" />
     <ClCompile Include="DirectX11\SkyEffect.cpp" />
     <ClCompile Include="DirectX11\SkyRender.cpp" />
-    <ClCompile Include="DirectX11\TestObject.cpp" />
     <ClCompile Include="DirectX11\GameTimer.cpp" />
     <ClCompile Include="DirectX11\MeshData.cpp" />
     <ClCompile Include="DirectX11\Model.cpp" />
@@ -42,6 +41,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="MeshRender.cpp" />
+    <ClCompile Include="PhysicsHelper.cpp" />
     <ClCompile Include="PhysicsWorld.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
@@ -62,7 +62,6 @@
     <ClInclude Include="DirectX11\EffectHelper.h" />
     <ClInclude Include="DirectX11\Effects.h" />
     <ClInclude Include="DirectX11\SkyRender.h" />
-    <ClInclude Include="DirectX11\TestObject.h" />
     <ClInclude Include="DirectX11\GameTimer.h" />
     <ClInclude Include="DirectX11\LightHelper.h" />
     <ClInclude Include="DirectX11\MeshData.h" />
@@ -74,6 +73,7 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="MeshRender.h" />
+    <ClInclude Include="PhysicsHelper.h" />
     <ClInclude Include="PhysicsWorld.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="Rigidbody.h" />
@@ -123,7 +123,6 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\..\SettingOfProject\Bullet_DEBUG.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />

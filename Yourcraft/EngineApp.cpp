@@ -52,8 +52,6 @@ bool EngineApp::Init()
 		br->BindGameObject(mGameObject[i]);
 	}
 
-
-
 	return true;
 }
 
@@ -105,6 +103,7 @@ void EngineApp::UpdateScene(float dt)
 
 	// --------- 测试更新部分 -------------//
 	mGameObjectPool.Update();
+
 }
 
 void EngineApp::DrawScene()

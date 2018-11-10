@@ -12,7 +12,7 @@ class Collider :
 public:
 	Collider();
 	~Collider();
-	void Init();
+	void Init(GameObject * gameObject);
 protected:
 	//Åö×²Ìå
 	btCollisionObject* mCollision;
