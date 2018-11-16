@@ -5,7 +5,6 @@ class Object
 {
 public:
 	Object();
-	void Init();
 	void Kill();
 	virtual bool IsAlive();
 	virtual bool IsEnabled();
@@ -13,6 +12,7 @@ public:
 	virtual void ReduceRefCount();
 	void SetEnabled(bool enabled);
 protected:
+	void Init();
 	~Object();
 	void Dead();
 private:

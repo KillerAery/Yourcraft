@@ -18,11 +18,11 @@ struct PhysicsMaterial
 class PhysicsHelper
 {
 	using RigidBodyInfor = btRigidBody::btRigidBodyConstructionInfo;
-	btSphereShape;
-	btBoxShape;
-	btCapsuleShape;
-	btCylinderShape;
-	btStaticPlaneShape;
+	//btSphereShape;
+	//btBoxShape;
+	//btCapsuleShape;
+	//btCylinderShape;
+	//btStaticPlaneShape;
 	static RigidBodyInfor Create();
 
 };

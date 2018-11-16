@@ -47,10 +47,13 @@ bool EngineApp::Init()
 		mGameObject[i]->SetPosition(Vector3(0, 400-80*i, 700));
 		mGameObject[i]->SetScale(Vector3(0.2, 0.2, 0.2));
 		mWorld->AddChild(mGameObject[i]);
-		//mMeshRender = Factory::CreateMeshRender(mGameObject[i]);
-		//mMeshRender->SetModel(Model(md3dDevice, mObjReader));
-		br->BindGameObject(mGameObject[i]);
+		mMeshRender = Factory::CreateMeshRender(mGameObject[i]);
+		mMeshRender->SetModel(Model(md3dDevice, mObjReader));
+		//br->BindGameObject(mGameObject[i]);
 	}
+
+	auto i = Factory::GetComponent<MeshRender>(mGameObject[4]);
+	i->BindGameObject(nullptr);
 
 	return true;
 }

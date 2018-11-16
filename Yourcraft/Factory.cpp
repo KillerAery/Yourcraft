@@ -33,10 +33,31 @@ GameObject* Factory::CreateGameObject()
 
 BatchMeshRender* Factory::CreateBatchMeshRender(GameObject* gameobject)
 {
-	return sFactory.rBatchMeshRenderPool->AddObject(gameobject);
+	if(gameobject == nullptr)
+	{
+		return sFactory.rBatchMeshRenderPool->AddObject(nullptr);
+	}
+	else
+	{
+		auto component = sFactory.rBatchMeshRenderPool->AddObject(gameobject);
+		int index = sFactory.rBatchMeshRenderPool->GetIndexByPointer(component);
+		gameobject->AddComponentInfor(static_cast<int>(ComponentType::BatchMeshRender), index);
+		return component;
+	}
 }
 
 MeshRender* Factory::CreateMeshRender(GameObject* gameobject)
 {
-	return sFactory.rMeshRenderPool->AddObject(gameobject);
+	if (gameobject == nullptr)
+	{
+		return sFactory.rMeshRenderPool->AddObject(nullptr);
+	}
+	else
+	{
+		auto component = sFactory.rMeshRenderPool->AddObject(gameobject);
+		int index = sFactory.rMeshRenderPool->GetIndexByPointer(component);
+		gameobject->AddComponentInfor(static_cast<int>(ComponentType::MeshRender), index);
+		return component;
+	}
 }
+

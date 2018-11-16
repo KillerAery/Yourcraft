@@ -18,7 +18,7 @@ void Component::Init(GameObject* gameObject)
 
 bool Component::IsAlive()
 {
-	return Object::IsAlive() && mGameObject && mGameObject->IsAlive();
+	return Object::IsAlive() || (mGameObject && mGameObject->IsAlive());
 }
 
 bool Component::IsEnabled()
