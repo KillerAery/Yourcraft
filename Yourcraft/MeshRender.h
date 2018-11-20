@@ -20,6 +20,7 @@ public:
 	void UnbindGameObject();
 	void SetModel(Model&& model);
 	void SetModel(const Model& model);
+	const Model& GetModel()const;
 protected:
 	Model mModel;												// 模型
 	ComPtr<ID3D11Buffer> mInstancedBuffer;						// 实例缓冲区

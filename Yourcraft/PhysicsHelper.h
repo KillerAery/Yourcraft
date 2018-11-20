@@ -1,13 +1,6 @@
 #pragma once
 
 #include <btBulletDynamicsCommon.h>
-#include <btBulletCollisionCommon.h>
-
-
-
-enum class PhysicsShape{
-
-};
 
 struct PhysicsMaterial
 {
@@ -15,14 +8,3 @@ struct PhysicsMaterial
 	btVector3 inertia;	//¹ßÐÔ
 };
 
-class PhysicsHelper
-{
-	using RigidBodyInfor = btRigidBody::btRigidBodyConstructionInfo;
-	//btSphereShape;
-	//btBoxShape;
-	//btCapsuleShape;
-	//btCylinderShape;
-	//btStaticPlaneShape;
-	static RigidBodyInfor Create();
-
-};

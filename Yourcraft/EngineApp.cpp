@@ -1,6 +1,10 @@
 #include "EngineApp.h"
 #include "Factory.h"
+#include <SimpleMath.h>
+#include "d3dUtil.h"
+
 using namespace DirectX;
+using namespace DirectX::SimpleMath;
 using namespace std::experimental;
 
 EngineApp::EngineApp(HINSTANCE hInstance)

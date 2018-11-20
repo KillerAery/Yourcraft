@@ -2,15 +2,25 @@
 
 #include <btBulletDynamicsCommon.h>
 #include "Component.h"
+#include "Collider.h"
+#include "PhysicsWorld.h"
 
+//物理刚体组件
 class Rigidbody :
 	public Component
 {
 public:
 	Rigidbody();
 	~Rigidbody();
-	void Init(GameObject * gameObject, const btRigidBody::btRigidBodyConstructionInfo& constructionInfor, btDiscreteDynamicsWorld * world);
+	void Init(GameObject * gameObject,PhysicsWorld* world, ColliderPtr& collider ,int mass = 1);
 protected:
 	//物理刚体
-	btRigidBody * mBody;
+	btRigidBody mBody;
+	//运动状态
+	btDefaultMotionState mMotionState;
+	//碰撞体
+	ColliderPtr mCollider;
+	//密度
+	int mMass;
 };
+

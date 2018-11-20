@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BatchMeshRender.cpp" />
+    <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="CSkyRender.cpp" />
@@ -45,12 +46,14 @@
     <ClCompile Include="PhysicsWorld.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
+    <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="TextruePool.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="EngineApp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BatchMeshRender.h" />
+    <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="CSkyRender.h" />
@@ -78,6 +81,7 @@
     <ClInclude Include="Render.h" />
     <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="Singleton.h" />
+    <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="TextruePool.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="EngineApp.h" />

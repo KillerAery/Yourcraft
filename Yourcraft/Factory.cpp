@@ -50,13 +50,28 @@ MeshRender* Factory::CreateMeshRender(GameObject* gameobject)
 {
 	if (gameobject == nullptr)
 	{
-		return sFactory.rMeshRenderPool->AddObject(nullptr);
+		return nullptr;
 	}
 	else
 	{
 		auto component = sFactory.rMeshRenderPool->AddObject(gameobject);
 		int index = sFactory.rMeshRenderPool->GetIndexByPointer(component);
 		gameobject->AddComponentInfor(static_cast<int>(ComponentType::MeshRender), index);
+		return component;
+	}
+}
+
+Rigidbody* Factory::CreateRigidbody(GameObject * gameobject, PhysicsWorld* world, ColliderPtr& collider, int mass)
+{
+	if (gameobject == nullptr)
+	{
+		return nullptr;
+	}
+	else
+	{
+		auto component = sFactory.rRigidbodyPool->AddObject(gameobject,world,collider,mass);
+		int index = sFactory.rRigidbodyPool->GetIndexByPointer(component);
+		gameobject->AddComponentInfor(static_cast<int>(ComponentType::Rigidbody), index);
 		return component;
 	}
 }

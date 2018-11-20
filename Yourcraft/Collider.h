@@ -1,19 +1,18 @@
 #pragma once
 
-#include <btBulletCollisionCommon.h>
-#include "Component.h"
-#include "GameObject.h"
+#include <memory>
+#include <BulletCollision/CollisionShapes/btCollisionShape.h>
 
-
-class Collider :
-	public Component
+//接口类——碰撞体
+class Collider
 {
-
 public:
 	Collider();
-	~Collider();
-	void Init(GameObject * gameObject);
+	virtual ~Collider() = 0;
+	btCollisionShape* GetShape()const;
 protected:
-	//碰撞体
-	btCollisionObject* mCollision;
+	btCollisionShape* mShape;
 };
+
+//碰撞体使用std::shared_ptr管理内存
+using ColliderPtr = std::shared_ptr<Collider>;

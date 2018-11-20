@@ -60,3 +60,8 @@ void MeshRender::SetModel(const Model& model)
 {
 	mModel = model;
 }
+
+const Model& MeshRender::GetModel() const
+{
+	return mModel;
+}

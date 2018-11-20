@@ -4,6 +4,7 @@
 #include "BatchMeshRender.h"
 #include "MeshRender.h"
 #include "Rigidbody.h"
+#include "PhysicsWorld.h"
 
 //获取组件特化模板函数 宏定义
 #define GET_COMPONENT(_TYPE_)\
@@ -23,6 +24,7 @@ private:
 	ObjectPool<BatchMeshRender, 10>* rBatchMeshRenderPool;
 	ObjectPool<MeshRender, 100>* rMeshRenderPool;
 	ObjectPool<Rigidbody, 100>* rRigidbodyPool;
+	PhysicsWorld* rPhysicsWorld;
 public:
 	enum class ComponentType
 	{
@@ -37,11 +39,12 @@ public:
 	static void SetPool(ObjectPool<BatchMeshRender, 10>* pool);
 	static void SetPool(ObjectPool<MeshRender, 100>* pool);
 	static void SetPool(ObjectPool<Rigidbody, 100>* pool);
+	static void SetPhysicsWorld(PhysicsWorld* world);
 
 	static GameObject* CreateGameObject();
 	static BatchMeshRender* CreateBatchMeshRender(GameObject* gameobject);
 	static MeshRender* CreateMeshRender(GameObject* gameobject);
-	static Rigidbody* CreateRigidbody(GameObject* gameobject);
+	static Rigidbody* CreateRigidbody(GameObject * gameObject, PhysicsWorld* world, ColliderPtr& collider, int mass = 1);
 
 	template<class T>
 	static T* GetComponent(GameObject* gameobject);

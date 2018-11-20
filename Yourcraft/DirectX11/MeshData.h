@@ -5,6 +5,7 @@
 #include <Geometry.h>
 #include <vector>
 
+
 struct MeshData
 {
 	DirectX::VertexCollection vertexVec;				// 顶点数组（位置，法向量，贴图位置）
