@@ -2,6 +2,7 @@
 #include "Factory.h"
 #include <SimpleMath.h>
 #include "d3dUtil.h"
+#include "SphereCollider.h"
 
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
@@ -30,12 +31,16 @@ bool EngineApp::Init()
 	// 初始化鼠标，键盘不需要
 	mMouse->SetWindow(mhMainWnd);
 	mMouse->SetMode(DirectX::Mouse::MODE_ABSOLUTE);
+	
+	//初始化物理世界
 
+	mPhysicsWorld.Init();
 
 	// ---------- 测试初始化部分 ---------------------
 	Factory::SetPool(&mGameObjectPool);
 	Factory::SetPool(&mBatchMeshRenderPool);
 	Factory::SetPool(&mMeshRenderPool);
+	Factory::SetPool(&mRigidbodyPool);
 
 	mWorld = Factory::CreateGameObject();
 	mWorld->BecomeRoot();
@@ -58,6 +63,10 @@ bool EngineApp::Init()
 
 	auto i = Factory::GetComponent<MeshRender>(mGameObject[4]);
 	i->BindGameObject(nullptr);
+
+	auto colider = SphereCollider::Create();
+	auto pc = Factory::CreateRigidbody(mGameObject[0], mPhysicsWorld, colider);
+
 
 	return true;
 }
@@ -111,6 +120,8 @@ void EngineApp::UpdateScene(float dt)
 	// --------- 测试更新部分 -------------//
 	mGameObjectPool.Update();
 
+	//物理世界更新
+	mPhysicsWorld.StepWorld(dt);
 }
 
 void EngineApp::DrawScene()

@@ -44,7 +44,7 @@ public:
 	static GameObject* CreateGameObject();
 	static BatchMeshRender* CreateBatchMeshRender(GameObject* gameobject);
 	static MeshRender* CreateMeshRender(GameObject* gameobject);
-	static Rigidbody* CreateRigidbody(GameObject * gameObject, PhysicsWorld* world, ColliderPtr& collider, int mass = 1);
+	static Rigidbody* CreateRigidbody(GameObject * gameObject, PhysicsWorld& world, ColliderPtr& collider, int mass = 1);
 
 	template<class T>
 	static T* GetComponent(GameObject* gameobject);

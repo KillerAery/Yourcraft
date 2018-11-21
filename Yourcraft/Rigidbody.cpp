@@ -12,7 +12,7 @@ Rigidbody::~Rigidbody()
 //	mBody->setUserPointer(gameObject);
 }
 
-void Rigidbody::Init(GameObject* gameObject, PhysicsWorld* world, ColliderPtr& collider, int mass)
+void Rigidbody::Init(GameObject* gameObject, PhysicsWorld& world, const ColliderPtr& collider, int mass)
 {
 	Component::Init(gameObject);
 	mCollider = collider;
@@ -21,10 +21,11 @@ void Rigidbody::Init(GameObject* gameObject, PhysicsWorld* world, ColliderPtr& c
 	//惯性    　　　
 	btVector3 inertia;
 	//根据密度自动计算并设置惯性     
-	mCollider->GetShape()->calculateLocalInertia(mMass,inertia);
+	mCollider->GetShape()->calculateLocalInertia(mMass, inertia);
 
 	//生成物理刚体变换信息
-	mMotionState = btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 10, 0)));
+	auto pos = gameObject->GetPosition();
+	mMotionState = btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(pos.x, pos.y, pos.z)));
 
 	//生成物理刚体
 	mBody = btRigidBody(mMass, &mMotionState, mCollider->GetShape(), inertia);
@@ -32,5 +33,6 @@ void Rigidbody::Init(GameObject* gameObject, PhysicsWorld* world, ColliderPtr& c
 	//设置用户指针
 	mBody.setUserPointer(gameObject);
 	//将物理刚体 添加到 物理世界
-	world->GetWorld()->addRigidBody(&mBody);
+	world.GetWorld()->addRigidBody(&mBody);
 }
+

@@ -26,6 +26,11 @@ void Factory::SetPool(ObjectPool<MeshRender, 100>* pool)
 	sFactory.rMeshRenderPool = pool;
 }
 
+void Factory::SetPool(ObjectPool<Rigidbody, 100>* pool)
+{
+	sFactory.rRigidbodyPool = pool;
+}
+
 GameObject* Factory::CreateGameObject()
 {
 	return sFactory.rGameObjectPool->AddObject();
@@ -61,7 +66,7 @@ MeshRender* Factory::CreateMeshRender(GameObject* gameobject)
 	}
 }
 
-Rigidbody* Factory::CreateRigidbody(GameObject * gameobject, PhysicsWorld* world, ColliderPtr& collider, int mass)
+Rigidbody* Factory::CreateRigidbody(GameObject * gameobject, PhysicsWorld& world, ColliderPtr& collider, int mass)
 {
 	if (gameobject == nullptr)
 	{

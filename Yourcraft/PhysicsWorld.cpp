@@ -28,13 +28,13 @@ void PhysicsWorld::Init() {
 
 void PhysicsWorld::StepWorld(float dt) {
 	//模拟步长
-	mDynamicsWorld->stepSimulation(dt, 20);
+	mDynamicsWorld->stepSimulation(dt, 5);
 
 	auto & objectArray = mDynamicsWorld->getCollisionObjectArray();
 	//先清除待删除物理刚体
 	//待删除物理刚体的用户指针指向Entity::NoEntity作为待删除标记
-	for (int i = 0; i < objectArray.size();)
-	{
+	//for (int i = 0; i < objectArray.size();)
+	//{
 		//int entityState = reinterpret_cast<int>(objectArray[i]->getUserPointer());
 		//if (entityState == Entity::NoEntity) {
 		//	mDynamicsWorld->removeCollisionObject(objectArray[i]);
@@ -42,7 +42,7 @@ void PhysicsWorld::StepWorld(float dt) {
 		//else {
 		//	i++;
 		//}
-	}
+	//}
 
 	//更新物理世界每一个物理物体	
 	for (int i = 0; i < objectArray.size(); ++i)
@@ -58,6 +58,7 @@ void PhysicsWorld::StepWorld(float dt) {
 		const auto & rotationM = objectArray[i]->getWorldTransform().getRotation();
 		//object->SetRotation(Vector4f(rotationM.getX(), rotationM.getY(), rotationM.getZ(), rotationM.getW()));
 	}
+
 }
 
 btDiscreteDynamicsWorld* PhysicsWorld::GetWorld()const

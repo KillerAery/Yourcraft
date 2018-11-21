@@ -12,7 +12,9 @@ class Rigidbody :
 public:
 	Rigidbody();
 	~Rigidbody();
-	void Init(GameObject * gameObject,PhysicsWorld* world, ColliderPtr& collider ,int mass = 1);
+
+	void Init(GameObject * gameObject,PhysicsWorld& world, const ColliderPtr& collider ,int mass = 1);
+
 protected:
 	//ŒÔ¿Ì∏’ÃÂ
 	btRigidBody mBody;
