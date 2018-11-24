@@ -28,7 +28,7 @@ void PhysicsWorld::Init() {
 
 void PhysicsWorld::StepWorld(float dt) {
 	//模拟步长
-	mDynamicsWorld->stepSimulation(dt, 5);
+	mDynamicsWorld->stepSimulation(dt, 10);
 
 	auto & objectArray = mDynamicsWorld->getCollisionObjectArray();
 	//先清除待删除物理刚体
