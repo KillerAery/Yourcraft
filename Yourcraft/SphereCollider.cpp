@@ -9,7 +9,11 @@ SphereCollider::SphereCollider(float radius)
 
 SphereCollider::~SphereCollider()
 {
-
+	if (mShape)
+	{
+		delete mShape;
+		mShape = nullptr;
+	}
 }
 
 ColliderPtr SphereCollider::Create(float radius)

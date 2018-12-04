@@ -8,7 +8,7 @@ class SphereCollider :
 {
 public:
 	SphereCollider(float radius = 1.0f);
-	virtual ~SphereCollider();
+	~SphereCollider();
 	static ColliderPtr Create(float radius = 1.0f);
 protected:
 	float mRadius;

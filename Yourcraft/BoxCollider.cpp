@@ -13,7 +13,11 @@ BoxCollider::BoxCollider(float halfwidth, float halfheigth, float halfdepth)
 
 BoxCollider::~BoxCollider()
 {
-
+	if (mShape)
+	{
+		delete mShape;
+		mShape = nullptr;
+	}
 }
 
 ColliderPtr BoxCollider::Create(float halfwidth, float halfheigth, float halfdepth)

@@ -28,10 +28,10 @@ public:
 	const Vector3& GetScale();
 	const Vector3& GetWorldScale();
 
-	//void SetRotation();
-	//void SetWorldRotation();
-	//const Vector3& GetRotation();
-	//Vector3 GetWorldRotation();
+	void SetRotation(const Vector4& quaternion);
+	void SetWorldRotation(const Vector4& quaternion);
+	const Vector4& GetRotation();
+	const Vector4& GetWorldRotation();
 
 	void CaculateWorldMatrix();
 
@@ -48,7 +48,7 @@ public:
 private:
 	void PositionChanged();
 	void ScaleChanged();
-	//void RotationChanged();
+	void RotationChanged();
 	void SetChildrenIsAliveAndEnabled();
 protected:
 	Vector3 mPosition;

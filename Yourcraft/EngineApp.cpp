@@ -2,6 +2,7 @@
 #include "Factory.h"
 #include <SimpleMath.h>
 #include "d3dUtil.h"
+#include "BoxCollider.h"
 #include "SphereCollider.h"
 
 using namespace DirectX;
@@ -53,20 +54,16 @@ bool EngineApp::Init()
 	for(int i =0;i<10;++i)
 	{
 		mGameObject[i] = Factory::CreateGameObject();
-		mGameObject[i]->SetPosition(Vector3(0, 400-80*i, 700));
+		mGameObject[i]->SetPosition(Vector3(0, 400-80*i, 700+i*12.0f));
 		mGameObject[i]->SetScale(Vector3(0.2, 0.2, 0.2));
 		mWorld->AddChild(mGameObject[i]);
-		mMeshRender = Factory::CreateMeshRender(mGameObject[i]);
-		mMeshRender->SetModel(Model(md3dDevice, mObjReader));
-		//br->BindGameObject(mGameObject[i]);
+		//mMeshRender = Factory::CreateMeshRender(mGameObject[i]);
+		//mMeshRender->SetModel(Model(md3dDevice, mObjReader));
+		br->BindGameObject(mGameObject[i]);
+
+		auto colider = BoxCollider::Create(30.0f,30.0f,30.0f);
+		auto pc = Factory::CreateRigidbody(mGameObject[i], mPhysicsWorld, colider);
 	}
-
-	auto i = Factory::GetComponent<MeshRender>(mGameObject[4]);
-	i->BindGameObject(nullptr);
-
-	auto colider = SphereCollider::Create();
-	auto pc = Factory::CreateRigidbody(mGameObject[0], mPhysicsWorld, colider);
-
 
 	return true;
 }
@@ -158,7 +155,6 @@ void EngineApp::DrawScene()
 	HR(md2dRenderTarget->EndDraw());
 
 	HR(mSwapChain->Present(0, 0));
-
 }
 
 bool EngineApp::InitResource()
@@ -171,7 +167,7 @@ bool EngineApp::InitResource()
 	// ³õÊ¼»¯ÉãÏñ»ú
 	//
 	mCameraMode = CameraMode::FirstPerson;
-	auto camera = std::shared_ptr<FirstPersonCamera>(new FirstPersonCamera);
+	auto camera = std::make_shared<FirstPersonCamera>();
 	mCamera = camera;
 	camera->SetViewPort(0.0f, 0.0f, (float)mClientWidth, (float)mClientHeight);
 	camera->SetFrustum(XM_PI / 3, AspectRatio(), 1.0f, 1000.0f);

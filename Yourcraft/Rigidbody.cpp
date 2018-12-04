@@ -35,4 +35,3 @@ void Rigidbody::Init(GameObject* gameObject, PhysicsWorld& world, const Collider
 	//将物理刚体 添加到 物理世界
 	world.GetWorld()->addRigidBody(&mBody);
 }
-

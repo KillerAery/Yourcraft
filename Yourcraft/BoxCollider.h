@@ -9,7 +9,7 @@ class BoxCollider :
 {
 public:
 	BoxCollider(float halfwidth = 0.5f, float halfheigth = 0.5f, float halfdepth = 0.5f);
-	virtual ~BoxCollider();
+	~BoxCollider();
 	static ColliderPtr Create(float halfwidth = 0.5f, float halfheigth = 0.5f, float halfdepth = 0.5f);
 protected:
 	float mWidth;

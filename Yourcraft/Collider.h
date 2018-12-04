@@ -8,7 +8,7 @@ class Collider
 {
 public:
 	Collider();
-	virtual ~Collider() = 0;
+	~Collider();
 	btCollisionShape* GetShape()const;
 protected:
 	btCollisionShape* mShape;

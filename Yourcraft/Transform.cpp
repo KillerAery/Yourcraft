@@ -34,8 +34,8 @@ void Transform::Init()
 	mWorldPosition = Vector3(0, 0, 0);
 	mScale = Vector3(1, 1, 1);
 	mWorldScale = Vector3(1, 1, 1);
-	mRotation = Vector4(0, 0, 0, 0);
-	mWorldRotation = Vector4(0, 0, 0, 0);
+	mRotation = Vector4(0, 0, 0, 1);
+	mWorldRotation = Vector4(0, 0, 0, 1);
 	mWorldMatrix = DirectX::XMFLOAT4X4(
 		1.0f, 0.0f, 0.0f, 0.0f,
 		0.0f, 1.0f, 0.0f, 0.0f,
@@ -141,6 +141,32 @@ const Vector3& Transform::GetScale()
 const Vector3& Transform::GetWorldScale()
 {
 	return mWorldScale;
+}
+
+void Transform::SetRotation(const Vector4 & quaternion)
+{
+	mRotation = quaternion;
+	mWorldRotation = quaternion;
+	RotationChanged();
+}
+
+void Transform::SetWorldRotation(const Vector4 & quaternion)
+{
+	//if (mParent)mRotation = quaternion / mParent->mWorldRotation;
+	//else mRotation = quaternion;
+
+	//mWorldRotation = quaternion;
+	//RotationChanged();
+}
+
+const Vector4 & Transform::GetRotation()
+{
+	return mRotation;
+}
+
+const Vector4 & Transform::GetWorldRotation()
+{
+	return mWorldRotation;
 }
 
 void Transform::CaculateWorldMatrix()
@@ -287,6 +313,22 @@ void Transform::ScaleChanged()
 	}
 }
 
+
+//旋转属性发生改变
+void Transform::RotationChanged()
+{
+	mChanged = true;
+	//所有孩子的旋转属性也会发生改变 
+	auto itr = mChildren;
+	while (itr != nullptr)
+	{	//更新孩子的旋转属性
+		itr->SetWorldRotation(itr->GetRotation() * mWorldRotation);
+		itr->RotationChanged();
+		itr = itr->mNext;
+	}
+}
+
+
 void Transform::SetChildrenIsAliveAndEnabled(){
 	bool isParentAlive = this->IsAlive();
 	bool isParentEnabled = this->IsEnabled();
@@ -299,18 +341,4 @@ void Transform::SetChildrenIsAliveAndEnabled(){
 		itr = itr->mNext;
 	}
 }
-
-////旋转属性发生改变
-//void Transform::RotationChanged()
-//{
-//	mChanged = true;
-//	//所有孩子的旋转属性也会发生改变 
-//	auto itr = mChildren;
-//	while (itr != nullptr)
-//	{	//更新孩子的旋转属性
-//		itr->SetWorldRotation(itr->GetPosition()  mWorldPosition);
-//		itr->RotationChanged();
-//		itr = itr->mNext;
-//	}
-//}
 

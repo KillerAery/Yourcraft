@@ -15,7 +15,7 @@ public:
 	using ComPtr = Microsoft::WRL::ComPtr<T>;
 public:
 	CSkyRender();
-	virtual ~CSkyRender();
+	~CSkyRender();
 protected:
 	ComPtr<ID3D11Buffer> mVertexBuffer;
 	ComPtr<ID3D11Buffer> mIndexBuffer;

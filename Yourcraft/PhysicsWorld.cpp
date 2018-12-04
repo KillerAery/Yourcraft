@@ -1,25 +1,33 @@
 #include "PhysicsWorld.h"
 #include "Transform.h"
 
-PhysicsWorld::PhysicsWorld()
-{
+#define SAFE_DELETE_PTR(ptr) do{if(ptr){delete ptr;ptr = nullptr;}}while(0);
+
+PhysicsWorld::PhysicsWorld(){
+
 }
 
 PhysicsWorld::~PhysicsWorld() {
+	SAFE_DELETE_PTR(mBroadphase);
+	SAFE_DELETE_PTR(mCollisionConfiguration);
+	SAFE_DELETE_PTR(mDispatcher);
+	SAFE_DELETE_PTR(mSolver);
+	SAFE_DELETE_PTR(mGroundbody);
+	//SAFE_DELETE_PTR(mDynamicsWorld);
 }
 
 void PhysicsWorld::Init() {
 	btVector3 worldAabbMin(-10000, -10000, -10000);
 	btVector3 worldAabbMax(10000, 10000, 10000);
 	int maxProxies = 1024;
-	mBroadphase = std::make_shared<btAxisSweep3>(worldAabbMin, worldAabbMax, maxProxies);
+	mBroadphase = new btAxisSweep3(worldAabbMin, worldAabbMax, maxProxies);
 	// 设置好碰撞属性 和调度 
-	mCollisionConfiguration = std::make_shared<btDefaultCollisionConfiguration>();
-	mDispatcher = std::make_shared<btCollisionDispatcher>(mCollisionConfiguration.operator->());
+	mCollisionConfiguration = new btDefaultCollisionConfiguration();
+	mDispatcher = new btCollisionDispatcher(mCollisionConfiguration);
 	// 实际上的物理模拟器
-	mSolver = std::make_shared<btSequentialImpulseConstraintSolver>();
+	mSolver = new btSequentialImpulseConstraintSolver();
 	//世界
-	mDynamicsWorld = std::make_shared<btDiscreteDynamicsWorld>(mDispatcher.get(), mBroadphase.get(), mSolver.get(), mCollisionConfiguration.get());
+	mDynamicsWorld = new btDiscreteDynamicsWorld(mDispatcher, mBroadphase, mSolver,mCollisionConfiguration);
 	//世界重力
 	mDynamicsWorld->setGravity(btVector3(0, -10, 0));
 	//创建地面
@@ -54,27 +62,26 @@ void PhysicsWorld::StepWorld(float dt) {
 		//更新目标物体的位置
 		const auto & pos = objectArray[i]->getWorldTransform().getOrigin();
 		object->SetPosition(Vector3(pos.x(), pos.y(), pos.z()));
+
 		//更新目标物体的旋转角度
 		const auto & rotationM = objectArray[i]->getWorldTransform().getRotation();
-		//object->SetRotation(Vector4f(rotationM.getX(), rotationM.getY(), rotationM.getZ(), rotationM.getW()));
+		object->SetRotation(Vector4(rotationM.getX(), rotationM.getY(), rotationM.getZ(), rotationM.getW()));
 	}
 
 }
 
 btDiscreteDynamicsWorld* PhysicsWorld::GetWorld()const
 {
-	return mDynamicsWorld.get();
+	return mDynamicsWorld;
 }
 
 void PhysicsWorld::CreateGround() {
 	//地面刚体 设置
-	//mGroundShape = new btStaticPlaneShape(btVector3(0, 1, 0), 1);
-	auto a = new btCollisionObject();
-	mGroundShape = std::make_shared<btBoxShape>(btVector3(8.8f, 1.0f, 8.8f));
-	mGroundMotionState = std::make_shared<btDefaultMotionState>(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, -1, 0)));
-	btRigidBody::btRigidBodyConstructionInfo groundRigidBodyCI(0, mGroundMotionState.get(), mGroundShape.get(), btVector3(0, 0, 0));
-	mGroundbody = std::make_shared<btRigidBody>(groundRigidBodyCI);
+	mGroundShape =new btStaticPlaneShape(btVector3(0, 1, 0), 0);
+	mGroundMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, -300, 0)));
+	btRigidBody::btRigidBodyConstructionInfo groundRigidBodyCI(0, mGroundMotionState, mGroundShape, btVector3(0, 0, 0));
+	mGroundbody = new btRigidBody(groundRigidBodyCI);
 	mGroundbody->setFriction(10.0f);
 	//将地面刚体添加到 物理世界
-	mDynamicsWorld->addRigidBody(mGroundbody.get());
+	mDynamicsWorld->addRigidBody(mGroundbody);
 }
