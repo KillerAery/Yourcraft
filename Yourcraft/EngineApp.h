@@ -13,6 +13,7 @@
 #include "MeshRender.h"
 #include "Rigidbody.h"
 #include "PhysicsWorld.h"
+#include "SkyRender.h"
 
 class EngineApp :public D3DApp
 {
@@ -30,6 +31,7 @@ protected:
 	ComPtr<IDWriteFont> mFont;								// 字体
 	ComPtr<IDWriteTextFormat> mTextFormat;					// 文本格式
 	BasicEffect mBasicEffect;								// 对象渲染特效管理
+	SkyEffect mSkyEffect;									// 天空渲染特效管理
 	std::shared_ptr<Camera> mCamera;						// 摄像机
 	CameraMode mCameraMode;									// 摄像机模式
 	ObjReader mObjReader;									// 模型读取对象
@@ -41,9 +43,12 @@ protected:
 	ObjectPool<BatchMeshRender,10> mBatchMeshRenderPool;
 	ObjectPool<MeshRender, 100> mMeshRenderPool;
 	ObjectPool<Rigidbody, 100> mRigidbodyPool;
+	ObjectPool<SkyRender, 3> mSkyRenderPool;
 
 	GameObject* mWorld;
 	GameObject* mGameObject[10];
+
+	GameObject* mSky;
 	MeshRender* mMeshRender;
 };
 

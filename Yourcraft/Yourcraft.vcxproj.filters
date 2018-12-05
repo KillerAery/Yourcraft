@@ -130,14 +130,8 @@
     <ClCompile Include="DirectX11\SkyEffect.cpp">
       <Filter>图形库框架层\DirectX11</Filter>
     </ClCompile>
-    <ClCompile Include="DirectX11\SkyRender.cpp">
-      <Filter>图形库框架层\DirectX11</Filter>
-    </ClCompile>
     <ClCompile Include="DirectX11\d3dUtil.cpp">
       <Filter>图形库框架层\DirectX11</Filter>
-    </ClCompile>
-    <ClCompile Include="CSkyRender.cpp">
-      <Filter>引擎框架层\对象类\组件类\渲染组件</Filter>
     </ClCompile>
     <ClCompile Include="TextruePool.cpp">
       <Filter>引擎框架层</Filter>
@@ -156,6 +150,12 @@
     </ClCompile>
     <ClCompile Include="BoxCollider.cpp">
       <Filter>引擎框架层\对象类\组件类\物理组件\刚体组件\碰撞体</Filter>
+    </ClCompile>
+    <ClCompile Include="BatchRender.cpp">
+      <Filter>引擎框架层\对象类\组件类\渲染组件</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyRender.cpp">
+      <Filter>引擎框架层\对象类\组件类\渲染组件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -231,12 +231,6 @@
     <ClInclude Include="BatchMeshRender.h">
       <Filter>引擎框架层\对象类\组件类\渲染组件</Filter>
     </ClInclude>
-    <ClInclude Include="DirectX11\SkyRender.h">
-      <Filter>图形库框架层\DirectX11</Filter>
-    </ClInclude>
-    <ClInclude Include="CSkyRender.h">
-      <Filter>引擎框架层\对象类\组件类\渲染组件</Filter>
-    </ClInclude>
     <ClInclude Include="TextruePool.h">
       <Filter>引擎框架层</Filter>
     </ClInclude>
@@ -257,6 +251,12 @@
     </ClInclude>
     <ClInclude Include="BoxCollider.h">
       <Filter>引擎框架层\对象类\组件类\物理组件\刚体组件\碰撞体</Filter>
+    </ClInclude>
+    <ClInclude Include="BatchRender.h">
+      <Filter>引擎框架层\对象类\组件类\渲染组件</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyRender.h">
+      <Filter>引擎框架层\对象类\组件类\渲染组件</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

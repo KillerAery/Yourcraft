@@ -39,15 +39,6 @@ void MeshRender::Update(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect &
 	}
 }
 
-void MeshRender::BindGameObject(GameObject* object)
-{
-	mGameObject = object;
-}
-
-void MeshRender::UnbindGameObject()
-{
-	mGameObject = nullptr;
-}
 
 void MeshRender::SetModel(Model&& model)
 {

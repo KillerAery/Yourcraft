@@ -11,7 +11,8 @@ public:
 	void Init(GameObject* gameObject);
 	virtual bool IsAlive();
 	virtual bool IsEnabled();
-	void SetGameObject(GameObject* gameObject);
+	void BindGameObject(GameObject* gameObject);
+	void UnbindGameObject();
 	GameObject* GetGameObject()const;
 protected:
 	~Component();

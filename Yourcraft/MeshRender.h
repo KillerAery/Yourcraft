@@ -16,8 +16,6 @@ public:
 	void Init(GameObject* gameObject);
 
 	void Update(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect);
-	void BindGameObject(GameObject* gameObject);
-	void UnbindGameObject();
 	void SetModel(Model&& model);
 	void SetModel(const Model& model);
 	const Model& GetModel()const;

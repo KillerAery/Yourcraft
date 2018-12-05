@@ -31,6 +31,11 @@ void Factory::SetPool(ObjectPool<Rigidbody, 100>* pool)
 	sFactory.rRigidbodyPool = pool;
 }
 
+void Factory::SetPool(ObjectPool<SkyRender, 3>* pool)
+{
+	sFactory.rSkyRenderPool = pool;
+}
+
 GameObject* Factory::CreateGameObject()
 {
 	return sFactory.rGameObjectPool->AddObject();
@@ -77,6 +82,21 @@ Rigidbody* Factory::CreateRigidbody(GameObject * gameobject, PhysicsWorld& world
 		auto component = sFactory.rRigidbodyPool->AddObject(gameobject,world,collider,mass);
 		int index = sFactory.rRigidbodyPool->GetIndexByPointer(component);
 		gameobject->AddComponentInfor(static_cast<int>(ComponentType::Rigidbody), index);
+		return component;
+	}
+}
+
+SkyRender * Factory::CreateSkyRender(GameObject * gameObject, ComPtr<ID3D11Device> device, ComPtr<ID3D11DeviceContext> deviceContext, const std::wstring & cubemapFilename, float skySphereRadius, bool generateMips)
+{
+	if (gameObject == nullptr)
+	{
+		return nullptr;
+	}
+	else
+	{
+		auto component = sFactory.rSkyRenderPool->AddObject(gameObject, device,deviceContext,cubemapFilename,skySphereRadius, generateMips);
+		int index = sFactory.rSkyRenderPool->GetIndexByPointer(component);
+		gameObject->AddComponentInfor(static_cast<int>(ComponentType::SkyRender), index);
 		return component;
 	}
 }

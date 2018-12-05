@@ -31,9 +31,14 @@ GameObject* Component::GetGameObject() const
 	return mGameObject;
 }
 
-void Component::SetGameObject(GameObject * gameObject)
+void Component::BindGameObject(GameObject * gameObject)
 {
 	mGameObject = gameObject;
+}
+
+void Component::UnbindGameObject()
+{
+	mGameObject = nullptr;
 }
 
 

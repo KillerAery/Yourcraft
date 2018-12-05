@@ -16,14 +16,14 @@ BatchMeshRender::~BatchMeshRender()
 }
 void BatchMeshRender::Init(GameObject* object)
 {
-	Render::Init(object);
+	BatchRender::Init(object);
 	mGameObjects.clear();
 	this->BindGameObject(object);
 }
 
 //存活条件：自身存活 或者 存在寄生的活游戏对象时
 bool BatchMeshRender::IsAlive(){
-	if(Render::IsAlive())return true;
+	if(BatchRender::IsAlive())return true;
 	for(auto tf : mGameObjects)
 	{
 		if (tf->IsAlive()) { return true; }
@@ -33,7 +33,7 @@ bool BatchMeshRender::IsAlive(){
 
 bool BatchMeshRender::IsEnabled()
 {
-	if (Render::IsEnabled())return true;
+	if (BatchRender::IsEnabled())return true;
 	for (auto tf : mGameObjects)
 	{
 		if (tf->IsEnabled()) { return true; }
@@ -88,23 +88,6 @@ void BatchMeshRender::Update(ComPtr<ID3D11DeviceContext> deviceContext, BasicEff
 
 		deviceContext->DrawIndexedInstanced(part.indexCount, numInsts, 0, 0, 0);
 	}
-}
-
-void BatchMeshRender::BindGameObject(GameObject* object)
-{
-	if(object)
-		mGameObjects.insert(object);
-}
-
-bool BatchMeshRender::UnbindGameObject(GameObject* object)
-{
-	auto toDelete = mGameObjects.find(object);
-	//若没找到要删除的目标，则返还失败
-	if (toDelete == mGameObjects.end()) {
-		return false;
-	}
-	mGameObjects.erase(toDelete);
-	return true;
 }
 
 void BatchMeshRender::SetModel(Model&& model)

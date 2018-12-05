@@ -23,7 +23,13 @@ bool EngineApp::Init()
 	if (!D3DApp::Init())
 		return false;
 
+	// 务必先初始化所有渲染状态，以供下面的特效使用
+	RenderStates::InitAll(md3dDevice);
+
 	if (!mBasicEffect.InitAll(md3dDevice))
+		return false;
+
+	if (!mSkyEffect.InitAll(md3dDevice))
 		return false;
 
 	if (!InitResource())
@@ -42,6 +48,7 @@ bool EngineApp::Init()
 	Factory::SetPool(&mBatchMeshRenderPool);
 	Factory::SetPool(&mMeshRenderPool);
 	Factory::SetPool(&mRigidbodyPool);
+	Factory::SetPool(&mSkyRenderPool);
 
 	mWorld = Factory::CreateGameObject();
 	mWorld->BecomeRoot();
@@ -64,6 +71,11 @@ bool EngineApp::Init()
 		auto colider = BoxCollider::Create(30.0f,30.0f,30.0f);
 		auto pc = Factory::CreateRigidbody(mGameObject[i], mPhysicsWorld, colider);
 	}
+
+	mSky = Factory::CreateGameObject();
+	mWorld->AddChild(mSky);
+	auto skyrender = Factory::CreateSkyRender(mSky,md3dDevice, md3dImmediateContext,L"Texture\\daylight.jpg",5000.0f);
+	//skyrender->UnbindGameObject();
 
 	return true;
 }
@@ -143,6 +155,10 @@ void EngineApp::DrawScene()
 	mBasicEffect.SetTextureUsed(true);	// 绘制纹理
 	// 批量网格渲染组件 全部渲染
 	mBatchMeshRenderPool.Update(md3dImmediateContext, mBasicEffect);
+
+	//--------- 绘制天空盒 --------------//
+	mSkyEffect.SetRenderDefault(md3dImmediateContext);
+	mSkyRenderPool.Update(md3dImmediateContext, mSkyEffect,*mCamera);
 
 	// ******************
 	// 绘制Direct2D部分

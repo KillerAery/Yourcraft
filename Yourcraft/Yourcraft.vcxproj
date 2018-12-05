@@ -20,10 +20,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BatchMeshRender.cpp" />
+    <ClCompile Include="BatchRender.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Component.cpp" />
-    <ClCompile Include="CSkyRender.cpp" />
+    <ClCompile Include="SkyRender.cpp" />
     <ClCompile Include="DirectX11\BasicEffect.cpp" />
     <ClCompile Include="DirectX11\Camera.cpp" />
     <ClCompile Include="DirectX11\Collision.cpp" />
@@ -31,7 +32,6 @@
     <ClCompile Include="DirectX11\d3dUtil.cpp" />
     <ClCompile Include="DirectX11\dxerr.cpp" />
     <ClCompile Include="DirectX11\SkyEffect.cpp" />
-    <ClCompile Include="DirectX11\SkyRender.cpp" />
     <ClCompile Include="DirectX11\GameTimer.cpp" />
     <ClCompile Include="DirectX11\MeshData.cpp" />
     <ClCompile Include="DirectX11\Model.cpp" />
@@ -53,10 +53,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BatchMeshRender.h" />
+    <ClInclude Include="BatchRender.h" />
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Component.h" />
-    <ClInclude Include="CSkyRender.h" />
+    <ClInclude Include="SkyRender.h" />
     <ClInclude Include="DirectX11\Camera.h" />
     <ClInclude Include="DirectX11\Collision.h" />
     <ClInclude Include="DirectX11\d3dApp.h" />
@@ -64,7 +65,6 @@
     <ClInclude Include="DirectX11\dxerr.h" />
     <ClInclude Include="DirectX11\EffectHelper.h" />
     <ClInclude Include="DirectX11\Effects.h" />
-    <ClInclude Include="DirectX11\SkyRender.h" />
     <ClInclude Include="DirectX11\GameTimer.h" />
     <ClInclude Include="DirectX11\LightHelper.h" />
     <ClInclude Include="DirectX11\MeshData.h" />
