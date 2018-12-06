@@ -1,4 +1,5 @@
 #include "Factory.h"
+#include "ComponentHelper.h"
 
 Factory Factory::sFactory = Factory();
 
@@ -9,6 +10,11 @@ Factory::Factory()
 
 Factory::~Factory()
 {
+}
+
+void Factory::SetPhysicsWorld(PhysicsWorld * world)
+{
+	sFactory.rPhysicsWorld = world;
 }
 
 void Factory::SetPool(ObjectPool<GameObject, 500>* pool)
@@ -36,24 +42,27 @@ void Factory::SetPool(ObjectPool<SkyRender, 3>* pool)
 	sFactory.rSkyRenderPool = pool;
 }
 
+void Factory::SetDevice(ComPtr<ID3D11Device> device)
+{
+	sFactory.rDevice = device;
+}
+
+void Factory::SetDeviceContext(ComPtr<ID3D11DeviceContext> deviceContext)
+{
+	sFactory.rDeviceContext = deviceContext;
+}
+
 GameObject* Factory::CreateGameObject()
 {
 	return sFactory.rGameObjectPool->AddObject();
 }
 
-BatchMeshRender* Factory::CreateBatchMeshRender(GameObject* gameobject)
+BatchMeshRender* Factory::CreateBatchMeshRender()
 {
-	if(gameobject == nullptr)
-	{
-		return sFactory.rBatchMeshRenderPool->AddObject(nullptr);
-	}
-	else
-	{
-		auto component = sFactory.rBatchMeshRenderPool->AddObject(gameobject);
-		int index = sFactory.rBatchMeshRenderPool->GetIndexByPointer(component);
-		gameobject->AddComponentInfor(static_cast<int>(ComponentType::BatchMeshRender), index);
-		return component;
-	}
+	auto component = sFactory.rBatchMeshRenderPool->AddObject();
+	int index = sFactory.rBatchMeshRenderPool->GetIndexByPointer(component);
+	component->SetIndex_WARNING(index);
+	return component;
 }
 
 MeshRender* Factory::CreateMeshRender(GameObject* gameobject)
@@ -66,12 +75,13 @@ MeshRender* Factory::CreateMeshRender(GameObject* gameobject)
 	{
 		auto component = sFactory.rMeshRenderPool->AddObject(gameobject);
 		int index = sFactory.rMeshRenderPool->GetIndexByPointer(component);
+		component->SetIndex_WARNING(index);
 		gameobject->AddComponentInfor(static_cast<int>(ComponentType::MeshRender), index);
 		return component;
 	}
 }
 
-Rigidbody* Factory::CreateRigidbody(GameObject * gameobject, PhysicsWorld& world, ColliderPtr& collider, int mass)
+Rigidbody* Factory::CreateRigidbody(GameObject * gameobject, ColliderPtr& collider, int mass)
 {
 	if (gameobject == nullptr)
 	{
@@ -79,14 +89,15 @@ Rigidbody* Factory::CreateRigidbody(GameObject * gameobject, PhysicsWorld& world
 	}
 	else
 	{
-		auto component = sFactory.rRigidbodyPool->AddObject(gameobject,world,collider,mass);
+		auto component = sFactory.rRigidbodyPool->AddObject(gameobject,*sFactory.rPhysicsWorld,collider,mass);
 		int index = sFactory.rRigidbodyPool->GetIndexByPointer(component);
+		component->SetIndex_WARNING(index);
 		gameobject->AddComponentInfor(static_cast<int>(ComponentType::Rigidbody), index);
 		return component;
 	}
 }
 
-SkyRender * Factory::CreateSkyRender(GameObject * gameObject, ComPtr<ID3D11Device> device, ComPtr<ID3D11DeviceContext> deviceContext, const std::wstring & cubemapFilename, float skySphereRadius, bool generateMips)
+SkyRender * Factory::CreateSkyRender(GameObject * gameObject, const std::wstring & cubemapFilename, float skySphereRadius, bool generateMips)
 {
 	if (gameObject == nullptr)
 	{
@@ -94,8 +105,9 @@ SkyRender * Factory::CreateSkyRender(GameObject * gameObject, ComPtr<ID3D11Devic
 	}
 	else
 	{
-		auto component = sFactory.rSkyRenderPool->AddObject(gameObject, device,deviceContext,cubemapFilename,skySphereRadius, generateMips);
+		auto component = sFactory.rSkyRenderPool->AddObject(gameObject,sFactory.rDevice,sFactory.rDeviceContext,cubemapFilename,skySphereRadius, generateMips);
 		int index = sFactory.rSkyRenderPool->GetIndexByPointer(component);
+		component->SetIndex_WARNING(index);
 		gameObject->AddComponentInfor(static_cast<int>(ComponentType::SkyRender), index);
 		return component;
 	}

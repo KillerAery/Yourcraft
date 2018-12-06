@@ -31,6 +31,9 @@ public:
 		float skySphereRadius,
 		bool generateMips = false);
 
+	void BindGameObject(GameObject * gameObject);
+	void UnbindGameObject();
+
 	void Update(ComPtr<ID3D11DeviceContext> deviceContext, SkyEffect& skyEffect, const Camera& camera);
 private:
 	void InitResource(ComPtr<ID3D11Device> device, float skySphereRadius);

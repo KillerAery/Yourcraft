@@ -11,13 +11,13 @@ public:
 	void Init(GameObject* gameObject);
 	virtual bool IsAlive();
 	virtual bool IsEnabled();
-	void BindGameObject(GameObject* gameObject);
-	void UnbindGameObject();
 	GameObject* GetGameObject()const;
+	//设置在对象池的index,仅供factory使用，但是懒得写一堆friend了,靠命名警告吧
+	void SetIndex_WARNING(int index);
 protected:
 	~Component();
 protected:
 	GameObject* mGameObject;
-	
+	int mIndex;
 };
 

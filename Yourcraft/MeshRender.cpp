@@ -1,8 +1,13 @@
 #include "MeshRender.h"
+#include "ComponentHelper.h"
 
 using namespace DirectX;
 
 MeshRender::MeshRender()
+{
+}
+
+MeshRender::~MeshRender()
 {
 }
 
@@ -13,9 +18,26 @@ void MeshRender::Init(GameObject* object)
 
 }
 
-MeshRender::~MeshRender()
+void MeshRender::BindGameObject(GameObject * gameObject)
 {
+	if (mGameObject) {
+		UnbindGameObject();
+	}
+	if (gameObject) {
+		mGameObject = gameObject;
+		mGameObject->AddComponentInfor(static_cast<int>(ComponentType::MeshRender),mIndex);
+	}
 }
+
+void MeshRender::UnbindGameObject()
+{
+	if (mGameObject) {
+		mGameObject->RemoveComponentInfor(static_cast<int>(ComponentType::MeshRender));
+		mGameObject = nullptr;
+	}
+}
+
+
 
 void MeshRender::Update(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect)
 {

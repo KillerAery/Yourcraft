@@ -1,4 +1,5 @@
 #include "BatchMeshRender.h"
+#include "ComponentHelper.h"
 using namespace DirectX;
 
 struct InstancedData
@@ -14,11 +15,36 @@ BatchMeshRender::BatchMeshRender()
 BatchMeshRender::~BatchMeshRender()
 {
 }
-void BatchMeshRender::Init(GameObject* object)
+void BatchMeshRender::Init()
 {
-	BatchRender::Init(object);
+	BatchRender::Init(nullptr);
 	mGameObjects.clear();
-	this->BindGameObject(object);
+}
+
+void BatchMeshRender::BindGameObject(GameObject* object)
+{
+	if (object) {
+		auto toBind = mGameObjects.find(object);
+		//若没找到要删除的目标，则添加
+		if (toBind == mGameObjects.end()) {
+			mGameObjects.insert(object);
+			object->AddComponentInfor(static_cast<int>(ComponentType::BatchMeshRender), mIndex);
+		}
+	}
+}
+
+
+bool BatchMeshRender::UnbindGameObject(GameObject* object)
+{
+	auto toDelete = mGameObjects.find(object);
+	//若没找到要删除的目标，则返还失败
+	if (toDelete == mGameObjects.end()) {
+		return false;
+	}
+	(*toDelete)->RemoveComponentInfor(static_cast<int>(ComponentType::BatchMeshRender));
+	mGameObjects.erase(toDelete);
+
+	return true;
 }
 
 //存活条件：自身存活 或者 存在寄生的活游戏对象时
@@ -101,7 +127,6 @@ void BatchMeshRender::SetModel(const Model& model)
 {
 	mModel = model;
 }
-
 
 void BatchMeshRender::ResizeBuffer(ComPtr<ID3D11Device> device, size_t count)
 {	

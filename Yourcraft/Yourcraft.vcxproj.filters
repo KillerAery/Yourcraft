@@ -62,6 +62,9 @@
     <Filter Include="引擎框架层\对象类\组件类\物理组件\刚体组件\碰撞体">
       <UniqueIdentifier>{b519f527-b3f5-4748-bd1e-aab4fd171cea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="引擎框架层\对象类\组件类\渲染组件\基类">
+      <UniqueIdentifier>{c21e6b12-5843-4842-888f-51290c9d01d3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Transform.cpp">
@@ -69,9 +72,6 @@
     </ClCompile>
     <ClCompile Include="Component.cpp">
       <Filter>引擎框架层\对象类\组件类</Filter>
-    </ClCompile>
-    <ClCompile Include="Render.cpp">
-      <Filter>引擎框架层\对象类\组件类\渲染组件</Filter>
     </ClCompile>
     <ClCompile Include="MeshRender.cpp">
       <Filter>引擎框架层\对象类\组件类\渲染组件</Filter>
@@ -151,19 +151,19 @@
     <ClCompile Include="BoxCollider.cpp">
       <Filter>引擎框架层\对象类\组件类\物理组件\刚体组件\碰撞体</Filter>
     </ClCompile>
-    <ClCompile Include="BatchRender.cpp">
-      <Filter>引擎框架层\对象类\组件类\渲染组件</Filter>
-    </ClCompile>
     <ClCompile Include="SkyRender.cpp">
       <Filter>引擎框架层\对象类\组件类\渲染组件</Filter>
+    </ClCompile>
+    <ClCompile Include="Render.cpp">
+      <Filter>引擎框架层\对象类\组件类\渲染组件\基类</Filter>
+    </ClCompile>
+    <ClCompile Include="BatchRender.cpp">
+      <Filter>引擎框架层\对象类\组件类\渲染组件\基类</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Transform.h">
       <Filter>引擎框架层\对象类\变换类</Filter>
-    </ClInclude>
-    <ClInclude Include="Render.h">
-      <Filter>引擎框架层\对象类\组件类\渲染组件</Filter>
     </ClInclude>
     <ClInclude Include="MeshRender.h">
       <Filter>引擎框架层\对象类\组件类\渲染组件</Filter>
@@ -252,11 +252,17 @@
     <ClInclude Include="BoxCollider.h">
       <Filter>引擎框架层\对象类\组件类\物理组件\刚体组件\碰撞体</Filter>
     </ClInclude>
-    <ClInclude Include="BatchRender.h">
-      <Filter>引擎框架层\对象类\组件类\渲染组件</Filter>
-    </ClInclude>
     <ClInclude Include="SkyRender.h">
       <Filter>引擎框架层\对象类\组件类\渲染组件</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentHelper.h">
+      <Filter>引擎框架层\对象类\组件类</Filter>
+    </ClInclude>
+    <ClInclude Include="Render.h">
+      <Filter>引擎框架层\对象类\组件类\渲染组件\基类</Filter>
+    </ClInclude>
+    <ClInclude Include="BatchRender.h">
+      <Filter>引擎框架层\对象类\组件类\渲染组件\基类</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

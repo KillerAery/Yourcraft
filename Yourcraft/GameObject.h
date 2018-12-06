@@ -19,7 +19,7 @@ public:
 	const std::string& GetTag();
 
 	void AddComponentInfor(int type,int componentIndex);
-	void RemoveComponentInfor(int type, int componentIndex);
+	void RemoveComponentInfor(int type);
 	int FindComponetIndex(int type);
 private:
 	struct ComponentInfor{

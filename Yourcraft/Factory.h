@@ -1,6 +1,8 @@
 #pragma once
 #include "ObjectPool.h"
 #include "GameObject.h"
+#include "ComponentHelper.h"
+
 #include "BatchMeshRender.h"
 #include "MeshRender.h"
 #include "Rigidbody.h"
@@ -24,34 +26,22 @@ public:
 private:
 	Factory();
 	static Factory sFactory;
-	ObjectPool<GameObject, 500>* rGameObjectPool;
-	ObjectPool<BatchMeshRender, 10>* rBatchMeshRenderPool;
-	ObjectPool<MeshRender, 100>* rMeshRenderPool;
-	ObjectPool<Rigidbody, 100>* rRigidbodyPool;
-	ObjectPool<SkyRender, 3>* rSkyRenderPool;
-	PhysicsWorld* rPhysicsWorld;
-public:
-	enum class ComponentType
-	{
-		BatchMeshRender,
-		MeshRender,
-		Rigidbody,
-		ComponentType_Max,
-		SkyRender
-	};
 public:
 	~Factory();
+	static void SetPhysicsWorld(PhysicsWorld* world);
 	static void SetPool(ObjectPool<GameObject, 500>* pool);
 	static void SetPool(ObjectPool<BatchMeshRender, 10>* pool);
 	static void SetPool(ObjectPool<MeshRender, 100>* pool);
 	static void SetPool(ObjectPool<Rigidbody, 100>* pool);
 	static void SetPool(ObjectPool<SkyRender, 3>* pool);
+	static void SetDevice(ComPtr<ID3D11Device> Device);
+	static void SetDeviceContext(ComPtr<ID3D11DeviceContext> DeviceContext);
 
 	static GameObject* CreateGameObject();
-	static BatchMeshRender* CreateBatchMeshRender(GameObject* gameobject);
+	static BatchMeshRender* CreateBatchMeshRender();
 	static MeshRender* CreateMeshRender(GameObject* gameobject);
-	static Rigidbody* CreateRigidbody(GameObject * gameObject, PhysicsWorld& world, ColliderPtr& collider, int mass = 1);
-	static SkyRender* CreateSkyRender(GameObject* gameObject, ComPtr<ID3D11Device> device,ComPtr<ID3D11DeviceContext> deviceContext,const std::wstring& cubemapFilename,float skySphereRadius,bool generateMips = false);
+	static Rigidbody * CreateRigidbody(GameObject * gameobject, ColliderPtr & collider, int mass = 1);
+	static SkyRender* CreateSkyRender(GameObject* gameObject,const std::wstring& cubemapFilename,float skySphereRadius,bool generateMips = false);
 
 	template<class T>
 	static T* GetComponent(GameObject* gameobject);
@@ -60,6 +50,15 @@ public:
 	GET_COMPONENT(MeshRender);
 	GET_COMPONENT(Rigidbody);
 	GET_COMPONENT(SkyRender);
+protected:
+	ObjectPool<GameObject, 500>* rGameObjectPool;
+	ObjectPool<BatchMeshRender, 10>* rBatchMeshRenderPool;
+	ObjectPool<MeshRender, 100>* rMeshRenderPool;
+	ObjectPool<Rigidbody, 100>* rRigidbodyPool;
+	ObjectPool<SkyRender, 3>* rSkyRenderPool;
+	ComPtr<ID3D11Device> rDevice;
+	ComPtr<ID3D11DeviceContext> rDeviceContext;
+	PhysicsWorld* rPhysicsWorld;
 };
 
 template <class T>

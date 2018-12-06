@@ -15,6 +15,9 @@ public:
 	~MeshRender();
 	void Init(GameObject* gameObject);
 
+	void BindGameObject(GameObject * gameObject);
+	void UnbindGameObject();
+
 	void Update(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect);
 	void SetModel(Model&& model);
 	void SetModel(const Model& model);

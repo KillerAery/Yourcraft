@@ -1,4 +1,5 @@
 #include "SkyRender.h"
+#include "ComponentHelper.h"
 #include "MeshData.h"
 
 using namespace DirectX;
@@ -52,6 +53,25 @@ void SkyRender::Init(GameObject * gameObject, ComPtr<ID3D11Device> device, ComPt
 	);
 
 	InitResource(device, skySphereRadius);
+}
+
+void SkyRender::BindGameObject(GameObject * gameObject)
+{
+	if (mGameObject) {
+		UnbindGameObject();
+	}
+	if (gameObject) {
+		mGameObject = gameObject;
+		mGameObject->AddComponentInfor(static_cast<int>(ComponentType::SkyRender),mIndex);
+	}
+}
+
+void SkyRender::UnbindGameObject()
+{
+	if (mGameObject) {
+		mGameObject->RemoveComponentInfor(static_cast<int>(ComponentType::SkyRender));
+		mGameObject = nullptr;
+	}
 }
 
 void SkyRender::Update(ComPtr<ID3D11DeviceContext> deviceContext, SkyEffect & skyEffect, const Camera & camera)

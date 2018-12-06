@@ -44,18 +44,21 @@ bool EngineApp::Init()
 	mPhysicsWorld.Init();
 
 	// ---------- 测试初始化部分 ---------------------
+	Factory::SetPhysicsWorld(&mPhysicsWorld);
 	Factory::SetPool(&mGameObjectPool);
 	Factory::SetPool(&mBatchMeshRenderPool);
 	Factory::SetPool(&mMeshRenderPool);
 	Factory::SetPool(&mRigidbodyPool);
 	Factory::SetPool(&mSkyRenderPool);
+	Factory::SetDevice(md3dDevice);
+	Factory::SetDeviceContext(md3dImmediateContext);
 
 	mWorld = Factory::CreateGameObject();
 	mWorld->BecomeRoot();
 
 	mObjReader.Read(L"Model\\house.mbo", L"Model\\house.obj");	//房屋
 
-	auto br = Factory::CreateBatchMeshRender(nullptr);
+	auto br = Factory::CreateBatchMeshRender();
 	br->SetModel(Model(md3dDevice, mObjReader));
 
 	for(int i =0;i<10;++i)
@@ -69,13 +72,20 @@ bool EngineApp::Init()
 		br->BindGameObject(mGameObject[i]);
 
 		auto colider = BoxCollider::Create(30.0f,30.0f,30.0f);
-		auto pc = Factory::CreateRigidbody(mGameObject[i], mPhysicsWorld, colider);
+		auto pc = Factory::CreateRigidbody(mGameObject[i],colider);
 	}
+
+	auto b = Factory::GetComponent<BatchMeshRender>(mGameObject[5]);
+	b->UnbindGameObject(mGameObject[5]);
+
+	//auto r = Factory::GetComponent<Rigidbody>(mGameObject[4]);
+	//r->UnbindGameObject();
 
 	mSky = Factory::CreateGameObject();
 	mWorld->AddChild(mSky);
-	auto skyrender = Factory::CreateSkyRender(mSky,md3dDevice, md3dImmediateContext,L"Texture\\daylight.jpg",5000.0f);
-	//skyrender->UnbindGameObject();
+	auto skyrender = Factory::CreateSkyRender(mSky,L"Texture\\daylight.jpg",5000.0f);
+	auto s = Factory::GetComponent<SkyRender>(mSky);
+	//s->UnbindGameObject();
 
 	return true;
 }

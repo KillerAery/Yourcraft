@@ -14,6 +14,10 @@ public:
 	~Rigidbody();
 
 	void Init(GameObject * gameObject,PhysicsWorld& world, const ColliderPtr& collider ,int mass = 1);
+
+	void BindGameObject(GameObject * gameObject);
+	void UnbindGameObject();
+
 protected:
 	//ŒÔ¿Ì∏’ÃÂ
 	btRigidBody mBody;

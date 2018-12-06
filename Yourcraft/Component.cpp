@@ -2,7 +2,7 @@
 
 
 
-Component::Component():mGameObject(nullptr)
+Component::Component():mGameObject(nullptr),mIndex(-1)
 {
 }
 
@@ -10,10 +10,12 @@ Component::~Component()
 {
 }
 
+
 void Component::Init(GameObject* gameObject)
 {
 	Object::Init();
 	mGameObject = gameObject;
+	mIndex = -1;
 }
 
 bool Component::IsAlive()
@@ -31,15 +33,8 @@ GameObject* Component::GetGameObject() const
 	return mGameObject;
 }
 
-void Component::BindGameObject(GameObject * gameObject)
+void Component::SetIndex_WARNING(int index)
 {
-	mGameObject = gameObject;
+	mIndex = index;
 }
-
-void Component::UnbindGameObject()
-{
-	mGameObject = nullptr;
-}
-
-
 

@@ -13,7 +13,11 @@ public:
 public:
 	BatchMeshRender();
 	~BatchMeshRender();
-	void Init(GameObject* object);
+	void Init();
+
+	void BindGameObject(GameObject* object);
+	bool UnbindGameObject(GameObject* object);
+
 	virtual bool IsAlive();
 	virtual bool IsEnabled();
 	void Update(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect);

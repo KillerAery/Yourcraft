@@ -55,10 +55,10 @@ void GameObject::AddComponentInfor(int type, int componentIndex){
 	mComponentInfor.emplace_back(type, componentIndex);
 }
 
-void GameObject::RemoveComponentInfor(int type, int componentIndex)
+void GameObject::RemoveComponentInfor(int type)
 {
 	auto itr = std::find_if(mComponentInfor.begin(), mComponentInfor.end(), 
-		[type, componentIndex](const ComponentInfor& ci) {return type == ci.type && componentIndex ==ci.index; });
+		[type](const ComponentInfor& ci) {return type == ci.type;});
 
 	if (itr != mComponentInfor.end())
 		mComponentInfor.erase(itr);

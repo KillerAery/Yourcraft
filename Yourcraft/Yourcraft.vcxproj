@@ -57,6 +57,7 @@
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="ComponentHelper.h" />
     <ClInclude Include="SkyRender.h" />
     <ClInclude Include="DirectX11\Camera.h" />
     <ClInclude Include="DirectX11\Collision.h" />

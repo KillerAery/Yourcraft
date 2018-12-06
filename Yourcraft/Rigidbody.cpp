@@ -1,6 +1,5 @@
 #include "Rigidbody.h"
-
-
+#include "ComponentHelper.h"
 
 Rigidbody::Rigidbody():mBody(0,nullptr,nullptr),mCollider(nullptr),mMass(1)
 {
@@ -34,4 +33,24 @@ void Rigidbody::Init(GameObject* gameObject, PhysicsWorld& world, const Collider
 	mBody.setUserPointer(gameObject);
 	//将物理刚体 添加到 物理世界
 	world.GetWorld()->addRigidBody(&mBody);
+}
+
+void Rigidbody::BindGameObject(GameObject * gameObject)
+{
+	if (mGameObject) {
+		UnbindGameObject();
+	}
+	if (gameObject) {
+		mGameObject = gameObject;
+		mGameObject->AddComponentInfor(static_cast<int>(ComponentType::Rigidbody),mIndex);
+	}
+}
+
+void Rigidbody::UnbindGameObject()
+{
+	if (mGameObject) {
+		mGameObject->RemoveComponentInfor(static_cast<int>(ComponentType::Rigidbody));
+		mGameObject = nullptr;
+		//TODO : 物理组件解除绑定时应该没有物理刚体存在
+	}
 }
