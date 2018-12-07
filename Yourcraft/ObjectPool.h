@@ -95,9 +95,8 @@ T* ObjectPool<T, MAX_SIZE>::AddObject(Args&&... args)
 template<class T, int MAX_SIZE>
 inline int ObjectPool<T, MAX_SIZE>::GetIndexByPointer(T * object)
 {	
-	
 	if (!object)return -1;
-	return static_cast<int>(object - &mObjects[0])/sizeof(T*);
+	return static_cast<int>(object - mObjects.data());
 }
 
 template <class T, int MAX_SIZE>

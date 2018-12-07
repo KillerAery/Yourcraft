@@ -1,7 +1,5 @@
 #include "Transform.h"
 
-
-
 Transform::Transform():
 mPosition(0,0,0),mWorldPosition(0,0,0),
 mScale(1,1,1),mWorldScale(1,1,1),
@@ -144,16 +142,13 @@ const Vector3& Transform::GetWorldScale()
 void Transform::SetRotation(const Vector4 & quaternion)
 {
 	mRotation = quaternion;
-	if (mParent) { mWorldRotation = quaternion * mParent->mWorldRotation; }
-	else { mWorldRotation = quaternion; }
+	mWorldRotation = quaternion;
 	RotationChanged();
 }
 
 void Transform::SetWorldRotation(const Vector4 & quaternion)
 {
-	if (mParent)mRotation = quaternion / mParent->mWorldRotation;
-	else mRotation = quaternion;
-
+	mRotation = quaternion;
 	mWorldRotation = quaternion;
 	RotationChanged();
 }
@@ -235,7 +230,7 @@ bool Transform::AddChild(Transform* child)
 	mChildren->PositionChanged();
 	mChildren->mWorldScale = mWorldScale * mChildren->mScale;
 	mChildren->ScaleChanged();
-	mChildren->mWorldRotation = mWorldRotation * mChildren->mRotation;
+	mChildren->mWorldRotation = mWorldRotation;
 	mChildren->RotationChanged();
 	return true;
 }
@@ -330,7 +325,7 @@ void Transform::RotationChanged()
 	auto itr = mChildren;
 	while (itr != nullptr)
 	{	//更新孩子的旋转属性
-		itr->SetWorldRotation(itr->GetRotation() * mWorldRotation);
+		itr->SetWorldRotation(mWorldRotation);
 		itr->RotationChanged();
 		itr = itr->mNext;
 	}

@@ -18,14 +18,14 @@ public:
 	~SkyRender();
 
 	// 需要提供完整的天空盒贴图 或者 已经创建好的天空盒纹理.dds文件
-	void Init(GameObject* gameObject, ComPtr<ID3D11Device> device,
+	void Init(ComPtr<ID3D11Device> device,
 		ComPtr<ID3D11DeviceContext> deviceContext,
 		const std::wstring& cubemapFilename,
 		float skySphereRadius,
 		bool generateMips = false);
 
 	// 需要提供天空盒的六张正方形贴图
-	void Init(GameObject* gameObject,ComPtr<ID3D11Device> device,
+	void Init(ComPtr<ID3D11Device> device,
 		ComPtr<ID3D11DeviceContext> deviceContext,
 		const std::vector<std::wstring>& cubemapFilenames,
 		float skySphereRadius,

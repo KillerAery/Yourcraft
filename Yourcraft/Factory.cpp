@@ -1,5 +1,4 @@
 #include "Factory.h"
-#include "ComponentHelper.h"
 
 Factory Factory::sFactory = Factory();
 
@@ -65,51 +64,27 @@ BatchMeshRender* Factory::CreateBatchMeshRender()
 	return component;
 }
 
-MeshRender* Factory::CreateMeshRender(GameObject* gameobject)
+MeshRender* Factory::CreateMeshRender()
 {
-	if (gameobject == nullptr)
-	{
-		return nullptr;
-	}
-	else
-	{
-		auto component = sFactory.rMeshRenderPool->AddObject(gameobject);
-		int index = sFactory.rMeshRenderPool->GetIndexByPointer(component);
-		component->SetIndex_WARNING(index);
-		gameobject->AddComponentInfor(static_cast<int>(ComponentType::MeshRender), index);
-		return component;
-	}
+	auto component = sFactory.rMeshRenderPool->AddObject();
+	int index = sFactory.rMeshRenderPool->GetIndexByPointer(component);
+	component->SetIndex_WARNING(index);
+	return component;
 }
 
-Rigidbody* Factory::CreateRigidbody(GameObject * gameobject, ColliderPtr& collider, int mass)
+Rigidbody* Factory::CreateRigidbody(ColliderPtr& collider, int mass)
 {
-	if (gameobject == nullptr)
-	{
-		return nullptr;
-	}
-	else
-	{
-		auto component = sFactory.rRigidbodyPool->AddObject(gameobject,*sFactory.rPhysicsWorld,collider,mass);
-		int index = sFactory.rRigidbodyPool->GetIndexByPointer(component);
-		component->SetIndex_WARNING(index);
-		gameobject->AddComponentInfor(static_cast<int>(ComponentType::Rigidbody), index);
-		return component;
-	}
+	auto component = sFactory.rRigidbodyPool->AddObject(*sFactory.rPhysicsWorld, collider, mass);
+	int index = sFactory.rRigidbodyPool->GetIndexByPointer(component);
+	component->SetIndex_WARNING(index);
+	return component;
 }
 
-SkyRender * Factory::CreateSkyRender(GameObject * gameObject, const std::wstring & cubemapFilename, float skySphereRadius, bool generateMips)
+SkyRender * Factory::CreateSkyRender(const std::wstring & cubemapFilename, float skySphereRadius, bool generateMips)
 {
-	if (gameObject == nullptr)
-	{
-		return nullptr;
-	}
-	else
-	{
-		auto component = sFactory.rSkyRenderPool->AddObject(gameObject,sFactory.rDevice,sFactory.rDeviceContext,cubemapFilename,skySphereRadius, generateMips);
-		int index = sFactory.rSkyRenderPool->GetIndexByPointer(component);
-		component->SetIndex_WARNING(index);
-		gameObject->AddComponentInfor(static_cast<int>(ComponentType::SkyRender), index);
-		return component;
-	}
+	auto component = sFactory.rSkyRenderPool->AddObject(sFactory.rDevice, sFactory.rDeviceContext, cubemapFilename, skySphereRadius, generateMips);
+	int index = sFactory.rSkyRenderPool->GetIndexByPointer(component);
+	component->SetIndex_WARNING(index);
+	return component;
 }
 

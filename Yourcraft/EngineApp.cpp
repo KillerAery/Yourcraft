@@ -65,25 +65,32 @@ bool EngineApp::Init()
 	auto br = Factory::CreateBatchMeshRender();
 	br->SetModel(Model(md3dDevice, mObjReader));
 	
-	//10个游戏对象测试
-	GameObject* go[10];
+
 	for(int i =0;i<10;++i)
 	{
 		go[i] = Factory::CreateGameObject();
 		go[i]->SetPosition(Vector3(0, 400-80*i, 700+i*12.0f));
 		go[i]->SetScale(Vector3(0.2, 0.2, 0.2));
-		//mWorld->AddChild(mGameObject[i]);
-		//auto meshRender = Factory::CreateMeshRender(mGameObject[i]);
+		world->AddChild(go[i]);
+		//auto meshRender = Factory::CreateMeshRender(go[i]);
 		//meshRender->SetModel(Model(md3dDevice, mObjReader));
 		br->BindGameObject(go[i]);
 
-		auto colider = BoxCollider::Create(30.0f,30.0f,30.0f);
-		auto pc = Factory::CreateRigidbody(go[i],colider);
+		auto gcolider = BoxCollider::Create(30.0f, 30.0f, 30.0f);
+		auto pc = Factory::CreateRigidbody(gcolider);
+		pc->BindGameObject(go[i]);
 	}
 
 	//测试父子对象
-	world->AddChild(go[5]);
-	world->AddChild(go[7]);
+	world->RemoveChild(go[7]);
+	go[2]->AddChild(go[7]);
+	go[7]->SetScale(Vector3(3, 1, 1));
+	go[7]->SetPosition(Vector3(0, 80, -160));
+	
+
+	auto tc1 = Factory::GetComponent<Rigidbody>(go[5]);
+	auto tc2 = Factory::GetComponent<Rigidbody>(go[7]);
+	tc2->UnbindGameObject();
 	//mWorld->RemoveChild(mGameObject[3]);
 	//mWorld->RemoveChild(mGameObject[4]);
 
@@ -97,7 +104,8 @@ bool EngineApp::Init()
 	//创建天空对象
 	GameObject* sky = Factory::CreateGameObject();
 	world->AddChild(sky);
-	auto skyrender = Factory::CreateSkyRender(sky,L"Texture\\daylight.jpg",5000.0f);
+	auto skyrender = Factory::CreateSkyRender(L"Texture\\daylight.jpg",5000.0f);
+	skyrender->BindGameObject(sky);
 	auto s = Factory::GetComponent<SkyRender>(sky);
 	//s->UnbindGameObject();
 
@@ -106,8 +114,10 @@ bool EngineApp::Init()
 	ground->SetPosition(Vector3(0, -300, 0));
 	world->AddChild(ground);
 	auto colider = StaticPlaneCollider::Create(0,1,0,1);
-	auto groundBody = Factory::CreateRigidbody(ground,colider,0);
-	auto groundmesh = Factory::CreateMeshRender(ground);
+	auto groundBody = Factory::CreateRigidbody(colider,0);
+	groundBody->BindGameObject(ground);
+	auto groundmesh = Factory::CreateMeshRender();
+	groundmesh->BindGameObject(ground);
 	groundmesh->SetModel(Model(md3dDevice,MeshData::CreateBox(500,0,3000)));
 
 	return true;

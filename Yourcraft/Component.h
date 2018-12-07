@@ -8,7 +8,6 @@ class Component : public Object
 {
 public:
 	Component();
-	void Init(GameObject* gameObject);
 	virtual bool IsAlive();
 	virtual bool IsEnabled();
 	GameObject* GetGameObject()const;
@@ -16,6 +15,7 @@ public:
 	void SetIndex_WARNING(int index);
 protected:
 	~Component();
+	void Init();
 protected:
 	GameObject* mGameObject;
 	int mIndex;

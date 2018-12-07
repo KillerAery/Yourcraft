@@ -14,9 +14,9 @@ SkyRender::~SkyRender()
 {
 }
 
-void SkyRender::Init(GameObject * gameObject, ComPtr<ID3D11Device> device, ComPtr<ID3D11DeviceContext> deviceContext, const std::wstring & cubemapFilename, float skySphereRadius, bool generateMips)
+void SkyRender::Init(ComPtr<ID3D11Device> device, ComPtr<ID3D11DeviceContext> deviceContext, const std::wstring & cubemapFilename, float skySphereRadius, bool generateMips)
 {
-	Render::Init(gameObject);
+	Render::Init();
 
 	// 天空盒纹理加载
 	if (cubemapFilename.substr(cubemapFilename.size() - 3) == L"dds")
@@ -40,9 +40,9 @@ void SkyRender::Init(GameObject * gameObject, ComPtr<ID3D11Device> device, ComPt
 	InitResource(device, skySphereRadius);
 }
 
-void SkyRender::Init(GameObject * gameObject, ComPtr<ID3D11Device> device, ComPtr<ID3D11DeviceContext> deviceContext, const std::vector<std::wstring>& cubemapFilenames, float skySphereRadius, bool generateMips)
+void SkyRender::Init(ComPtr<ID3D11Device> device, ComPtr<ID3D11DeviceContext> deviceContext, const std::vector<std::wstring>& cubemapFilenames, float skySphereRadius, bool generateMips)
 {
-	Render::Init(gameObject);
+	Render::Init();
 
 	// 天空盒纹理加载
 	mTextureCubeSRV = CreateWICTextureCubeFromFile(

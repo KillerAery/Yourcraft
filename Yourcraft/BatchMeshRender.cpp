@@ -14,10 +14,12 @@ BatchMeshRender::BatchMeshRender()
 
 BatchMeshRender::~BatchMeshRender()
 {
+
 }
+
 void BatchMeshRender::Init()
 {
-	BatchRender::Init(nullptr);
+	BatchRender::Init();
 	mGameObjects.clear();
 }
 

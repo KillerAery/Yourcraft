@@ -39,9 +39,9 @@ public:
 
 	static GameObject* CreateGameObject();
 	static BatchMeshRender* CreateBatchMeshRender();
-	static MeshRender* CreateMeshRender(GameObject* gameobject);
-	static Rigidbody * CreateRigidbody(GameObject * gameobject, ColliderPtr & collider, int mass = 1);
-	static SkyRender* CreateSkyRender(GameObject* gameObject,const std::wstring& cubemapFilename,float skySphereRadius,bool generateMips = false);
+	static MeshRender* CreateMeshRender();
+	static Rigidbody * CreateRigidbody(ColliderPtr & collider, int mass = 1);
+	static SkyRender* CreateSkyRender(const std::wstring& cubemapFilename,float skySphereRadius,bool generateMips = false);
 
 	template<class T>
 	static T* GetComponent(GameObject* gameobject);

@@ -44,5 +44,8 @@ protected:
 	ObjectPool<MeshRender, 100> mMeshRenderPool;
 	ObjectPool<Rigidbody, 100> mRigidbodyPool;
 	ObjectPool<SkyRender, 3> mSkyRenderPool;
+
+	//10个游戏对象测试
+	GameObject* go[10];
 };
 

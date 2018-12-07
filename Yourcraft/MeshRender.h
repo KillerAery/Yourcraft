@@ -13,7 +13,7 @@ public:
 public:
 	MeshRender();
 	~MeshRender();
-	void Init(GameObject* gameObject);
+	void Init();
 
 	void BindGameObject(GameObject * gameObject);
 	void UnbindGameObject();

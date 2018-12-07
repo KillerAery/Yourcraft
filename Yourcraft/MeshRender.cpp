@@ -11,11 +11,10 @@ MeshRender::~MeshRender()
 {
 }
 
-void MeshRender::Init(GameObject* object)
+void MeshRender::Init()
 {
-	Render::Init(object);
+	Render::Init();
 	mModel = Model();
-
 }
 
 void MeshRender::BindGameObject(GameObject * gameObject)

@@ -13,7 +13,7 @@ public:
 	Rigidbody();
 	~Rigidbody();
 
-	void Init(GameObject * gameObject,PhysicsWorld& world, const ColliderPtr& collider ,int mass = 1);
+	void Init(PhysicsWorld& world, const ColliderPtr& collider ,int mass = 1);
 
 	void Update();
 

@@ -10,13 +10,13 @@ Component::~Component()
 {
 }
 
-
-void Component::Init(GameObject* gameObject)
+void Component::Init()
 {
 	Object::Init();
-	mGameObject = gameObject;
+	mGameObject = nullptr;
 	mIndex = -1;
 }
+
 
 bool Component::IsAlive()
 {
