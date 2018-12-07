@@ -86,11 +86,13 @@ void BatchMeshRender::Update(ComPtr<ID3D11DeviceContext> deviceContext, BasicEff
 
 	for (auto transform : mGameObjects)
 	{
-		//二叉树要求const&遍历，因此此处用const强制转换
-		XMMATRIX matrix = XMLoadFloat4x4(&transform->GetWorldMatrix());
-		iter->world = XMMatrixTranspose(matrix);
-		iter->worldInvTranspose = XMMatrixInverse(nullptr, matrix);	// 两次转置抵消
-		iter++;
+		if (transform->IsAlive() && transform->IsEnabled()) {
+			//二叉树要求const&遍历，因此此处用const强制转换
+			XMMATRIX matrix = XMLoadFloat4x4(&transform->GetWorldMatrix());
+			iter->world = XMMatrixTranspose(matrix);
+			iter->worldInvTranspose = XMMatrixInverse(nullptr, matrix);	// 两次转置抵消
+			iter++;
+		}
 	}
 
 	deviceContext->Unmap(mInstancedBuffer.Get(), 0);

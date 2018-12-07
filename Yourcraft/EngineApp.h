@@ -44,11 +44,5 @@ protected:
 	ObjectPool<MeshRender, 100> mMeshRenderPool;
 	ObjectPool<Rigidbody, 100> mRigidbodyPool;
 	ObjectPool<SkyRender, 3> mSkyRenderPool;
-
-	GameObject* mWorld;
-	GameObject* mGameObject[10];
-
-	GameObject* mSky;
-	MeshRender* mMeshRender;
 };
 

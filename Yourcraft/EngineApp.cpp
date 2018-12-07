@@ -2,8 +2,10 @@
 #include "Factory.h"
 #include <SimpleMath.h>
 #include "d3dUtil.h"
+
 #include "BoxCollider.h"
 #include "SphereCollider.h"
+#include "StaticPlaneCollider.h"
 
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
@@ -53,39 +55,60 @@ bool EngineApp::Init()
 	Factory::SetDevice(md3dDevice);
 	Factory::SetDeviceContext(md3dImmediateContext);
 
-	mWorld = Factory::CreateGameObject();
-	mWorld->BecomeRoot();
 
-	mObjReader.Read(L"Model\\house.mbo", L"Model\\house.obj");	//房屋
+	//世界对象
+	GameObject* world = Factory::CreateGameObject();
+	world->BecomeRoot();
 
+	//批量示例渲染组件
+	mObjReader.Read(L"Model\\house.mbo", L"Model\\house.obj");	//房屋模型
 	auto br = Factory::CreateBatchMeshRender();
 	br->SetModel(Model(md3dDevice, mObjReader));
-
+	
+	//10个游戏对象测试
+	GameObject* go[10];
 	for(int i =0;i<10;++i)
 	{
-		mGameObject[i] = Factory::CreateGameObject();
-		mGameObject[i]->SetPosition(Vector3(0, 400-80*i, 700+i*12.0f));
-		mGameObject[i]->SetScale(Vector3(0.2, 0.2, 0.2));
-		mWorld->AddChild(mGameObject[i]);
-		//mMeshRender = Factory::CreateMeshRender(mGameObject[i]);
-		//mMeshRender->SetModel(Model(md3dDevice, mObjReader));
-		br->BindGameObject(mGameObject[i]);
+		go[i] = Factory::CreateGameObject();
+		go[i]->SetPosition(Vector3(0, 400-80*i, 700+i*12.0f));
+		go[i]->SetScale(Vector3(0.2, 0.2, 0.2));
+		//mWorld->AddChild(mGameObject[i]);
+		//auto meshRender = Factory::CreateMeshRender(mGameObject[i]);
+		//meshRender->SetModel(Model(md3dDevice, mObjReader));
+		br->BindGameObject(go[i]);
 
 		auto colider = BoxCollider::Create(30.0f,30.0f,30.0f);
-		auto pc = Factory::CreateRigidbody(mGameObject[i],colider);
+		auto pc = Factory::CreateRigidbody(go[i],colider);
 	}
 
-	auto b = Factory::GetComponent<BatchMeshRender>(mGameObject[5]);
-	b->UnbindGameObject(mGameObject[5]);
+	//测试父子对象
+	world->AddChild(go[5]);
+	world->AddChild(go[7]);
+	//mWorld->RemoveChild(mGameObject[3]);
+	//mWorld->RemoveChild(mGameObject[4]);
+
+	//测试组件反射
+	//auto b = Factory::GetComponent<BatchMeshRender>(mGameObject[5]);
+	//b->UnbindGameObject(mGameObject[5]);
 
 	//auto r = Factory::GetComponent<Rigidbody>(mGameObject[4]);
 	//r->UnbindGameObject();
 
-	mSky = Factory::CreateGameObject();
-	mWorld->AddChild(mSky);
-	auto skyrender = Factory::CreateSkyRender(mSky,L"Texture\\daylight.jpg",5000.0f);
-	auto s = Factory::GetComponent<SkyRender>(mSky);
+	//创建天空对象
+	GameObject* sky = Factory::CreateGameObject();
+	world->AddChild(sky);
+	auto skyrender = Factory::CreateSkyRender(sky,L"Texture\\daylight.jpg",5000.0f);
+	auto s = Factory::GetComponent<SkyRender>(sky);
 	//s->UnbindGameObject();
+
+	//创建地面对象
+	auto ground = Factory::CreateGameObject();
+	ground->SetPosition(Vector3(0, -300, 0));
+	world->AddChild(ground);
+	auto colider = StaticPlaneCollider::Create(0,1,0,1);
+	auto groundBody = Factory::CreateRigidbody(ground,colider,0);
+	auto groundmesh = Factory::CreateMeshRender(ground);
+	groundmesh->SetModel(Model(md3dDevice,MeshData::CreateBox(500,0,3000)));
 
 	return true;
 }
@@ -137,8 +160,9 @@ void EngineApp::UpdateScene(float dt)
 	mKeyboardTracker.Update(keyState);
 
 	// --------- 测试更新部分 -------------//
-	mGameObjectPool.Update();
+	mRigidbodyPool.Update();
 
+	mGameObjectPool.Update();
 	//物理世界更新
 	mPhysicsWorld.StepWorld(dt);
 }
@@ -156,7 +180,7 @@ void EngineApp::DrawScene()
 
 	//--------- 按对象绘制 ----------//
 	mBasicEffect.SetRenderDefault(md3dImmediateContext, BasicEffect::RenderObject);
-	mBasicEffect.SetTextureUsed(true);	// 绘制纹理
+	mBasicEffect.SetTextureUsed(false);	// 绘制纹理
 	// 网格渲染组件 全部渲染
 	mMeshRenderPool.Update(md3dImmediateContext, mBasicEffect);
 

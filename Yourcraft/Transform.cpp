@@ -90,10 +90,9 @@ void Transform::BecomeRoot()
 void Transform::SetPosition(const Vector3 & pos)
 {
 	mPosition = pos;
-	if(mParent){
-		mWorldPosition = mParent->mWorldPosition + mPosition;
-		PositionChanged();
-	}
+	if(mParent){mWorldPosition = mParent->mWorldPosition + mPosition;}
+	else {mWorldPosition = mPosition;}
+	PositionChanged();
 }
 
 void Transform::SetWorldPosition(const Vector3& pos)
@@ -118,10 +117,9 @@ const Vector3& Transform::GetWorldPosition()
 void Transform::SetScale(const Vector3& s)
 {
 	mScale = s;
-	if (mParent) {
-		mWorldScale = s * mParent->mWorldScale;
-		ScaleChanged();
-	}
+	if (mParent) {mWorldScale = s * mParent->mWorldScale;}
+	else { mWorldScale = s; }
+	ScaleChanged();
 }
 
 void Transform::SetWorldScale(const Vector3& s)
@@ -146,17 +144,18 @@ const Vector3& Transform::GetWorldScale()
 void Transform::SetRotation(const Vector4 & quaternion)
 {
 	mRotation = quaternion;
-	mWorldRotation = quaternion;
+	if (mParent) { mWorldRotation = quaternion * mParent->mWorldRotation; }
+	else { mWorldRotation = quaternion; }
 	RotationChanged();
 }
 
 void Transform::SetWorldRotation(const Vector4 & quaternion)
 {
-	//if (mParent)mRotation = quaternion / mParent->mWorldRotation;
-	//else mRotation = quaternion;
+	if (mParent)mRotation = quaternion / mParent->mWorldRotation;
+	else mRotation = quaternion;
 
-	//mWorldRotation = quaternion;
-	//RotationChanged();
+	mWorldRotation = quaternion;
+	RotationChanged();
 }
 
 const Vector4 & Transform::GetRotation()
@@ -236,13 +235,15 @@ bool Transform::AddChild(Transform* child)
 	mChildren->PositionChanged();
 	mChildren->mWorldScale = mWorldScale * mChildren->mScale;
 	mChildren->ScaleChanged();
-	//mChildren->Set;
-	//child->RotateChanged();
+	mChildren->mWorldRotation = mWorldRotation * mChildren->mRotation;
+	mChildren->RotationChanged();
 	return true;
 }
 
 void Transform::RemoveChild(Transform* child)
 {
+	if (!FindChild(child))return;
+
 	if(child->mLast){
 		child->mLast->mNext = child->mNext;
 	}
@@ -253,8 +254,8 @@ void Transform::RemoveChild(Transform* child)
 	//给孩子设置空关系
 	child->mNext = child->mLast = child->mParent = nullptr;
 	//然后给其孩子们更新父母存活属性
-	mChildren->mParentAlive = this->IsAlive();
-	mChildren->mParentEnabled = this->IsEnabled();
+	child->mParentAlive = false;
+	child->mParentEnabled = false;
 	child->SetChildrenIsAliveAndEnabled();
 }
 
@@ -283,6 +284,13 @@ void Transform::SetParent(Transform* parent)
 		parent->AddChild(this);
 	}
 }
+
+
+bool Transform::HasChanged()
+{
+	return mChanged;
+}
+
 
 //位置属性发生改变
 void Transform::PositionChanged()

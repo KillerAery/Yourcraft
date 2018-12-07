@@ -45,6 +45,7 @@ public:
 	void RemoveChild(Transform* child);
 	bool FindChild(Transform* child);
 	void SetParent(Transform* parent);
+	bool HasChanged();
 private:
 	void PositionChanged();
 	void ScaleChanged();

@@ -3,7 +3,13 @@
 
 #define SAFE_DELETE_PTR(ptr) do{if(ptr){delete ptr;ptr = nullptr;}}while(0);
 
-PhysicsWorld::PhysicsWorld(){
+PhysicsWorld::PhysicsWorld() :
+	mBroadphase(nullptr),
+	mCollisionConfiguration(nullptr),
+	mDispatcher(nullptr),
+	mSolver(nullptr),
+	mDynamicsWorld(nullptr)
+{
 
 }
 
@@ -12,7 +18,6 @@ PhysicsWorld::~PhysicsWorld() {
 	SAFE_DELETE_PTR(mCollisionConfiguration);
 	SAFE_DELETE_PTR(mDispatcher);
 	SAFE_DELETE_PTR(mSolver);
-	SAFE_DELETE_PTR(mGroundbody);
 	//SAFE_DELETE_PTR(mDynamicsWorld);
 }
 
@@ -27,11 +32,9 @@ void PhysicsWorld::Init() {
 	// 实际上的物理模拟器
 	mSolver = new btSequentialImpulseConstraintSolver();
 	//世界
-	mDynamicsWorld = new btDiscreteDynamicsWorld(mDispatcher, mBroadphase, mSolver,mCollisionConfiguration);
+	mDynamicsWorld = new btDiscreteDynamicsWorld(mDispatcher, mBroadphase, mSolver, mCollisionConfiguration);
 	//世界重力
 	mDynamicsWorld->setGravity(btVector3(0, -10, 0));
-	//创建地面
-	CreateGround();
 }
 
 void PhysicsWorld::StepWorld(float dt) {
@@ -40,17 +43,17 @@ void PhysicsWorld::StepWorld(float dt) {
 
 	auto & objectArray = mDynamicsWorld->getCollisionObjectArray();
 	//先清除待删除物理刚体
-	//待删除物理刚体的用户指针指向Entity::NoEntity作为待删除标记
-	//for (int i = 0; i < objectArray.size();)
-	//{
-		//int entityState = reinterpret_cast<int>(objectArray[i]->getUserPointer());
-		//if (entityState == Entity::NoEntity) {
-		//	mDynamicsWorld->removeCollisionObject(objectArray[i]);
-		//}
-		//else {
-		//	i++;
-		//}
-	//}
+	//待删除物理刚体的用户指针指向nullptr作为待删除标记
+	for (int i = 0; i < objectArray.size();)
+	{
+		Transform* userPointer = reinterpret_cast<Transform*>(objectArray[i]->getUserPointer());
+		if (userPointer == nullptr || !userPointer->IsAlive()){
+			mDynamicsWorld->removeCollisionObject(objectArray[i]);
+		}
+		else {
+			i++;
+		}
+	}
 
 	//更新物理世界每一个物理物体	
 	for (int i = 0; i < objectArray.size(); ++i)
@@ -61,11 +64,11 @@ void PhysicsWorld::StepWorld(float dt) {
 		if (!object)continue;
 		//更新目标物体的位置
 		const auto & pos = objectArray[i]->getWorldTransform().getOrigin();
-		object->SetPosition(Vector3(pos.x(), pos.y(), pos.z()));
+		object->SetWorldPosition(Vector3(pos.x(), pos.y(), pos.z()));
 
 		//更新目标物体的旋转角度
 		const auto & rotationM = objectArray[i]->getWorldTransform().getRotation();
-		object->SetRotation(Vector4(rotationM.getX(), rotationM.getY(), rotationM.getZ(), rotationM.getW()));
+		object->SetWorldRotation(Vector4(rotationM.getX(), rotationM.getY(), rotationM.getZ(), rotationM.getW()));
 	}
 
 }
@@ -73,15 +76,4 @@ void PhysicsWorld::StepWorld(float dt) {
 btDiscreteDynamicsWorld* PhysicsWorld::GetWorld()const
 {
 	return mDynamicsWorld;
-}
-
-void PhysicsWorld::CreateGround() {
-	//地面刚体 设置
-	mGroundShape =new btStaticPlaneShape(btVector3(0, 1, 0), 0);
-	mGroundMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, -300, 0)));
-	btRigidBody::btRigidBodyConstructionInfo groundRigidBodyCI(0, mGroundMotionState, mGroundShape, btVector3(0, 0, 0));
-	mGroundbody = new btRigidBody(groundRigidBodyCI);
-	mGroundbody->setFriction(10.0f);
-	//将地面刚体添加到 物理世界
-	mDynamicsWorld->addRigidBody(mGroundbody);
 }

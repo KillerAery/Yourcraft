@@ -47,6 +47,7 @@
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
+    <ClCompile Include="StaticPlaneCollider.cpp" />
     <ClCompile Include="TextruePool.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="EngineApp.cpp" />
@@ -83,6 +84,7 @@
     <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="SphereCollider.h" />
+    <ClInclude Include="StaticPlaneCollider.h" />
     <ClInclude Include="TextruePool.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="EngineApp.h" />

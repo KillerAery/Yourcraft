@@ -23,8 +23,9 @@ void Rigidbody::Init(GameObject* gameObject, PhysicsWorld& world, const Collider
 	mCollider->GetShape()->calculateLocalInertia(mMass, inertia);
 
 	//生成物理刚体变换信息
-	auto pos = gameObject->GetPosition();
-	mMotionState = btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(pos.x, pos.y, pos.z)));
+	auto pos = gameObject->GetWorldPosition();
+	auto rotation = gameObject->GetWorldRotation();
+	mMotionState = btDefaultMotionState(btTransform(btQuaternion(rotation.x, rotation.y, rotation.z, rotation.w), btVector3(pos.x, pos.y, pos.z)));
 
 	//生成物理刚体
 	mBody = btRigidBody(mMass, &mMotionState, mCollider->GetShape(), inertia);
@@ -35,6 +36,15 @@ void Rigidbody::Init(GameObject* gameObject, PhysicsWorld& world, const Collider
 	world.GetWorld()->addRigidBody(&mBody);
 }
 
+void Rigidbody::Update()
+{
+	if (mGameObject->HasChanged()) {
+		auto pos = mGameObject->GetWorldPosition();
+		auto rotation = mGameObject->GetWorldRotation();
+		mBody.setCenterOfMassTransform(btTransform(btQuaternion(rotation.x, rotation.y, rotation.z, rotation.w), btVector3(pos.x, pos.y, pos.z)));
+	}
+}
+
 void Rigidbody::BindGameObject(GameObject * gameObject)
 {
 	if (mGameObject) {
@@ -43,6 +53,7 @@ void Rigidbody::BindGameObject(GameObject * gameObject)
 	if (gameObject) {
 		mGameObject = gameObject;
 		mGameObject->AddComponentInfor(static_cast<int>(ComponentType::Rigidbody),mIndex);
+		mBody.setUserPointer(mGameObject);
 	}
 }
 
@@ -51,6 +62,6 @@ void Rigidbody::UnbindGameObject()
 	if (mGameObject) {
 		mGameObject->RemoveComponentInfor(static_cast<int>(ComponentType::Rigidbody));
 		mGameObject = nullptr;
-		//TODO : 物理组件解除绑定时应该没有物理刚体存在
+		mBody.setUserPointer(nullptr);
 	}
 }

@@ -160,6 +160,9 @@
     <ClCompile Include="BatchRender.cpp">
       <Filter>引擎框架层\对象类\组件类\渲染组件\基类</Filter>
     </ClCompile>
+    <ClCompile Include="StaticPlaneCollider.cpp">
+      <Filter>引擎框架层\对象类\组件类\物理组件\刚体组件\碰撞体</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Transform.h">
@@ -249,9 +252,6 @@
     <ClInclude Include="SphereCollider.h">
       <Filter>引擎框架层\对象类\组件类\物理组件\刚体组件\碰撞体</Filter>
     </ClInclude>
-    <ClInclude Include="BoxCollider.h">
-      <Filter>引擎框架层\对象类\组件类\物理组件\刚体组件\碰撞体</Filter>
-    </ClInclude>
     <ClInclude Include="SkyRender.h">
       <Filter>引擎框架层\对象类\组件类\渲染组件</Filter>
     </ClInclude>
@@ -263,6 +263,12 @@
     </ClInclude>
     <ClInclude Include="BatchRender.h">
       <Filter>引擎框架层\对象类\组件类\渲染组件\基类</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxCollider.h">
+      <Filter>引擎框架层\对象类\组件类\物理组件\刚体组件\碰撞体</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticPlaneCollider.h">
+      <Filter>引擎框架层\对象类\组件类\物理组件\刚体组件\碰撞体</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

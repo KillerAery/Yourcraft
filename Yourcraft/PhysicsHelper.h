@@ -7,4 +7,3 @@ struct PhysicsMaterial
 	btScalar mass;	//√‹∂»
 	btVector3 inertia;	//πﬂ–‘
 };
-

@@ -15,6 +15,8 @@ public:
 
 	void Init(GameObject * gameObject,PhysicsWorld& world, const ColliderPtr& collider ,int mass = 1);
 
+	void Update();
+
 	void BindGameObject(GameObject * gameObject);
 	void UnbindGameObject();
 
