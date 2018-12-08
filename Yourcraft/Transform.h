@@ -47,19 +47,14 @@ public:
 	void SetParent(Transform* parent);
 	bool HasChanged();
 private:
-	void PositionChanged();
-	void ScaleChanged();
-	void RotationChanged();
+	void WorldTransformChanged();
 	void SetChildrenIsAliveAndEnabled();
 protected:
 	Vector3 mPosition;
 	Vector3 mScale;
 	Vector4 mRotation;
-	Vector3 mWorldPosition;
-	Vector3 mWorldScale;
-	Vector4 mWorldRotation;
 
-	bool mChanged;								// 是否改变了位置/伸缩/旋转(更新矩阵用)
+	bool mChanged;								// 是否改变了位置/伸缩/旋转(更新世界变换矩阵用)
 	bool mParentAlive;							// 父母是否存活
 	bool mParentEnabled;						// 父母是否开启
 	DirectX::XMFLOAT4X4 mWorldMatrix;			// 世界矩阵

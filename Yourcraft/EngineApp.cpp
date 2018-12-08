@@ -85,7 +85,7 @@ bool EngineApp::Init()
 	world->RemoveChild(go[7]);
 	go[2]->AddChild(go[7]);
 	go[7]->SetScale(Vector3(3, 1, 1));
-	go[7]->SetPosition(Vector3(0, 80, -160));
+	go[7]->SetPosition(Vector3(0,1500,-200));
 	
 
 	auto tc1 = Factory::GetComponent<Rigidbody>(go[5]);

@@ -1,9 +1,11 @@
 #include "Transform.h"
 
+using namespace DirectX;
+
 Transform::Transform():
-mPosition(0,0,0),mWorldPosition(0,0,0),
-mScale(1,1,1),mWorldScale(1,1,1),
-mRotation(0,0,0,0),mWorldRotation(0,0,0,0),
+mPosition(0,0,0),
+mScale(1,1,1),
+mRotation(0,0,0,0),
 mWorldMatrix(
 	1.0f, 0.0f, 0.0f, 0.0f,
 	0.0f, 1.0f, 0.0f, 0.0f,
@@ -29,11 +31,8 @@ void Transform::Init()
 {
 	Object::Init();
 	mPosition = Vector3(0, 0, 0);
-	mWorldPosition = Vector3(0, 0, 0);
 	mScale = Vector3(1, 1, 1);
-	mWorldScale = Vector3(1, 1, 1);
 	mRotation = Vector4(0, 0, 0, 1);
-	mWorldRotation = Vector4(0, 0, 0, 1);
 	mWorldMatrix = DirectX::XMFLOAT4X4(
 		1.0f, 0.0f, 0.0f, 0.0f,
 		0.0f, 1.0f, 0.0f, 0.0f,
@@ -88,18 +87,14 @@ void Transform::BecomeRoot()
 void Transform::SetPosition(const Vector3 & pos)
 {
 	mPosition = pos;
-	if(mParent){mWorldPosition = mParent->mWorldPosition + mPosition;}
-	else {mWorldPosition = mPosition;}
-	PositionChanged();
+	WorldTransformChanged();
 }
 
 void Transform::SetWorldPosition(const Vector3& pos)
 {
-	if(mParent) mPosition = pos - mParent->mWorldPosition;
-	else mPosition = mWorldPosition;
-
-	mWorldPosition = pos;
-	PositionChanged();
+	if(mParent) mPosition = pos - mParent->GetPosition();
+	else mPosition = pos;
+	WorldTransformChanged();
 }
 
 const Vector3& Transform::GetPosition()
@@ -107,26 +102,23 @@ const Vector3& Transform::GetPosition()
 	return mPosition;
 }
 
-const Vector3& Transform::GetWorldPosition()
+const Vector3 & Transform::GetWorldPosition()
 {
-	return mWorldPosition;
+	if (!mParent)return mPosition;
+	return mParent->GetWorldPosition() + mPosition;
 }
 
 void Transform::SetScale(const Vector3& s)
 {
 	mScale = s;
-	if (mParent) {mWorldScale = s * mParent->mWorldScale;}
-	else { mWorldScale = s; }
-	ScaleChanged();
+	WorldTransformChanged();
 }
 
 void Transform::SetWorldScale(const Vector3& s)
 {
-	if (mParent)mScale = s / mParent->mWorldScale;
+	if (mParent)mScale = s / mParent->GetScale();
 	else mScale = s;
-
-	mWorldScale = s;
-	ScaleChanged();
+	WorldTransformChanged();
 }
 
 const Vector3& Transform::GetScale()
@@ -134,23 +126,31 @@ const Vector3& Transform::GetScale()
 	return mScale;
 }
 
-const Vector3& Transform::GetWorldScale()
+const Vector3 & Transform::GetWorldScale()
 {
-	return mWorldScale;
+	if (!mParent)return mScale;
+	return mParent->GetWorldScale()*mScale;
 }
+
 
 void Transform::SetRotation(const Vector4 & quaternion)
 {
 	mRotation = quaternion;
-	mWorldRotation = quaternion;
-	RotationChanged();
+	WorldTransformChanged();
 }
 
 void Transform::SetWorldRotation(const Vector4 & quaternion)
 {
-	mRotation = quaternion;
-	mWorldRotation = quaternion;
-	RotationChanged();
+	if (mParent) {
+		auto pm = XMMatrixRotationQuaternion(mParent->GetWorldRotation());
+		auto det = XMMatrixDeterminant(pm);
+		XMMATRIX m = XMMatrixInverse(&det,pm) * XMMatrixRotationQuaternion(quaternion);
+		mRotation = XMQuaternionRotationMatrix(m);
+	}
+	else {
+		mRotation = quaternion;
+	}
+	WorldTransformChanged();
 }
 
 const Vector4 & Transform::GetRotation()
@@ -160,15 +160,24 @@ const Vector4 & Transform::GetRotation()
 
 const Vector4 & Transform::GetWorldRotation()
 {
-	return mWorldRotation;
+	if (mParent) {
+		XMMATRIX m = XMMatrixRotationQuaternion(mRotation) * XMMatrixRotationQuaternion(mParent->GetWorldRotation());
+		return XMQuaternionRotationMatrix(m);
+	}
+	else {
+		return mRotation;
+	}
 }
+
 
 void Transform::CaculateWorldMatrix()
 {
 	//计算世界变换
-	DirectX::XMMATRIX matrix = DirectX::XMMatrixScaling(mWorldScale.x,mWorldScale.y,mWorldScale.z)
-	*DirectX::XMMatrixRotationQuaternion(mWorldRotation)
-	*DirectX::XMMatrixTranslation(mWorldPosition.x,mWorldPosition.y,mWorldPosition.z);
+	DirectX::XMMATRIX matrix = DirectX::XMMatrixScaling(mScale.x,mScale.y,mScale.z)
+	*DirectX::XMMatrixRotationQuaternion(mRotation)
+	*DirectX::XMMatrixTranslation(mPosition.x,mPosition.y,mPosition.z);
+	if (mParent)
+		matrix = matrix * mParent->GetWorldMatrix();
 	//存储世界变换
 	DirectX::XMStoreFloat4x4(&mWorldMatrix,matrix);
 }
@@ -226,12 +235,9 @@ bool Transform::AddChild(Transform* child)
 	mChildren->mParentEnabled = this->IsEnabled();
 	mChildren->SetChildrenIsAliveAndEnabled();
 	//添加的新孩子要重新计算变换属性
-	mChildren->mWorldPosition = mWorldPosition + mChildren->mPosition;
-	mChildren->PositionChanged();
-	mChildren->mWorldScale = mWorldScale * mChildren->mScale;
-	mChildren->ScaleChanged();
-	mChildren->mWorldRotation = mWorldRotation;
-	mChildren->RotationChanged();
+	mChildren->SetPosition(mChildren->GetPosition());
+	mChildren->SetScale(mChildren->GetScale());
+	mChildren->SetRotation(mChildren->GetRotation());
 	return true;
 }
 
@@ -287,50 +293,17 @@ bool Transform::HasChanged()
 }
 
 
-//位置属性发生改变
-void Transform::PositionChanged()
+//世界变换发生改变
+void Transform::WorldTransformChanged()
 {
 	mChanged = true;
-	//所有孩子的位置属性也会发生改变 
+	//所有孩子的世界变换也会发生改变 
 	auto itr = mChildren;
-	while (itr != nullptr)
-	{
-		//更新孩子的位置属性
-		itr->SetWorldPosition(itr->GetPosition() + mWorldPosition);
-		itr->PositionChanged();
+	while (itr != nullptr){
+		itr->WorldTransformChanged();
 		itr = itr->mNext;
 	}
 }
-
-//缩放属性发生改变
-void Transform::ScaleChanged()
-{
-	mChanged = true;
-	//所有孩子的变换属性也会发生改变 
-	auto itr = mChildren;
-	while (itr != nullptr)
-	{	//更新孩子的缩放属性
-		itr->SetWorldScale(itr->GetScale() * mWorldScale);
-		itr->ScaleChanged();
-		itr = itr->mNext;
-	}
-}
-
-
-//旋转属性发生改变
-void Transform::RotationChanged()
-{
-	mChanged = true;
-	//所有孩子的旋转属性也会发生改变 
-	auto itr = mChildren;
-	while (itr != nullptr)
-	{	//更新孩子的旋转属性
-		itr->SetWorldRotation(mWorldRotation);
-		itr->RotationChanged();
-		itr = itr->mNext;
-	}
-}
-
 
 void Transform::SetChildrenIsAliveAndEnabled(){
 	bool isParentAlive = this->IsAlive();
