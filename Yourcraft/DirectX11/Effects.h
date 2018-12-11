@@ -1,6 +1,7 @@
 #ifndef EFFECTS_H
 #define EFFECTS_H
 
+#include <string>
 #include <memory>
 #include "LightHelper.h"
 #include "RenderStates.h"
@@ -150,7 +151,45 @@ private:
 
 
 
+class ParticleEffect : public IEffect
+{
+public:
+	ParticleEffect(ID3D11Device* device, const std::wstring& filename);
+	virtual ~ParticleEffect();
 
+	// 获取单例
+	static ParticleEffect& Get();
+
+	// 初始化
+	bool InitAll(ComPtr<ID3D11Device> device);
+
+	// StreamOut绘制
+	void SetRenderStreamOut(ComPtr<ID3D11DeviceContext> deviceContext);
+	// Rain粒子绘制
+	void SetRenderRainDraw(ComPtr<ID3D11DeviceContext> deviceContext); 
+
+	//
+	// 设置
+	//
+	void XM_CALLCONV SetViewProj(DirectX::FXMMATRIX M);
+	void XM_CALLCONV SetGameTime(float f);
+	void XM_CALLCONV SetTimeStep(float f);
+	void XM_CALLCONV SetEyePosW(DirectX::FXMVECTOR v);
+	void XM_CALLCONV SetEmitPosW(DirectX::FXMVECTOR v);
+	void XM_CALLCONV SetEmitDirW(DirectX::FXMVECTOR v);
+	//void SetBlendEnabled(bool isEnable);
+	void SetAccelW(DirectX::FXMVECTOR v);
+	void SetLifeTime(float lifetime);
+	void SetTexArray(ComPtr<ID3D11ShaderResourceView> tex);
+	void SetRandomTex(ComPtr<ID3D11ShaderResourceView> tex);
+
+	// 应用常量缓冲区和纹理资源的变更
+	void Apply(ComPtr<ID3D11DeviceContext> deviceContext);
+
+private:
+	class Impl;
+	std::unique_ptr<Impl> pImpl;
+};
 
 
 
