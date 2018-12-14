@@ -24,6 +24,7 @@
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="DirectX11\Particle.cpp" />
     <ClCompile Include="ParticleEffect.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="SkyRender.cpp" />
@@ -61,6 +62,7 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentHelper.h" />
+    <ClInclude Include="DirectX11\Particle.h" />
     <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="SkyRender.h" />
     <ClInclude Include="DirectX11\Camera.h" />
@@ -310,7 +312,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
       <FileType>Document</FileType>
     </FxCompile>
-    <FxCompile Include="HLSL\RainPatricle_Draw_VS.hlsl">
+    <FxCompile Include="HLSL\RainParticle_Draw_VS.hlsl">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">HLSL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">HLSL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">HLSL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>

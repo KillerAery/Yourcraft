@@ -187,6 +187,9 @@
     <ClCompile Include="ParticleEffect.cpp">
       <Filter>图形库框架层\DirectX11</Filter>
     </ClCompile>
+    <ClCompile Include="DirectX11\Particle.cpp">
+      <Filter>图形库框架层\DirectX11</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Transform.h">
@@ -297,6 +300,9 @@
     <ClInclude Include="ParticleSystem.h">
       <Filter>引擎框架层\对象类\组件类\粒子特效组件</Filter>
     </ClInclude>
+    <ClInclude Include="DirectX11\Particle.h">
+      <Filter>图形库框架层\DirectX11</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="HLSL\Basic.hlsli">
@@ -320,52 +326,52 @@
     <None Include="HLSL\Sky_VS.hlsl">
       <Filter>着色器</Filter>
     </None>
+    <None Include="HLSL\Sky_PS.hlsl">
+      <Filter>着色器</Filter>
+    </None>
+    <None Include="HLSL\Light_VS.hlsl">
+      <Filter>着色器</Filter>
+    </None>
+    <None Include="HLSL\Light_PS.hlsl">
+      <Filter>着色器</Filter>
+    </None>
+    <None Include="HLSL\Light.fx">
+      <Filter>着色器</Filter>
+    </None>
+    <None Include="HLSL\Basic_PS.hlsl">
+      <Filter>着色器</Filter>
+    </None>
+    <None Include="HLSL\Basic.fx">
+      <Filter>着色器</Filter>
+    </None>
+    <None Include="HLSL\BasicInstance_VS.hlsl">
+      <Filter>着色器</Filter>
+    </None>
+    <None Include="HLSL\BasicObject_VS.hlsl">
+      <Filter>着色器</Filter>
+    </None>
+    <None Include="HLSL\FireParticle_Draw_VS.hlsl">
+      <Filter>着色器\粒子特效\Fire</Filter>
+    </None>
+    <None Include="HLSL\FireParticle_Draw_PS.hlsl">
+      <Filter>着色器\粒子特效\Fire</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="HLSL\Basic.fx">
-      <Filter>着色器</Filter>
-    </FxCompile>
-    <FxCompile Include="HLSL\Basic_PS.hlsl">
-      <Filter>着色器</Filter>
-    </FxCompile>
-    <FxCompile Include="HLSL\BasicInstance_VS.hlsl">
-      <Filter>着色器</Filter>
-    </FxCompile>
-    <FxCompile Include="HLSL\BasicObject_VS.hlsl">
-      <Filter>着色器</Filter>
-    </FxCompile>
-    <FxCompile Include="HLSL\Sky_PS.hlsl">
-      <Filter>着色器</Filter>
-    </FxCompile>
-    <FxCompile Include="HLSL\Light_VS.hlsl">
-      <Filter>着色器</Filter>
-    </FxCompile>
-    <FxCompile Include="HLSL\Light_PS.hlsl">
-      <Filter>着色器</Filter>
-    </FxCompile>
-    <FxCompile Include="HLSL\Light.fx">
-      <Filter>着色器</Filter>
-    </FxCompile>
     <FxCompile Include="HLSL\Particle_StreamOut_VS.hlsl">
       <Filter>着色器\粒子特效\StreamOut</Filter>
     </FxCompile>
     <FxCompile Include="HLSL\Particle_StreamOut_GS.hlsl">
       <Filter>着色器\粒子特效\StreamOut</Filter>
     </FxCompile>
-    <FxCompile Include="HLSL\RainPatricle_Draw_VS.hlsl">
-      <Filter>着色器\粒子特效\Rain</Filter>
-    </FxCompile>
     <FxCompile Include="HLSL\RainParticle_Draw_PS.hlsl">
       <Filter>着色器\粒子特效\Rain</Filter>
-    </FxCompile>
-    <FxCompile Include="HLSL\FireParticle_Draw_VS.hlsl">
-      <Filter>着色器\粒子特效\Fire</Filter>
     </FxCompile>
     <FxCompile Include="HLSL\RainParticle_Draw_GS.hlsl">
       <Filter>着色器\粒子特效\Rain</Filter>
     </FxCompile>
-    <FxCompile Include="HLSL\FireParticle_Draw_PS.hlsl">
-      <Filter>着色器\粒子特效\Fire</Filter>
+    <FxCompile Include="HLSL\RainParticle_Draw_VS.hlsl">
+      <Filter>着色器\粒子特效\Rain</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

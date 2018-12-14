@@ -21,7 +21,8 @@ public:
 	void Update(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect);
 	void SetModel(Model&& model);
 	void SetModel(const Model& model);
-	const Model& GetModel()const;
+protected:
+	void Draw(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect);
 protected:
 	Model mModel;												// 模型
 	ComPtr<ID3D11Buffer> mInstancedBuffer;						// 实例缓冲区

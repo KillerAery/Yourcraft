@@ -71,6 +71,37 @@ bool BatchMeshRender::IsEnabled()
 
 void BatchMeshRender::Update(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect)
 {
+	Draw(deviceContext, effect);
+}
+
+void BatchMeshRender::SetModel(Model&& model)
+{
+	std::swap(mModel, model);
+	model.modelParts.clear();
+	model.boundingBox = BoundingBox();
+}
+
+void BatchMeshRender::SetModel(const Model& model)
+{
+	mModel = model;
+}
+
+void BatchMeshRender::ResizeBuffer(ComPtr<ID3D11Device> device, size_t count)
+{	
+	// 设置实例缓冲区描述
+	D3D11_BUFFER_DESC vbd;
+	ZeroMemory(&vbd, sizeof(vbd));
+	vbd.Usage = D3D11_USAGE_DYNAMIC;
+	vbd.ByteWidth = (UINT)count * sizeof(XMMATRIX) * 2;
+	vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	vbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	mCapacity = count;
+	// 创建实例缓冲区
+	HR(device->CreateBuffer(&vbd, nullptr, mInstancedBuffer.ReleaseAndGetAddressOf()));
+}
+
+void BatchMeshRender::Draw(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect)
+{
 	D3D11_MAPPED_SUBRESOURCE mappedData;
 	UINT numInsts = (UINT)mGameObjects.size();
 	//若传入的数据比实例缓冲区还大，需要重新分配
@@ -84,7 +115,7 @@ void BatchMeshRender::Update(ComPtr<ID3D11DeviceContext> deviceContext, BasicEff
 	HR(deviceContext->Map(mInstancedBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedData));
 
 	InstancedData * iter = reinterpret_cast<InstancedData*>(mappedData.pData);
-	
+
 
 	for (auto transform : mGameObjects)
 	{
@@ -118,30 +149,4 @@ void BatchMeshRender::Update(ComPtr<ID3D11DeviceContext> deviceContext, BasicEff
 
 		deviceContext->DrawIndexedInstanced(part.indexCount, numInsts, 0, 0, 0);
 	}
-}
-
-void BatchMeshRender::SetModel(Model&& model)
-{
-	std::swap(mModel, model);
-	model.modelParts.clear();
-	model.boundingBox = BoundingBox();
-}
-
-void BatchMeshRender::SetModel(const Model& model)
-{
-	mModel = model;
-}
-
-void BatchMeshRender::ResizeBuffer(ComPtr<ID3D11Device> device, size_t count)
-{	
-	// 设置实例缓冲区描述
-	D3D11_BUFFER_DESC vbd;
-	ZeroMemory(&vbd, sizeof(vbd));
-	vbd.Usage = D3D11_USAGE_DYNAMIC;
-	vbd.ByteWidth = (UINT)count * sizeof(XMMATRIX) * 2;
-	vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	vbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	mCapacity = count;
-	// 创建实例缓冲区
-	HR(device->CreateBuffer(&vbd, nullptr, mInstancedBuffer.ReleaseAndGetAddressOf()));
 }

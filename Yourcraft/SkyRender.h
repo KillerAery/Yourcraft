@@ -35,7 +35,7 @@ public:
 	void UnbindGameObject();
 
 	void Update(ComPtr<ID3D11DeviceContext> deviceContext, SkyEffect& skyEffect, const Camera& camera);
-private:
+protected:
 	void InitResource(ComPtr<ID3D11Device> device, float skySphereRadius);
 	void Draw(ComPtr<ID3D11DeviceContext> deviceContext, SkyEffect& skyEffect, const Camera& camera);
 protected:

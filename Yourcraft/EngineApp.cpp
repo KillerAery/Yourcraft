@@ -34,6 +34,9 @@ bool EngineApp::Init()
 	if (!mSkyEffect.InitAll(md3dDevice))
 		return false;
 
+	if (!mRainEffect.InitAll(md3dDevice,L"RainParticle"))
+		return false;
+
 	if (!InitResource())
 		return false;
 
@@ -119,6 +122,8 @@ bool EngineApp::Init()
 	auto groundmesh = Factory::CreateMeshRender();
 	groundmesh->BindGameObject(ground);
 	groundmesh->SetModel(Model(md3dDevice,MeshData::CreateBox(500,0,3000)));
+
+	auto rain = Factory::CreateGameObject();
 
 	return true;
 }

@@ -40,6 +40,24 @@ void MeshRender::UnbindGameObject()
 
 void MeshRender::Update(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect)
 {
+	Draw(deviceContext, effect);
+}
+
+
+void MeshRender::SetModel(Model&& model)
+{
+	std::swap(mModel, model);
+	model.modelParts.clear();
+	model.boundingBox = BoundingBox();
+}
+
+void MeshRender::SetModel(const Model& model)
+{
+	mModel = model;
+}
+
+void MeshRender::Draw(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect)
+{
 	UINT strides = sizeof(DirectX::VertexPositionNormalTexture);
 	UINT offsets = 0;
 
@@ -58,22 +76,4 @@ void MeshRender::Update(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect &
 
 		deviceContext->DrawIndexed(part.indexCount, 0, 0);
 	}
-}
-
-
-void MeshRender::SetModel(Model&& model)
-{
-	std::swap(mModel, model);
-	model.modelParts.clear();
-	model.boundingBox = BoundingBox();
-}
-
-void MeshRender::SetModel(const Model& model)
-{
-	mModel = model;
-}
-
-const Model& MeshRender::GetModel() const
-{
-	return mModel;
 }

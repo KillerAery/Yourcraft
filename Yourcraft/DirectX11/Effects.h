@@ -154,14 +154,11 @@ private:
 class ParticleEffect : public IEffect
 {
 public:
-	ParticleEffect(ID3D11Device* device, const std::wstring& filename);
+	ParticleEffect();
 	virtual ~ParticleEffect();
 
-	// 获取单例
-	static ParticleEffect& Get();
-
 	// 初始化
-	bool InitAll(ComPtr<ID3D11Device> device);
+	bool InitAll(ComPtr<ID3D11Device> device, const std::wstring& hlslname);
 
 	// StreamOut绘制
 	void SetRenderStreamOut(ComPtr<ID3D11DeviceContext> deviceContext);
@@ -177,7 +174,7 @@ public:
 	void XM_CALLCONV SetEyePosW(DirectX::FXMVECTOR v);
 	void XM_CALLCONV SetEmitPosW(DirectX::FXMVECTOR v);
 	void XM_CALLCONV SetEmitDirW(DirectX::FXMVECTOR v);
-	//void SetBlendEnabled(bool isEnable);
+
 	void SetAccelW(DirectX::FXMVECTOR v);
 	void SetLifeTime(float lifetime);
 	void SetTexArray(ComPtr<ID3D11ShaderResourceView> tex);
@@ -185,7 +182,6 @@ public:
 
 	// 应用常量缓冲区和纹理资源的变更
 	void Apply(ComPtr<ID3D11DeviceContext> deviceContext);
-
 private:
 	class Impl;
 	std::unique_ptr<Impl> pImpl;

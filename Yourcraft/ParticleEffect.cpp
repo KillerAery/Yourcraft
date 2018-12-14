@@ -1,47 +1,12 @@
+#include <VertexTypes.h>
 #include "Effects.h"
 #include "d3dUtil.h"
 #include "EffectHelper.h"
-#include <VertexTypes.h>
+#include "ParticleSystem.h"
+#include "Particle.h"
 
 using namespace DirectX;
 using namespace std::experimental;
-
-struct ParticleInputLayout
-{
-	ParticleInputLayout() = default;
-
-	ParticleInputLayout(const ParticleInputLayout&) = default;
-	ParticleInputLayout& operator=(const ParticleInputLayout&) = default;
-
-	ParticleInputLayout(ParticleInputLayout&&) = default;
-	ParticleInputLayout& operator=(ParticleInputLayout&&) = default;
-
-	ParticleInputLayout(XMFLOAT3 const& position, XMFLOAT3 const& velocity, XMFLOAT2 const& size, float age, u_int type)
-		: position(position),velocity(velocity),size(size),age(age),type(type)
-	{ }
-
-	ParticleInputLayout(FXMVECTOR position,FXMVECTOR velocity,FXMVECTOR size,float age,u_int type)
-		: age(age), type(type)
-	{
-		XMStoreFloat3(&this->position, position);
-		XMStoreFloat3(&this->velocity, velocity);
-		XMStoreFloat2(&this->size, size);
-	}
-
-	//float3 InitialPosW : POSITION;
-	//float3 InitialVelW : VELOCITY;
-	//float2 SizeW : SIZE;
-	//float Age : AGE;
-	//uint Type : TYPE;
-	DirectX::XMFLOAT3 position;
-	DirectX::XMFLOAT3 velocity;
-	DirectX::XMFLOAT2 size;
-	float age;
-	u_int type;
-
-	static const int InputElementCount = 1;
-	static const D3D11_INPUT_ELEMENT_DESC InputElements[InputElementCount];
-};
 
 struct CBPerFrame
 {
@@ -60,7 +25,6 @@ struct CBParticleSystemChanged
 	//粒子生命周期
 	float gLifeTime;
 };
-
 
 class ParticleEffect::Impl : public AlignedType<ParticleEffect::Impl>
 {
@@ -85,27 +49,14 @@ public:
 	ComPtr<ID3D11PixelShader> rainPS;
 
 	ComPtr<ID3D11InputLayout> posVelSizeAgeTypeLayout;		// 输入布局
-
-
 };
 
 //
 // ParticleEffect
 //
 
-namespace
+ParticleEffect::ParticleEffect()
 {
-	// ParticleEffect单例
-	static ParticleEffect * pInstance = nullptr;
-}
-
-
-
-ParticleEffect::ParticleEffect(ID3D11Device * device, const std::wstring & filename)
-{
-	if (pInstance)
-		throw std::exception("ParticleEffect is a singleton!");
-	pInstance = this;
 	pImpl = std::make_unique<ParticleEffect::Impl>();
 }
 
@@ -115,14 +66,7 @@ ParticleEffect::~ParticleEffect()
 
 }
 
-// 获取单例
-ParticleEffect& ParticleEffect::Get() {
-	if (!pInstance)
-		throw std::exception("BasicEffect needs an instance!");
-	return *pInstance;
-}
-
-bool ParticleEffect::InitAll(ComPtr<ID3D11Device> device) {
+bool ParticleEffect::InitAll(ComPtr<ID3D11Device> device , const std::wstring& hlslname) {
 	if (!device)
 		return false;
 
@@ -131,28 +75,29 @@ bool ParticleEffect::InitAll(ComPtr<ID3D11Device> device) {
 
 	ComPtr<ID3DBlob> blob;
 
-
-	HR(device->CreateInputLayout(ParticleInputLayout::InputElements, ARRAYSIZE(ParticleInputLayout::InputElements),
-		blob->GetBufferPointer(), blob->GetBufferSize(), pImpl->posVelSizeAgeTypeLayout.GetAddressOf()));
-
 	// -----------StreamOut-------------------//
-	// 创建顶点着色器
 	//
 	HR(CreateShaderFromFile(L"HLSL\\Particle_StreamOut_VS.cso", L"HLSL\\Particle_StreamOut_VS.hlsl", "VS", "vs_5_0", blob.ReleaseAndGetAddressOf()));
 	HR(device->CreateVertexShader(blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, pImpl->streamOutVS.GetAddressOf()));
 
+	HR(device->CreateInputLayout(Particle::InputElements, ARRAYSIZE(Particle::InputElements),
+		blob->GetBufferPointer(), blob->GetBufferSize(), pImpl->posVelSizeAgeTypeLayout.GetAddressOf()));
+
 	HR(CreateShaderFromFile(L"HLSL\\Particle_StreamOut_GS.cso", L"HLSL\\Particle_StreamOut_GS.hlsl", "GS", "gs_5_0", blob.ReleaseAndGetAddressOf()));
 	HR(device->CreateGeometryShader(blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, pImpl->streamOutGS.GetAddressOf()));
 
-	// -----------Rain-------------------//
+	// -----------Draw-------------------//
 	//
-	HR(CreateShaderFromFile(L"HLSL\\RainParticle_Draw_VS.cso", L"HLSL\\RainParticle_Draw_VS.hlsl", "VS", "vs_5_0", blob.ReleaseAndGetAddressOf()));
+	HR(CreateShaderFromFile((L"HLSL\\" + hlslname + L"_Draw_VS.cso").c_str(), (L"HLSL\\" + hlslname + L"_Draw_VS.hlsl").c_str(), "VS", "vs_5_0", blob.ReleaseAndGetAddressOf()));
 	HR(device->CreateVertexShader(blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, pImpl->rainVS.GetAddressOf()));
 
-	HR(CreateShaderFromFile(L"HLSL\\RainParticle_Draw_GS.cso", L"HLSL\\RainParticle_Draw_GS.hlsl", "GS", "gs_5_0", blob.ReleaseAndGetAddressOf()));
+	HR(device->CreateInputLayout(Particle::InputElements, ARRAYSIZE(Particle::InputElements),
+		blob->GetBufferPointer(), blob->GetBufferSize(), pImpl->posVelSizeAgeTypeLayout.GetAddressOf()));
+
+	HR(CreateShaderFromFile((L"HLSL\\" + hlslname + L"_Draw_GS.cso").c_str(), (L"HLSL\\" + hlslname + L"_Draw_GS.hlsl").c_str(), "GS", "gs_5_0", blob.ReleaseAndGetAddressOf()));
 	HR(device->CreateGeometryShader(blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, pImpl->rainGS.GetAddressOf()));
 
-	HR(CreateShaderFromFile(L"HLSL\\RainParticle_Draw_PS.cso", L"HLSL\\RainParticle_Draw_PS.hlsl", "PS", "ps_5_0", blob.ReleaseAndGetAddressOf()));
+	HR(CreateShaderFromFile((L"HLSL\\" + hlslname + L"_Draw_PS.cso").c_str(), (L"HLSL\\" + hlslname + L"_Draw_PS.hlsl").c_str(), "PS", "ps_5_0", blob.ReleaseAndGetAddressOf()));
 	HR(device->CreatePixelShader(blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, pImpl->rainPS.GetAddressOf()));
 
 	// 初始化
@@ -160,6 +105,7 @@ bool ParticleEffect::InitAll(ComPtr<ID3D11Device> device) {
 
 	pImpl->cBufferPtrs.assign({
 		&pImpl->cbFrame,
+		&pImpl->cbFixed
 		});
 
 	// 创建常量缓冲区
@@ -172,7 +118,12 @@ bool ParticleEffect::InitAll(ComPtr<ID3D11Device> device) {
 }
 
 void ParticleEffect::SetRenderStreamOut(ComPtr<ID3D11DeviceContext> deviceContext) {
+	//
+	// Set IA stage.
+	//
 	deviceContext->IASetInputLayout(pImpl->posVelSizeAgeTypeLayout.Get());
+	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+
 	deviceContext->VSSetShader(pImpl->streamOutVS.Get(), nullptr, 0);
 	deviceContext->GSSetShader(pImpl->streamOutGS.Get(), nullptr, 0);
 	deviceContext->PSSetShader(nullptr, nullptr, 0);
@@ -184,16 +135,20 @@ void ParticleEffect::SetRenderStreamOut(ComPtr<ID3D11DeviceContext> deviceContex
 }
 
 void ParticleEffect::SetRenderRainDraw(ComPtr<ID3D11DeviceContext> deviceContext){
+	//
+	// Set IA stage.
+	//
 	deviceContext->IASetInputLayout(pImpl->posVelSizeAgeTypeLayout.Get());
 	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
 	deviceContext->VSSetShader(pImpl->rainVS.Get(), nullptr, 0);
 	deviceContext->GSSetShader(pImpl->rainGS.Get(), nullptr, 0);
 	deviceContext->PSSetShader(pImpl->rainPS.Get(), nullptr, 0);
+
 	deviceContext->RSSetState(RenderStates::RSNoCull.Get());
 	deviceContext->OMSetDepthStencilState(RenderStates::DSSNoDepthWrite.Get(), 0);
 	deviceContext->OMSetBlendState(nullptr, nullptr, 0xFFFFFFFF);
 }
-
 
 void ParticleEffect::SetViewProj(DirectX::FXMMATRIX M) {
 	auto& cBuffer = pImpl->cbFrame;
@@ -250,7 +205,22 @@ void ParticleEffect::SetRandomTex(ComPtr<ID3D11ShaderResourceView> tex) {
 	pImpl->RandomTex = tex;
 }
 
-
 void ParticleEffect::Apply(ComPtr<ID3D11DeviceContext> deviceContext) {
+	auto& pCBuffers = pImpl->cBufferPtrs;
+	// 将缓冲区绑定到渲染管线上
+	pCBuffers[0]->BindVS(deviceContext);
+	pCBuffers[1]->BindVS(deviceContext);
 
+	// 设置SRV
+	deviceContext->PSSetShaderResources(0, 1, pImpl->TexArray.GetAddressOf());
+	deviceContext->PSSetShaderResources(0, 2, pImpl->RandomTex.GetAddressOf());
+
+	if (pImpl->isDirty)
+	{
+		pImpl->isDirty = false;
+		for (auto& pCBuffer : pCBuffers)
+		{
+			pCBuffer->UpdateBuffer(deviceContext);
+		}
+	}
 }
