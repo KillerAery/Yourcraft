@@ -128,7 +128,7 @@ bool EngineApp::Init()
 	auto rain = Factory::CreateGameObject();
 	world->AddChild(rain);
 	std::vector<std::wstring> raindrops{ L"Texture\\raindrop.dds" };
-	auto particleSystem = Factory::CreateParticleSystem(&mRainEffect,raindrops,100);
+	auto particleSystem = Factory::CreateParticleSystem(&mRainEffect,raindrops,10000);
 	particleSystem->BindGameObject(rain);
 
 	return true;
@@ -213,12 +213,13 @@ void EngineApp::DrawScene()
 	// 批量网格渲染组件 全部渲染
 	mBatchMeshRenderPool.Draw(md3dImmediateContext, mBasicEffect);
 
-	//--------- 绘制粒子系统 ---------------//
-	mParticleSystemPool.Draw(md3dImmediateContext,*mCamera);
 
 	//--------- 绘制天空盒 --------------//
 	mSkyEffect.SetRenderDefault(md3dImmediateContext);
 	mSkyRenderPool.Draw(md3dImmediateContext, mSkyEffect,*mCamera);
+
+	//--------- 绘制粒子系统 ---------------//
+	mParticleSystemPool.Draw(md3dImmediateContext, *mCamera);
 
 	// ******************
 	// 绘制Direct2D部分
@@ -256,6 +257,7 @@ bool EngineApp::InitResource()
 	mBasicEffect.SetViewMatrix(camera->GetViewXM());
 	mBasicEffect.SetProjMatrix(camera->GetProjXM());
 
+	mRainEffect.SetViewProj(camera->GetViewProjXM());
 
 	// ******************
 	// 初始化不会变化的值

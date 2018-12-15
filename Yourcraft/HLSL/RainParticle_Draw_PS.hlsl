@@ -3,5 +3,5 @@
 
 float4 PS(GeoOut pin) : SV_TARGET
 {
-	return gTexArray.Sample(samLinear, float3(pin.Tex, 0));
+	return gTexArray.Sample(sam, float3(pin.Tex,0));
 }

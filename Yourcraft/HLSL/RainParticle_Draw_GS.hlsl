@@ -11,7 +11,7 @@ void GS(point VertexOut gin[1],
 	{
 		// Slant line in acceleration direction.
 		float3 p0 = gin[0].PosW;
-		float3 p1 = gin[0].PosW + 0.07f*gAccelW;
+		float3 p1 = gin[0].PosW + 0.07f * gAccelW;
 
 		GeoOut v0;
 		v0.PosH = mul(float4(p0, 1.0f), gViewProj);

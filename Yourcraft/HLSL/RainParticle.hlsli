@@ -7,7 +7,7 @@ struct VertexOut
 
 struct GeoOut
 {
-	float4 PosH  : SV_Position;
+	float4 PosH  : SV_POSITION;
 	float2 Tex   : TEXCOORD;
 };
 

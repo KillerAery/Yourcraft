@@ -472,7 +472,7 @@ Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> CreateRandomTexture1DSRV(Micros
 
 	for (int i = 0; i < 1024; ++i)
 	{
-
+	
 		randomValues[i].x = MathHelper::RandF(-1.0f, 1.0f);
 		randomValues[i].y = MathHelper::RandF(-1.0f, 1.0f);
 		randomValues[i].z = MathHelper::RandF(-1.0f, 1.0f);
@@ -510,7 +510,7 @@ Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> CreateRandomTexture1DSRV(Micros
 	viewDesc.Texture1D.MostDetailedMip = 0;
 
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> randomTexSRV;
-	HR(device->CreateShaderResourceView(randomTex, &viewDesc, &randomTexSRV));
+	HR(device->CreateShaderResourceView(randomTex, &viewDesc, randomTexSRV.GetAddressOf()));
 
 	return randomTexSRV;
 }

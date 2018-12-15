@@ -83,23 +83,21 @@ void ParticleSystem::Update(float dt, float gameTime)
 
 void ParticleSystem::Draw(ComPtr<ID3D11DeviceContext> dc, const Camera & cam)
 {
-
 	UINT stride = sizeof(Particle);
 	UINT offset = 0;
 
-	XMMATRIX VP = cam.GetViewProjXM();
 	//
 	// Set constants.
 	//
-	mEffect->SetViewProj(VP);
+	mEffect->SetViewProj(cam.GetViewProjXM());
 	mEffect->SetGameTime(mGameTime);
 	mEffect->SetTimeStep(mTimeStep);
 	mEffect->SetEyePosW(cam.GetPositionXM());
-	mEffect->SetEmitPosW(mEmitPosW);
+	mEffect->SetEmitPosW(cam.GetPositionXM());
 	mEffect->SetEmitDirW(mEmitDirW);
 	mEffect->SetTexArray(mTexArraySRV);
 	mEffect->SetAccelW({ -1.0f, -9.8f, 0.0f });
-	mEffect->SetLifeTime(10);
+	mEffect->SetLifeTime(3.0f);
 	//mEffect->SetRandomTex(mRandomTexSRV);
 
 	//---------SO-------------
