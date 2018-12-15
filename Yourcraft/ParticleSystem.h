@@ -13,8 +13,11 @@ public:
 	ParticleSystem();
 	~ParticleSystem();
 
-	void Init(ID3D11Device * device, ParticleEffect * effect,
+	void Init(ComPtr<ID3D11Device> device, ParticleEffect * effect,
 		ComPtr<ID3D11ShaderResourceView> tex2DArray, UINT maxParticles);
+
+	void BindGameObject(GameObject * gameObject);
+	void UnbindGameObject();
 
 	void SetEyePos(const Vector3& eyePosW);
 	void SetEmitPos(const Vector3& emitPosW);
@@ -23,8 +26,7 @@ public:
 	void Reset();
 	void Update(float dt, float gameTime);
 	void Draw(ComPtr<ID3D11DeviceContext> dc, const Camera& cam);
-	// Time elapsed since the system was reset.
-	//float GetAge()const;
+
 protected:
 	void BuildVB(ComPtr<ID3D11Device> device);
 protected:

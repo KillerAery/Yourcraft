@@ -55,6 +55,7 @@ bool EngineApp::Init()
 	Factory::SetPool(&mMeshRenderPool);
 	Factory::SetPool(&mRigidbodyPool);
 	Factory::SetPool(&mSkyRenderPool);
+	Factory::SetPool(&mParticleSystemPool);
 	Factory::SetDevice(md3dDevice);
 	Factory::SetDeviceContext(md3dImmediateContext);
 
@@ -123,7 +124,12 @@ bool EngineApp::Init()
 	groundmesh->BindGameObject(ground);
 	groundmesh->SetModel(Model(md3dDevice,MeshData::CreateBox(500,0,3000)));
 
+	//创建雨粒子系统对象
 	auto rain = Factory::CreateGameObject();
+	world->AddChild(rain);
+	std::vector<std::wstring> raindrops{ L"Texture\\raindrop.dds" };
+	auto particleSystem = Factory::CreateParticleSystem(&mRainEffect,raindrops,100);
+	particleSystem->BindGameObject(rain);
 
 	return true;
 }
@@ -177,6 +183,8 @@ void EngineApp::UpdateScene(float dt)
 	// --------- 测试更新部分 -------------//
 	mRigidbodyPool.Update();
 
+	mParticleSystemPool.Update(mTimer.GetDeltaTime(), mTimer.TotalTime());
+
 	mGameObjectPool.Update();
 	//物理世界更新
 	mPhysicsWorld.StepWorld(dt);
@@ -197,17 +205,20 @@ void EngineApp::DrawScene()
 	mBasicEffect.SetRenderDefault(md3dImmediateContext, BasicEffect::RenderObject);
 	mBasicEffect.SetTextureUsed(false);	// 绘制纹理
 	// 网格渲染组件 全部渲染
-	mMeshRenderPool.Update(md3dImmediateContext, mBasicEffect);
+	mMeshRenderPool.Draw(md3dImmediateContext, mBasicEffect);
 
 	//---------- 按实例批量绘制 ----------//
 	mBasicEffect.SetRenderDefault(md3dImmediateContext, BasicEffect::RenderInstance);
 	mBasicEffect.SetTextureUsed(true);	// 绘制纹理
 	// 批量网格渲染组件 全部渲染
-	mBatchMeshRenderPool.Update(md3dImmediateContext, mBasicEffect);
+	mBatchMeshRenderPool.Draw(md3dImmediateContext, mBasicEffect);
+
+	//--------- 绘制粒子系统 ---------------//
+	mParticleSystemPool.Draw(md3dImmediateContext,*mCamera);
 
 	//--------- 绘制天空盒 --------------//
 	mSkyEffect.SetRenderDefault(md3dImmediateContext);
-	mSkyRenderPool.Update(md3dImmediateContext, mSkyEffect,*mCamera);
+	mSkyRenderPool.Draw(md3dImmediateContext, mSkyEffect,*mCamera);
 
 	// ******************
 	// 绘制Direct2D部分

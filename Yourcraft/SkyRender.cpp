@@ -74,11 +74,6 @@ void SkyRender::UnbindGameObject()
 	}
 }
 
-void SkyRender::Update(ComPtr<ID3D11DeviceContext> deviceContext, SkyEffect & skyEffect, const Camera & camera)
-{
-	Draw(deviceContext, skyEffect, camera);
-}
-
 void SkyRender::InitResource(ComPtr<ID3D11Device> device, float skySphereRadius)
 {
 	auto sphere = MeshData::CreateSphere(skySphereRadius);

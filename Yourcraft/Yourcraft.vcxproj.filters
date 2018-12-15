@@ -190,6 +190,9 @@
     <ClCompile Include="DirectX11\Particle.cpp">
       <Filter>图形库框架层\DirectX11</Filter>
     </ClCompile>
+    <ClCompile Include="DirectX11\MathHelper.cpp">
+      <Filter>图形库框架层\DirectX11</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Transform.h">
@@ -301,6 +304,9 @@
       <Filter>引擎框架层\对象类\组件类\粒子特效组件</Filter>
     </ClInclude>
     <ClInclude Include="DirectX11\Particle.h">
+      <Filter>图形库框架层\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX11\MathHelper.h">
       <Filter>图形库框架层\DirectX11</Filter>
     </ClInclude>
   </ItemGroup>

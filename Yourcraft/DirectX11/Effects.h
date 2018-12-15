@@ -161,9 +161,9 @@ public:
 	bool InitAll(ComPtr<ID3D11Device> device, const std::wstring& hlslname);
 
 	// StreamOut绘制
-	void SetRenderStreamOut(ComPtr<ID3D11DeviceContext> deviceContext);
+	void SetRenderStreamOut(ComPtr<ID3D11DeviceContext> deviceContext, ComPtr<ID3D11Buffer> vertexBufferIn, ComPtr<ID3D11Buffer> vertexBufferOut);
 	// Rain粒子绘制
-	void SetRenderRainDraw(ComPtr<ID3D11DeviceContext> deviceContext); 
+	void SetRenderDraw(ComPtr<ID3D11DeviceContext> deviceContext); 
 
 	//
 	// 设置

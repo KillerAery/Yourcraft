@@ -36,14 +36,6 @@ void MeshRender::UnbindGameObject()
 	}
 }
 
-
-
-void MeshRender::Update(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect)
-{
-	Draw(deviceContext, effect);
-}
-
-
 void MeshRender::SetModel(Model&& model)
 {
 	std::swap(mModel, model);

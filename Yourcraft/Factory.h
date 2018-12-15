@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "ComponentHelper.h"
 
+#include "ParticleSystem.h"
 #include "BatchMeshRender.h"
 #include "MeshRender.h"
 #include "Rigidbody.h"
@@ -29,11 +30,14 @@ private:
 public:
 	~Factory();
 	static void SetPhysicsWorld(PhysicsWorld* world);
+
 	static void SetPool(ObjectPool<GameObject, 500>* pool);
 	static void SetPool(ObjectPool<BatchMeshRender, 10>* pool);
 	static void SetPool(ObjectPool<MeshRender, 100>* pool);
 	static void SetPool(ObjectPool<Rigidbody, 100>* pool);
 	static void SetPool(ObjectPool<SkyRender, 3>* pool);
+	static void SetPool(ObjectPool<ParticleSystem, 20>* pool);
+
 	static void SetDevice(ComPtr<ID3D11Device> Device);
 	static void SetDeviceContext(ComPtr<ID3D11DeviceContext> DeviceContext);
 
@@ -42,6 +46,7 @@ public:
 	static MeshRender* CreateMeshRender();
 	static Rigidbody * CreateRigidbody(ColliderPtr & collider, int mass = 1);
 	static SkyRender* CreateSkyRender(const std::wstring& cubemapFilename,float skySphereRadius,bool generateMips = false);
+	static ParticleSystem* CreateParticleSystem(ParticleEffect * effect,const std::vector<std::wstring>& tex2DStringArray, UINT maxParticles);
 
 	template<class T>
 	static T* GetComponent(GameObject* gameobject);
@@ -50,12 +55,14 @@ public:
 	GET_COMPONENT(MeshRender);
 	GET_COMPONENT(Rigidbody);
 	GET_COMPONENT(SkyRender);
+	GET_COMPONENT(ParticleSystem);
 protected:
 	ObjectPool<GameObject, 500>* rGameObjectPool;
 	ObjectPool<BatchMeshRender, 10>* rBatchMeshRenderPool;
 	ObjectPool<MeshRender, 100>* rMeshRenderPool;
 	ObjectPool<Rigidbody, 100>* rRigidbodyPool;
 	ObjectPool<SkyRender, 3>* rSkyRenderPool;
+	ObjectPool<ParticleSystem,20> * rParticleSystemPool;
 	ComPtr<ID3D11Device> rDevice;
 	ComPtr<ID3D11DeviceContext> rDeviceContext;
 	PhysicsWorld* rPhysicsWorld;

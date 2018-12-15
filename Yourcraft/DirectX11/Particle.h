@@ -3,7 +3,8 @@
 
 struct Particle
 {
-	Particle() = default;
+	Particle() : position(DirectX::XMFLOAT3(0,0,0)), velocity(DirectX::XMFLOAT3(0, 0, 0)), size(DirectX::XMFLOAT2(1,1)), age(0), type(0) {
+	}
 
 	Particle(const Particle&) = default;
 	Particle& operator=(const Particle&) = default;

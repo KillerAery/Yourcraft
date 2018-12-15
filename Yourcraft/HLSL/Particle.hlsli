@@ -3,7 +3,7 @@
 //***********************************************
 
 
-cbuffer cbPerFrame : register(b1)
+cbuffer cbPerFrame : register(b0)
 {
 	float3 gEyePosW;
 
@@ -15,7 +15,8 @@ cbuffer cbPerFrame : register(b1)
 	float gTimeStep;
 	float4x4 gViewProj;
 };
-cbuffer cbFixed : register(b0)
+
+cbuffer cbFixed : register(b1)
 {
 	// Net constant acceleration used to accerlate the particles.
 	float3 gAccelW = { -1.0f, -9.8f, 0.0f };

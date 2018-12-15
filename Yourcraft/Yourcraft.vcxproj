@@ -24,6 +24,7 @@
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="DirectX11\MathHelper.cpp" />
     <ClCompile Include="DirectX11\Particle.cpp" />
     <ClCompile Include="ParticleEffect.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
@@ -62,6 +63,7 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentHelper.h" />
+    <ClInclude Include="DirectX11\MathHelper.h" />
     <ClInclude Include="DirectX11\Particle.h" />
     <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="SkyRender.h" />

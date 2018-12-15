@@ -12,6 +12,9 @@ public:
 	template <class ...Args>
 	void Update(Args&&... args);
 
+	template <class ...Args>
+	void Draw(Args&&... args);
+
 	bool DeleteObject(int index);
 
 	template <class ...Args>
@@ -53,6 +56,24 @@ void ObjectPool<T, MAX_SIZE>::Update(Args&&... args)
 		else if (mObjects[i].IsEnabled())
 		{
 			mObjects[i].Update(std::forward<Args>(args)...);
+		}
+	}
+}
+
+template<class T, int MAX_SIZE>
+template<class ...Args>
+void ObjectPool<T, MAX_SIZE>::Draw(Args && ...args)
+{
+	mDeletedIndexs.clear();
+	for (int i = 0; i < mSize; ++i)
+	{
+		if (!mObjects[i].IsAlive())
+		{
+			mDeletedIndexs.push_back(i);
+		}
+		else if (mObjects[i].IsEnabled())
+		{
+			mObjects[i].Draw(std::forward<Args>(args)...);
 		}
 	}
 }

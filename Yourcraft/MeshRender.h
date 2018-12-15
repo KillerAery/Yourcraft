@@ -18,10 +18,9 @@ public:
 	void BindGameObject(GameObject * gameObject);
 	void UnbindGameObject();
 
-	void Update(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect);
 	void SetModel(Model&& model);
 	void SetModel(const Model& model);
-protected:
+
 	void Draw(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect);
 protected:
 	Model mModel;												// Ä£ÐÍ

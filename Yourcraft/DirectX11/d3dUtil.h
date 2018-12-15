@@ -80,4 +80,9 @@ Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> CreateWICTextureCubeFromFile(
 	std::vector<std::wstring> cubemapFileNames,
 	bool generateMips = false);
 
+
+
+Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> CreateRandomTexture1DSRV(
+	Microsoft::WRL::ComPtr<ID3D11Device> device);
+
 #endif

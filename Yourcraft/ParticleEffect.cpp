@@ -48,7 +48,7 @@ public:
 	ComPtr<ID3D11GeometryShader> rainGS;
 	ComPtr<ID3D11PixelShader> rainPS;
 
-	ComPtr<ID3D11InputLayout> posVelSizeAgeTypeLayout;		// 输入布局
+	ComPtr<ID3D11InputLayout> particleLayout;		// 输入布局
 };
 
 //
@@ -75,16 +75,30 @@ bool ParticleEffect::InitAll(ComPtr<ID3D11Device> device , const std::wstring& h
 
 	ComPtr<ID3DBlob> blob;
 
+	// 随机textrue
+	SetRandomTex(CreateRandomTexture1DSRV(device));
+
 	// -----------StreamOut-------------------//
 	//
 	HR(CreateShaderFromFile(L"HLSL\\Particle_StreamOut_VS.cso", L"HLSL\\Particle_StreamOut_VS.hlsl", "VS", "vs_5_0", blob.ReleaseAndGetAddressOf()));
 	HR(device->CreateVertexShader(blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, pImpl->streamOutVS.GetAddressOf()));
 
 	HR(device->CreateInputLayout(Particle::InputElements, ARRAYSIZE(Particle::InputElements),
-		blob->GetBufferPointer(), blob->GetBufferSize(), pImpl->posVelSizeAgeTypeLayout.GetAddressOf()));
+		blob->GetBufferPointer(), blob->GetBufferSize(), pImpl->particleLayout.GetAddressOf()));
 
 	HR(CreateShaderFromFile(L"HLSL\\Particle_StreamOut_GS.cso", L"HLSL\\Particle_StreamOut_GS.hlsl", "GS", "gs_5_0", blob.ReleaseAndGetAddressOf()));
-	HR(device->CreateGeometryShader(blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, pImpl->streamOutGS.GetAddressOf()));
+
+	UINT stride = sizeof(Particle);
+	const D3D11_SO_DECLARATION_ENTRY posColorLayout[5] = {
+		{0, "POSITION",	 0, 0, 3, 0 },
+		{0, "VELOCITY",	 0, 0, 3, 0 },
+		{0, "SIZE",		 0, 0, 2, 0 },
+		{0, "AGE",		 0, 0, 1, 0 },
+		{0, "TYPE",		 0, 0, 1, 0 },
+	};
+
+	HR(device->CreateGeometryShaderWithStreamOutput(blob->GetBufferPointer(), blob->GetBufferSize(), posColorLayout, ARRAYSIZE(posColorLayout),
+		&stride, 1, D3D11_SO_NO_RASTERIZED_STREAM, nullptr, pImpl->streamOutGS.GetAddressOf()));
 
 	// -----------Draw-------------------//
 	//
@@ -92,7 +106,7 @@ bool ParticleEffect::InitAll(ComPtr<ID3D11Device> device , const std::wstring& h
 	HR(device->CreateVertexShader(blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, pImpl->rainVS.GetAddressOf()));
 
 	HR(device->CreateInputLayout(Particle::InputElements, ARRAYSIZE(Particle::InputElements),
-		blob->GetBufferPointer(), blob->GetBufferSize(), pImpl->posVelSizeAgeTypeLayout.GetAddressOf()));
+		blob->GetBufferPointer(), blob->GetBufferSize(), pImpl->particleLayout.GetAddressOf()));
 
 	HR(CreateShaderFromFile((L"HLSL\\" + hlslname + L"_Draw_GS.cso").c_str(), (L"HLSL\\" + hlslname + L"_Draw_GS.hlsl").c_str(), "GS", "gs_5_0", blob.ReleaseAndGetAddressOf()));
 	HR(device->CreateGeometryShader(blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, pImpl->rainGS.GetAddressOf()));
@@ -117,37 +131,43 @@ bool ParticleEffect::InitAll(ComPtr<ID3D11Device> device , const std::wstring& h
 	return true;
 }
 
-void ParticleEffect::SetRenderStreamOut(ComPtr<ID3D11DeviceContext> deviceContext) {
-	//
-	// Set IA stage.
-	//
-	deviceContext->IASetInputLayout(pImpl->posVelSizeAgeTypeLayout.Get());
+void ParticleEffect::SetRenderStreamOut(ComPtr<ID3D11DeviceContext> deviceContext, ComPtr<ID3D11Buffer> vertexBufferIn, ComPtr<ID3D11Buffer> vertexBufferOut) {
+
+	// 先恢复流输出默认设置，防止顶点缓冲区同时绑定在输入和输出阶段
+	UINT stride = sizeof(Particle);
+	UINT offset = 0;
+	ID3D11Buffer * nullBuffer = nullptr;
+	deviceContext->SOSetTargets(1, &nullBuffer, &offset);
+
 	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+	deviceContext->IASetInputLayout(pImpl->particleLayout.Get());
+
+	deviceContext->IASetVertexBuffers(0, 1, vertexBufferIn.GetAddressOf(), &stride, &offset);
 
 	deviceContext->VSSetShader(pImpl->streamOutVS.Get(), nullptr, 0);
 	deviceContext->GSSetShader(pImpl->streamOutGS.Get(), nullptr, 0);
+
+	deviceContext->SOSetTargets(1, vertexBufferOut.GetAddressOf(), &offset);
+	
+	deviceContext->RSSetState(nullptr);
 	deviceContext->PSSetShader(nullptr, nullptr, 0);
-	deviceContext->OMSetDepthStencilState(RenderStates::DSSNoDepthTest.Get(), 0);
-	deviceContext->OMSetBlendState(nullptr, nullptr, 0xFFFFFFFF);
-	UINT offset = 0;
-	ID3D11Buffer* bufferArray[1] = { 0 };
-	deviceContext->SOSetTargets(1, bufferArray, &offset);
 }
 
-void ParticleEffect::SetRenderRainDraw(ComPtr<ID3D11DeviceContext> deviceContext){
-	//
-	// Set IA stage.
-	//
-	deviceContext->IASetInputLayout(pImpl->posVelSizeAgeTypeLayout.Get());
-	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+void ParticleEffect::SetRenderDraw(ComPtr<ID3D11DeviceContext> deviceContext){
 
+	//deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
+	deviceContext->IASetInputLayout(pImpl->particleLayout.Get());
 	deviceContext->VSSetShader(pImpl->rainVS.Get(), nullptr, 0);
+	// 关闭流输出
+	ID3D11Buffer* bufferArray[1] = { nullptr };
+	UINT offset = 0;
+	deviceContext->SOSetTargets(1, bufferArray, &offset);
 	deviceContext->GSSetShader(pImpl->rainGS.Get(), nullptr, 0);
+	deviceContext->RSSetState(nullptr);
 	deviceContext->PSSetShader(pImpl->rainPS.Get(), nullptr, 0);
 
-	deviceContext->RSSetState(RenderStates::RSNoCull.Get());
 	deviceContext->OMSetDepthStencilState(RenderStates::DSSNoDepthWrite.Get(), 0);
-	deviceContext->OMSetBlendState(nullptr, nullptr, 0xFFFFFFFF);
+	//deviceContext->OMSetBlendState(nullptr, nullptr, 0xFFFFFFFF);
 }
 
 void ParticleEffect::SetViewProj(DirectX::FXMMATRIX M) {
@@ -213,7 +233,7 @@ void ParticleEffect::Apply(ComPtr<ID3D11DeviceContext> deviceContext) {
 
 	// 设置SRV
 	deviceContext->PSSetShaderResources(0, 1, pImpl->TexArray.GetAddressOf());
-	deviceContext->PSSetShaderResources(0, 2, pImpl->RandomTex.GetAddressOf());
+	deviceContext->PSSetShaderResources(1, 1, pImpl->RandomTex.GetAddressOf());
 
 	if (pImpl->isDirty)
 	{

@@ -1,5 +1,6 @@
 #include "ParticleSystem.h"
 #include "Particle.h"
+#include "ComponentHelper.h"
 
 using namespace DirectX;
 
@@ -21,14 +22,36 @@ ParticleSystem::~ParticleSystem()
 
 }
 
-
-void ParticleSystem::Init(ID3D11Device * device, ParticleEffect * effect, ComPtr<ID3D11ShaderResourceView> tex2DArray, UINT maxParticles)
+void ParticleSystem::Init(ComPtr<ID3D11Device> device, ParticleEffect * effect, ComPtr<ID3D11ShaderResourceView> tex2DArray, UINT maxParticles)
 {
+	Component::Init();
+
 	mMaxParticles = maxParticles;
 	mEffect = effect;
 	mTexArraySRV = tex2DArray;
+
 	BuildVB(device);
 }
+
+void ParticleSystem::BindGameObject(GameObject * gameObject)
+{
+	if (mGameObject) {
+		UnbindGameObject();
+	}
+	if (gameObject) {
+		mGameObject = gameObject;
+		mGameObject->AddComponentInfor(static_cast<int>(ComponentType::ParticleSystem), mIndex);
+	}
+}
+
+void ParticleSystem::UnbindGameObject()
+{
+	if (mGameObject) {
+		mGameObject->RemoveComponentInfor(static_cast<int>(ComponentType::ParticleSystem));
+		mGameObject = nullptr;
+	}
+}
+
 
 void ParticleSystem::SetEyePos(const Vector3 & eyePosW)
 {
@@ -60,6 +83,10 @@ void ParticleSystem::Update(float dt, float gameTime)
 
 void ParticleSystem::Draw(ComPtr<ID3D11DeviceContext> dc, const Camera & cam)
 {
+
+	UINT stride = sizeof(Particle);
+	UINT offset = 0;
+
 	XMMATRIX VP = cam.GetViewProjXM();
 	//
 	// Set constants.
@@ -67,29 +94,26 @@ void ParticleSystem::Draw(ComPtr<ID3D11DeviceContext> dc, const Camera & cam)
 	mEffect->SetViewProj(VP);
 	mEffect->SetGameTime(mGameTime);
 	mEffect->SetTimeStep(mTimeStep);
-	mEffect->SetEyePosW(mEyePosW);
+	mEffect->SetEyePosW(cam.GetPositionXM());
 	mEffect->SetEmitPosW(mEmitPosW);
 	mEffect->SetEmitDirW(mEmitDirW);
 	mEffect->SetTexArray(mTexArraySRV);
+	mEffect->SetAccelW({ -1.0f, -9.8f, 0.0f });
+	mEffect->SetLifeTime(10);
 	//mEffect->SetRandomTex(mRandomTexSRV);
 
-	mEffect->SetRenderStreamOut(dc);
-
-	UINT stride = sizeof(Particle);
-	UINT offset = 0;
-
+	//---------SO-------------
 	// On the first pass, use the initialization VB.  Otherwise, use
 	// the VB that contains the current particle list.
 	if (mFirstRun)
-		dc->IASetVertexBuffers(0, 1, &mInitVB, &stride, &offset);
+		mEffect->SetRenderStreamOut(dc, mInitVB, mStreamOutVB);
 	else
-		dc->IASetVertexBuffers(0, 1, &mDrawVB, &stride, &offset);
+		mEffect->SetRenderStreamOut(dc, mDrawVB, mStreamOutVB);
 
 	//
 	// Draw the current particle list using stream-out only to update them.  
 	// The updated vertices are streamed-out to the target VB. 
 	//
-	dc->SOSetTargets(1, &mStreamOutVB, &offset);
 	mEffect->Apply(dc);
 
 	if (mFirstRun)
@@ -102,17 +126,17 @@ void ParticleSystem::Draw(ComPtr<ID3D11DeviceContext> dc, const Camera & cam)
 		dc->DrawAuto();
 	}
 
-	// done streaming-out--unbind the vertex buffer
-	ID3D11Buffer* bufferArray[1] = { 0 };
-	dc->SOSetTargets(1, bufferArray, &offset);
-
 	// ping-pong the vertex buffers
 	std::swap(mDrawVB, mStreamOutVB);
+
+	//DRAW
+	mEffect->SetRenderDraw(dc);
 
 	//
 	// Draw the updated particle system we just streamed-out. 
 	//
-	dc->IASetVertexBuffers(0, 1, &mDrawVB, &stride, &offset);
+	auto vb = mDrawVB.Get();
+	dc->IASetVertexBuffers(0, 1, &vb, &stride, &offset);
 	mEffect->Apply(dc);
 	dc->DrawAuto();
 }
@@ -122,7 +146,6 @@ void ParticleSystem::BuildVB(ComPtr<ID3D11Device> device)
 //
 // Create the buffer to kick-off the particle system.
 //
-
 	D3D11_BUFFER_DESC vbd;
 	vbd.Usage = D3D11_USAGE_DEFAULT;
 	vbd.ByteWidth = sizeof(Particle) * 1;

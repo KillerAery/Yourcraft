@@ -1,4 +1,5 @@
 #include "Factory.h"
+#include "d3dUtil.h"
 
 Factory Factory::sFactory = Factory();
 
@@ -39,6 +40,11 @@ void Factory::SetPool(ObjectPool<Rigidbody, 100>* pool)
 void Factory::SetPool(ObjectPool<SkyRender, 3>* pool)
 {
 	sFactory.rSkyRenderPool = pool;
+}
+
+void Factory::SetPool(ObjectPool<ParticleSystem, 20>* pool)
+{
+	sFactory.rParticleSystemPool = pool;
 }
 
 void Factory::SetDevice(ComPtr<ID3D11Device> device)
@@ -84,6 +90,15 @@ SkyRender * Factory::CreateSkyRender(const std::wstring & cubemapFilename, float
 {
 	auto component = sFactory.rSkyRenderPool->AddObject(sFactory.rDevice, sFactory.rDeviceContext, cubemapFilename, skySphereRadius, generateMips);
 	int index = sFactory.rSkyRenderPool->GetIndexByPointer(component);
+	component->SetIndex_WARNING(index);
+	return component;
+}
+
+ParticleSystem * Factory::CreateParticleSystem(ParticleEffect * effect, const std::vector<std::wstring>& tex2DStringArray, UINT maxParticles)
+{
+	ComPtr<ID3D11ShaderResourceView> tex2DArray = CreateDDSTexture2DArrayFromFile(sFactory.rDevice, sFactory.rDeviceContext,tex2DStringArray);
+	auto component = sFactory.rParticleSystemPool->AddObject(sFactory.rDevice, effect, tex2DArray, maxParticles);
+	int index = sFactory.rParticleSystemPool->GetIndexByPointer(component);
 	component->SetIndex_WARNING(index);
 	return component;
 }

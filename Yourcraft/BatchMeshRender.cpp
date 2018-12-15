@@ -69,11 +69,6 @@ bool BatchMeshRender::IsEnabled()
 	return false;
 }
 
-void BatchMeshRender::Update(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect)
-{
-	Draw(deviceContext, effect);
-}
-
 void BatchMeshRender::SetModel(Model&& model)
 {
 	std::swap(mModel, model);
