@@ -94,7 +94,7 @@ bool EngineApp::Init()
 
 	auto tc1 = Factory::GetComponent<Rigidbody>(go[5]);
 	auto tc2 = Factory::GetComponent<Rigidbody>(go[7]);
-	tc2->UnbindGameObject();
+	//tc2->UnbindGameObject();
 	//mWorld->RemoveChild(mGameObject[3]);
 	//mWorld->RemoveChild(mGameObject[4]);
 

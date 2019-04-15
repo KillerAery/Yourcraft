@@ -18,8 +18,8 @@ public:
 	void BindGameObject(GameObject* object);
 	bool UnbindGameObject(GameObject* object);
 
-	virtual bool IsAlive();
-	virtual bool IsEnabled();
+	bool IsAlive();
+	bool IsEnabled();
 
 	void SetModel(Model&& model);
 	void SetModel(const Model& model);

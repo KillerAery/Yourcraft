@@ -38,7 +38,6 @@ public:
 	// 获取视口
 	D3D11_VIEWPORT GetViewPort() const;
 
-
 	// 设置视锥体
 	void SetFrustum(float fovY, float aspect, float nearZ, float farZ);
 

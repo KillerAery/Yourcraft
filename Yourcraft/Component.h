@@ -8,8 +8,8 @@ class Component : public Object
 {
 public:
 	Component();
-	virtual bool IsAlive();
-	virtual bool IsEnabled();
+	virtual bool IsAlive() final;
+	virtual bool IsEnabled() final;
 	GameObject* GetGameObject()const;
 	//设置在对象池的index,仅供factory使用，但是懒得写一堆friend了,靠命名警告吧
 	void SetIndex_WARNING(int index);

@@ -18,6 +18,9 @@ public:
 	void SetTag(const std::string& tag);
 	const std::string& GetTag();
 
+	void SetLayer(int layer);
+	int GetLayer();
+
 	void AddComponentInfor(int type,int componentIndex);
 	void RemoveComponentInfor(int type);
 	int FindComponetIndex(int type);
@@ -30,6 +33,7 @@ private:
 protected:
 	std::string mName;
 	std::string mTag;
-	std::list<ComponentInfor> mComponentInfor;
+	int mLayer;
+	std::list<ComponentInfor> mComponentsInfor;
 };
 

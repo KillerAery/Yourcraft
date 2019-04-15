@@ -1,20 +1,24 @@
 #pragma once
 
-
+//底层对象——不应直接被使用，而是被继承从而使用
 class Object
 {
 public:
-	Object();
-	void Kill();
-	virtual bool IsAlive();
-	virtual bool IsEnabled();
-	virtual void AddRefCount();
-	virtual void ReduceRefCount();
 	void SetEnabled(bool enabled);
-protected:
-	void Init();
-	~Object();
+
+	void AddRefCount();
+	void ReduceRefCount();
+
+	void Kill();
 	void Dead();
+protected:
+	Object();
+	~Object();
+
+	void Init();
+
+	bool IsAlive();
+	bool IsEnabled();
 private:
 	int mCount;
 protected:

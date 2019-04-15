@@ -5,7 +5,8 @@
 
 GameObject::GameObject(): 
 mName("GameObject"),
-mTag("Default")
+mTag("Default"),
+mLayer(0)
 {
 
 }
@@ -16,7 +17,8 @@ void GameObject::Init()
 	Transform::Init();
 	mName = "GameObject";
 	mTag = "Default";
-	mComponentInfor.clear();
+	mLayer = 0;
+	mComponentsInfor.clear();
 }
 
 
@@ -50,18 +52,28 @@ const std::string& GameObject::GetTag()
 	return mTag;
 }
 
+void GameObject::SetLayer(int layer)
+{
+	mLayer = layer;
+}
+
+int GameObject::GetLayer()
+{
+	return mLayer;
+}
+
 
 void GameObject::AddComponentInfor(int type, int componentIndex){
-	mComponentInfor.emplace_back(type, componentIndex);
+	mComponentsInfor.emplace_back(type, componentIndex);
 }
 
 void GameObject::RemoveComponentInfor(int type)
 {
-	auto itr = std::find_if(mComponentInfor.begin(), mComponentInfor.end(), 
+	auto itr = std::find_if(mComponentsInfor.begin(), mComponentsInfor.end(), 
 		[type](const ComponentInfor& ci) {return type == ci.type;});
 
-	if (itr != mComponentInfor.end())
-		mComponentInfor.erase(itr);
+	if (itr != mComponentsInfor.end())
+		mComponentsInfor.erase(itr);
 	//如果删除失败，则报错
 	else
 		assert("Remove Unsuccess!");
@@ -69,7 +81,7 @@ void GameObject::RemoveComponentInfor(int type)
 
 int GameObject::FindComponetIndex(int type)
 {
-	for(auto& infor : mComponentInfor)
+	for(auto& infor : mComponentsInfor)
 	{
 		if (infor.type == type)
 			return infor.index;

@@ -1,17 +1,14 @@
 #include "Object.h"
 
-void Object::ReduceRefCount()
+
+Object::Object():mCount(0), mEnabled(false)
 {
+	
 }
 
 Object::~Object()
 {
 	Dead();
-}
-
-Object::Object():mCount(0), mEnabled(false)
-{
-	
 }
 
 void Object::Init()
@@ -20,10 +17,6 @@ void Object::Init()
 	mEnabled = true;
 }
 
-void Object::Kill()
-{
-	mCount = 0;
-}
 
 bool Object::IsAlive()
 {
@@ -45,7 +38,17 @@ void Object::AddRefCount()
 	mCount++;
 }
 
-void Object::Dead()
+void Object::ReduceRefCount()
+{
+	mCount--;
+}
+
+void Object::Kill()
 {
 	mCount = 0;
+}
+
+void Object::Dead()
+{
+
 }

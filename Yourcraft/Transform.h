@@ -11,10 +11,10 @@ public:
 	~Transform();
 	void Init();
 	void Update();
-	virtual bool IsAlive();
-	virtual bool IsEnabled();
-	virtual void AddRefCount();
-	virtual void ReduceRefCount();
+	bool IsAlive();
+	bool IsEnabled();
+	void AddRefCount();
+	void ReduceRefCount();
 
 	void BecomeRoot();
 

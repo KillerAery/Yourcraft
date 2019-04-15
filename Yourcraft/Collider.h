@@ -8,9 +8,9 @@ class Collider
 {
 public:
 	Collider();
-	~Collider();
 	btCollisionShape* GetShape()const;
 protected:
+	~Collider();
 	btCollisionShape* mShape;
 };
 

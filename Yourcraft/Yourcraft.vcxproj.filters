@@ -83,6 +83,9 @@
     <Filter Include="着色器\粒子特效\Fire">
       <UniqueIdentifier>{a1be510a-0f5e-47f4-9c0c-07ffb32695e6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="引擎框架层\对象类\组件类\摄像机组件">
+      <UniqueIdentifier>{c58e5e71-c373-4850-80b5-918dd3921fb9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Transform.cpp">
@@ -116,9 +119,6 @@
       <Filter>图形库框架层\DirectX11</Filter>
     </ClCompile>
     <ClCompile Include="DirectX11\RenderStates.cpp">
-      <Filter>图形库框架层\DirectX11</Filter>
-    </ClCompile>
-    <ClCompile Include="DirectX11\Camera.cpp">
       <Filter>图形库框架层\DirectX11</Filter>
     </ClCompile>
     <ClCompile Include="DirectX11\Collision.cpp">
@@ -193,6 +193,9 @@
     <ClCompile Include="DirectX11\MathHelper.cpp">
       <Filter>图形库框架层\DirectX11</Filter>
     </ClCompile>
+    <ClCompile Include="DirectX11\Camera.cpp">
+      <Filter>引擎框架层\对象类\组件类\摄像机组件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Transform.h">
@@ -235,9 +238,6 @@
       <Filter>图形库框架层\DirectX11</Filter>
     </ClInclude>
     <ClInclude Include="DirectX11\RenderStates.h">
-      <Filter>图形库框架层\DirectX11</Filter>
-    </ClInclude>
-    <ClInclude Include="DirectX11\Camera.h">
       <Filter>图形库框架层\DirectX11</Filter>
     </ClInclude>
     <ClInclude Include="DirectX11\Collision.h">
@@ -308,6 +308,9 @@
     </ClInclude>
     <ClInclude Include="DirectX11\MathHelper.h">
       <Filter>图形库框架层\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX11\Camera.h">
+      <Filter>引擎框架层\对象类\组件类\摄像机组件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
