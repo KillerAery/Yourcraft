@@ -17,7 +17,7 @@ void Factory::SetPhysicsWorld(PhysicsWorld * world)
 	sFactory.rPhysicsWorld = world;
 }
 
-void Factory::SetPool(ObjectPool<GameObject, 500>* pool)
+void Factory::SetPool(ObjectPool<GameObject,MAX_GAMEOBJECT_NUM>* pool)
 {
 	sFactory.rGameObjectPool = pool;
 }

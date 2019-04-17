@@ -19,7 +19,7 @@ BatchMeshRender::~BatchMeshRender()
 
 void BatchMeshRender::Init()
 {
-	BatchRender::Init();
+	Render::Init();
 	mGameObjects.clear();
 }
 
@@ -27,10 +27,12 @@ void BatchMeshRender::BindGameObject(GameObject* object)
 {
 	if (object) {
 		auto toBind = mGameObjects.find(object);
-		//若没找到要删除的目标，则添加
+		//若没找到一样的目标，则添加
 		if (toBind == mGameObjects.end()) {
 			mGameObjects.insert(object);
 			object->AddComponentInfor(static_cast<int>(ComponentType::BatchMeshRender), mIndex);
+			//更新mGameObject 控制被对象池回收
+			mGameObject = CheckAlivingGameObject();
 		}
 	}
 }
@@ -45,28 +47,10 @@ bool BatchMeshRender::UnbindGameObject(GameObject* object)
 	}
 	(*toDelete)->RemoveComponentInfor(static_cast<int>(ComponentType::BatchMeshRender));
 	mGameObjects.erase(toDelete);
+	//否则应更新mGameObject 控制被对象池回收
+	mGameObject = CheckAlivingGameObject();
 
 	return true;
-}
-
-//存活条件：自身存活 或者 存在寄生的活游戏对象时
-bool BatchMeshRender::IsAlive(){
-	if(BatchRender::IsAlive())return true;
-	for(auto tf : mGameObjects)
-	{
-		if (tf->IsAlive()) { return true; }
-	}
-	return false;
-}
-
-bool BatchMeshRender::IsEnabled()
-{
-	if (BatchRender::IsEnabled())return true;
-	for (auto tf : mGameObjects)
-	{
-		if (tf->IsEnabled()) { return true; }
-	}
-	return false;
 }
 
 void BatchMeshRender::SetModel(Model&& model)
@@ -95,8 +79,20 @@ void BatchMeshRender::ResizeBuffer(ComPtr<ID3D11Device> device, size_t count)
 	HR(device->CreateBuffer(&vbd, nullptr, mInstancedBuffer.ReleaseAndGetAddressOf()));
 }
 
+GameObject * BatchMeshRender::CheckAlivingGameObject()
+{
+	for (auto go : mGameObjects){
+		if (go->IsAlive()) {
+			return go;
+		}
+	}
+	return nullptr;
+}
+
 void BatchMeshRender::Draw(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect)
 {
+	if (mGameObjects.empty())return;
+
 	D3D11_MAPPED_SUBRESOURCE mappedData;
 	UINT numInsts = (UINT)mGameObjects.size();
 	//若传入的数据比实例缓冲区还大，需要重新分配
@@ -112,11 +108,11 @@ void BatchMeshRender::Draw(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffec
 	InstancedData * iter = reinterpret_cast<InstancedData*>(mappedData.pData);
 
 
-	for (auto transform : mGameObjects)
+	for (auto go : mGameObjects)
 	{
-		if (transform->IsAlive() && transform->IsEnabled()) {
+		if (go->IsAlive() && go->IsEnabled()) {
 			//二叉树要求const&遍历，因此此处用const强制转换
-			XMMATRIX matrix = XMLoadFloat4x4(&transform->GetWorldMatrix());
+			XMMATRIX matrix = XMLoadFloat4x4(&go->GetWorldMatrix());
 			iter->world = XMMatrixTranspose(matrix);
 			iter->worldInvTranspose = XMMatrixInverse(nullptr, matrix);	// 两次转置抵消
 			iter++;

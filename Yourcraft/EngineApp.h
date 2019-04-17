@@ -6,8 +6,10 @@
 #include "ObjReader.h"
 #include "Effects.h"
 
+#include "Factory.h"
 #include "TextruePool.h"
 #include "ObjectPool.h"
+
 #include "GameObject.h"
 #include "BatchMeshRender.h"
 #include "MeshRender.h"
@@ -45,7 +47,7 @@ protected:
 	PhysicsWorld mPhysicsWorld;								// 物理世界
 
 	TextruePool mTextPool;
-	ObjectPool<GameObject,500> mGameObjectPool;
+	ObjectPool<GameObject,MAX_GAMEOBJECT_NUM> mGameObjectPool;
 	ObjectPool<BatchMeshRender,10> mBatchMeshRenderPool;
 	ObjectPool<MeshRender, 100> mMeshRenderPool;
 	ObjectPool<Rigidbody, 100> mRigidbodyPool;

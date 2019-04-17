@@ -18,6 +18,9 @@
 		else {return sFactory.r##_TYPE_##Pool->FindObject(index);}\
 	}
 
+
+const int MAX_GAMEOBJECT_NUM = 1024;
+
 //¹¤³§
 class Factory
 {
@@ -31,7 +34,7 @@ public:
 	~Factory();
 	static void SetPhysicsWorld(PhysicsWorld* world);
 
-	static void SetPool(ObjectPool<GameObject, 500>* pool);
+	static void SetPool(ObjectPool<GameObject, MAX_GAMEOBJECT_NUM>* pool);
 	static void SetPool(ObjectPool<BatchMeshRender, 10>* pool);
 	static void SetPool(ObjectPool<MeshRender, 100>* pool);
 	static void SetPool(ObjectPool<Rigidbody, 100>* pool);
@@ -57,7 +60,7 @@ public:
 	GET_COMPONENT(SkyRender);
 	GET_COMPONENT(ParticleSystem);
 protected:
-	ObjectPool<GameObject, 500>* rGameObjectPool;
+	ObjectPool<GameObject, MAX_GAMEOBJECT_NUM>* rGameObjectPool;
 	ObjectPool<BatchMeshRender, 10>* rBatchMeshRenderPool;
 	ObjectPool<MeshRender, 100>* rMeshRenderPool;
 	ObjectPool<Rigidbody, 100>* rRigidbodyPool;
