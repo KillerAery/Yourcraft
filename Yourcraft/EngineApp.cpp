@@ -66,8 +66,11 @@ bool EngineApp::Init()
 
 	//批量示例渲染组件
 	mObjReader.Read(L"Model\\house.mbo", L"Model\\house.obj");	//房屋模型
-	auto br = Factory::CreateBatchMeshRender();
-	br->SetModel(Model(md3dDevice, mObjReader));
+
+	auto model = Model(md3dDevice, mObjReader);
+
+	auto bmr = Factory::CreateBatchMeshRender();
+	bmr->SetModel(model);
 	
 
 	for(int i =0;i<10;++i)
@@ -76,24 +79,27 @@ bool EngineApp::Init()
 		go[i]->SetPosition(Vector3(0, 400-80*i, 700+i*12.0f));
 		go[i]->SetScale(Vector3(0.2, 0.2, 0.2));
 		world->AddChild(go[i]);
-		//auto meshRender = Factory::CreateMeshRender(go[i]);
-		//meshRender->SetModel(Model(md3dDevice, mObjReader));
-		br->BindGameObject(go[i]);
+		//auto meshRender = Factory::CreateMeshRender();
+		//meshRender->SetModel(model);
+		//meshRender->BindGameObject(go[i]);
+		bmr->BindGameObject(go[i]);
 
 		auto gcolider = BoxCollider::Create(30.0f, 30.0f, 30.0f);
-		auto pc = Factory::CreateRigidbody(gcolider);
-		pc->BindGameObject(go[i]);
+		auto rb = Factory::CreateRigidbody(gcolider);
+		rb->BindGameObject(go[i]);
 	}
 
 	//测试父子对象
 	world->RemoveChild(go[7]);
-	go[2]->AddChild(go[7]);
+	go[3]->AddChild(go[7]);
 	go[7]->SetScale(Vector3(3, 1, 1));
-	go[7]->SetPosition(Vector3(0,1500,-200));
+	go[7]->SetPosition(Vector3(0,0,0));
+
+	world->RemoveChild(go[4]);
 	
 
-	auto tc1 = Factory::GetComponent<Rigidbody>(go[5]);
-	auto tc2 = Factory::GetComponent<Rigidbody>(go[7]);
+	//auto tc1 = Factory::GetComponent<Rigidbody>(go[5]);
+	//auto tc2 = Factory::GetComponent<Rigidbody>(go[7]);
 	//tc2->UnbindGameObject();
 	//mWorld->RemoveChild(mGameObject[3]);
 	//mWorld->RemoveChild(mGameObject[4]);
@@ -203,13 +209,11 @@ void EngineApp::DrawScene()
 
 	//--------- 按对象绘制 ----------//
 	mBasicEffect.SetRenderDefault(md3dImmediateContext, BasicEffect::RenderObject);
-	mBasicEffect.SetTextureUsed(false);	// 绘制纹理
 	// 网格渲染组件 全部渲染
 	mMeshRenderPool.Draw(md3dImmediateContext, mBasicEffect);
 
 	//---------- 按实例批量绘制 ----------//
 	mBasicEffect.SetRenderDefault(md3dImmediateContext, BasicEffect::RenderInstance);
-	mBasicEffect.SetTextureUsed(true);	// 绘制纹理
 	// 批量网格渲染组件 全部渲染
 	mBatchMeshRenderPool.Draw(md3dImmediateContext, mBasicEffect);
 
