@@ -20,7 +20,7 @@ MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 D3DApp::D3DApp(HINSTANCE hInstance)
 	: mhAppInst(hInstance),
-	mMainWndCaption(L"Picking"),
+	mMainWndCaption(L"Yourcraft Engine v0.00"),
 	mClientWidth(800),
 	mClientHeight(600),
 	mhMainWnd(nullptr),

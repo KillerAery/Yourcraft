@@ -48,8 +48,13 @@ void MeshRender::SetModel(const Model& model)
 	mModel = model;
 }
 
+
+
 void MeshRender::Draw(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect)
 {
+	//  «∑ÒªÊ÷∆Œ∆¿Ì
+	effect.SetTextureUsed(mModel.textureUsed);	
+
 	UINT strides = sizeof(DirectX::VertexPositionNormalTexture);
 	UINT offsets = 0;
 

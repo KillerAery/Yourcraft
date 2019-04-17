@@ -214,7 +214,7 @@ DirectX::XMFLOAT4X4& Transform::GetWorldMatrix()
 
 bool Transform::AddChild(Transform* child)
 {
-	//要添加的孩子为空或者本来就有父母 则滚粗
+	//要添加的孩子为空或者本来就有父母
 	if (child == nullptr || child->mParent)return false;
 	//添加孩子操作
 	if(mChildren == nullptr)

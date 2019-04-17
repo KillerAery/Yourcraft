@@ -51,7 +51,13 @@ struct Model
 	void SetMesh(ComPtr<ID3D11Device> device, const DirectX::VertexPositionNormalTexture* vertices, UINT vertexCount,
 		const void * indices, UINT indexCount, DXGI_FORMAT indexFormat);
 
+	//
+	//	设置纹理使用
+	//
+	void SetTextureUsed(bool used);
+
 	std::vector<ModelPart> modelParts;
+	bool textureUsed;
 	DirectX::BoundingBox boundingBox;
 };
 

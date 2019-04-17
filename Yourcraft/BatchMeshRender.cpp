@@ -91,7 +91,8 @@ GameObject * BatchMeshRender::CheckAlivingGameObject()
 
 void BatchMeshRender::Draw(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect)
 {
-	if (mGameObjects.empty())return;
+	//  «∑ÒªÊ÷∆Œ∆¿Ì
+	effect.SetTextureUsed(mModel.textureUsed);
 
 	D3D11_MAPPED_SUBRESOURCE mappedData;
 	UINT numInsts = (UINT)mGameObjects.size();

@@ -4,7 +4,7 @@
 
 using namespace DirectX;
 
-Model::Model()
+Model::Model():textureUsed(false)
 {
 }
 
@@ -36,6 +36,9 @@ Model::Model(ComPtr<ID3D11Device> device, const DirectX::VertexPositionNormalTex
 void Model::SetModel(ComPtr<ID3D11Device> device, const ObjReader & model)
 {
 	modelParts.resize(model.objParts.size());
+
+	//默认模型有纹理
+	textureUsed = true;
 
 	// 创建包围盒
 	BoundingBox::CreateFromPoints(boundingBox, XMLoadFloat3(&model.vMin), XMLoadFloat3(&model.vMax));
@@ -177,6 +180,11 @@ void Model::SetMesh(ComPtr<ID3D11Device> device, const DirectX::VertexPositionNo
 	InitData.pSysMem = indices;
 	HR(device->CreateBuffer(&ibd, &InitData, modelParts[0].indexBuffer.ReleaseAndGetAddressOf()));
 
+}
+
+void Model::SetTextureUsed(bool used)
+{
+	textureUsed = used;
 }
 
 
