@@ -42,30 +42,30 @@ void PhysicsWorld::StepWorld(float dt) {
 	mDynamicsWorld->stepSimulation(dt, 10);
 
 	auto & objectArray = mDynamicsWorld->getCollisionObjectArray();
-	//先清除待删除物理刚体
-	//待删除物理刚体的用户指针指向nullptr作为待删除标记
-	for (int i = 0; i < objectArray.size();)
-	{
-		Transform* userPointer = reinterpret_cast<Transform*>(objectArray[i]->getUserPointer());
-		if (userPointer == nullptr || !userPointer->IsAlive()){
-			mDynamicsWorld->removeCollisionObject(objectArray[i]);
-		}
-		else {
-			i++;
-		}
-	}
-
-	//更新物理世界每一个物理物体	
+	//更新物理世界每一个物理物体 
 	for (int i = 0; i < objectArray.size(); ++i)
 	{
+		//清除待删除物理刚体
+		Transform* userPointer = reinterpret_cast<Transform*>(objectArray[i]->getUserPointer());
+		//待删除物理刚体的用户指针指向nullptr作为待删除标记
+		if (userPointer == nullptr || !userPointer->IsAlive()) {
+			mDynamicsWorld->removeCollisionObject(objectArray[i]);
+			--i;//删除后要退回一位
+			continue;
+		}
+
 		//不存在用户指针或者睡眠中，则不处理
-		if (!objectArray[i]->isActive() || objectArray[i]->isStaticObject())continue;
-		Transform* object = reinterpret_cast<Transform*>(objectArray[i]->getUserPointer());
-		if (!object)continue;
+		if (!objectArray[i]->isActive() || objectArray[i]->isStaticObject()) {
+			continue;
+		}
+		Transform* object = reinterpret_cast<Transform*>(userPointer);
+		if (!object) {
+			continue;
+		}
+
 		//更新目标物体的位置
 		const auto & pos = objectArray[i]->getWorldTransform().getOrigin();
 		object->SetWorldPosition(Vector3(pos.x(), pos.y(), pos.z()));
-
 		//更新目标物体的旋转角度
 		const auto & rotationM = objectArray[i]->getWorldTransform().getRotation();
 		object->SetWorldRotation(Vector4(rotationM.getX(), rotationM.getY(), rotationM.getZ(), rotationM.getW()));
