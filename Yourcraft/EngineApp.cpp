@@ -90,10 +90,11 @@ bool EngineApp::Init()
 	}
 
 	//╡Бйт╦╦вс╤тоС
+	Factory::GetComponent<Rigidbody>(go[7])->UnbindGameObject();
 	world->RemoveChild(go[7]);
 	go[3]->AddChild(go[7]);
 	go[7]->SetScale(Vector3(3, 1, 1));
-	go[7]->SetPosition(Vector3(0,0,0));
+	go[7]->SetPosition(Vector3(0, 0, 0));
 
 	world->RemoveChild(go[4]);
 	

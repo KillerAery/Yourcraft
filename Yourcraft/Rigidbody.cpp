@@ -54,8 +54,8 @@ void Rigidbody::BindGameObject(GameObject * gameObject)
 		mGameObject->AddComponentInfor(static_cast<int>(ComponentType::Rigidbody),mIndex);
 		mBody.setUserPointer(mGameObject);
 		//更新刚体属性
-		auto pos = mGameObject->GetWorldPosition();
-		auto rotation = mGameObject->GetWorldRotation();
+		auto& pos = mGameObject->GetWorldPosition();
+		auto& rotation = mGameObject->GetWorldRotation();
 		mBody.setCenterOfMassTransform(btTransform(btQuaternion(rotation.x, rotation.y, rotation.z, rotation.w), btVector3(pos.x, pos.y, pos.z)));
 	}
 }
