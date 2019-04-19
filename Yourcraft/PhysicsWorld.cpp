@@ -14,11 +14,11 @@ PhysicsWorld::PhysicsWorld() :
 }
 
 PhysicsWorld::~PhysicsWorld() {
+	SAFE_DELETE_PTR(mDynamicsWorld);
 	SAFE_DELETE_PTR(mBroadphase);
 	SAFE_DELETE_PTR(mCollisionConfiguration);
 	SAFE_DELETE_PTR(mDispatcher);
 	SAFE_DELETE_PTR(mSolver);
-	//SAFE_DELETE_PTR(mDynamicsWorld);
 }
 
 void PhysicsWorld::Init() {
