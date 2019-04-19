@@ -1,8 +1,6 @@
 #include "PhysicsWorld.h"
 #include "Transform.h"
 
-#define SAFE_DELETE_PTR(ptr) do{if(ptr){delete ptr;ptr = nullptr;}}while(0);
-
 PhysicsWorld::PhysicsWorld() :
 	mBroadphase(nullptr),
 	mCollisionConfiguration(nullptr),
@@ -10,11 +8,14 @@ PhysicsWorld::PhysicsWorld() :
 	mSolver(nullptr),
 	mDynamicsWorld(nullptr)
 {
-
 }
 
+#define SAFE_DELETE_PTR(ptr) do{if(ptr){delete ptr;ptr = nullptr;}}while(0);
+
 PhysicsWorld::~PhysicsWorld() {
+	//必须先delete DynamicWorld
 	SAFE_DELETE_PTR(mDynamicsWorld);
+	//再delete其他相关资源
 	SAFE_DELETE_PTR(mBroadphase);
 	SAFE_DELETE_PTR(mCollisionConfiguration);
 	SAFE_DELETE_PTR(mDispatcher);

@@ -141,6 +141,9 @@ void Model::SetMesh(ComPtr<ID3D11Device> device, const DirectX::VertexPositionNo
 {
 	modelParts.resize(1);
 
+	//默认网格无纹理
+	textureUsed = false;
+
 	modelParts[0].vertexCount = vertexCount;
 	modelParts[0].indexCount = indexCount;
 	modelParts[0].indexFormat = indexFormat;

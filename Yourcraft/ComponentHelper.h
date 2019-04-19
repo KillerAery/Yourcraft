@@ -1,6 +1,6 @@
 #pragma once
 
-
+//组件类型
 enum class ComponentType
 {
 	BatchMeshRender,

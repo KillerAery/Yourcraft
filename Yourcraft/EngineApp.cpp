@@ -44,11 +44,10 @@ bool EngineApp::Init()
 	mMouse->SetWindow(mhMainWnd);
 	mMouse->SetMode(DirectX::Mouse::MODE_ABSOLUTE);
 	
-	//初始化物理世界
-
+	// 初始化物理世界
 	mPhysicsWorld.Init();
 
-	// ---------- 测试初始化部分 ---------------------
+	// 初始化工厂
 	Factory::SetPhysicsWorld(&mPhysicsWorld);
 	Factory::SetPool(&mGameObjectPool);
 	Factory::SetPool(&mBatchMeshRenderPool);
@@ -59,19 +58,20 @@ bool EngineApp::Init()
 	Factory::SetDevice(md3dDevice);
 	Factory::SetDeviceContext(md3dImmediateContext);
 
+	// ---------- 测试初始化部分 ---------------------
+
 
 	//世界对象
 	GameObject* world = Factory::CreateGameObject();
 	world->BecomeRoot();
 
-	//批量示例渲染组件
-	mObjReader.Read(L"Model\\house.mbo", L"Model\\house.obj");	//房屋模型
-
+	//房屋模型
+	mObjReader.Read(L"Model\\house.mbo", L"Model\\house.obj");	
 	auto model = Model(md3dDevice, mObjReader);
 
+	//批量渲染组件
 	auto bmr = Factory::CreateBatchMeshRender();
 	bmr->SetModel(model);
-	
 
 	for(int i =0;i<10;++i)
 	{
@@ -118,7 +118,6 @@ bool EngineApp::Init()
 	auto skyrender = Factory::CreateSkyRender(L"Texture\\daylight.jpg",5000.0f);
 	skyrender->BindGameObject(sky);
 	auto s = Factory::GetComponent<SkyRender>(sky);
-	//s->UnbindGameObject();
 
 	//创建地面对象
 	auto ground = Factory::CreateGameObject();
@@ -129,7 +128,7 @@ bool EngineApp::Init()
 	groundBody->BindGameObject(ground);
 	auto groundmesh = Factory::CreateMeshRender();
 	groundmesh->BindGameObject(ground);
-	groundmesh->SetModel(Model(md3dDevice,MeshData::CreateBox(500,0,3000)));
+	groundmesh->SetModel(Model(md3dDevice,MeshData::CreateBox(500,0.1f,3000)));
 
 	//创建雨粒子系统对象
 	auto rain = Factory::CreateGameObject();
