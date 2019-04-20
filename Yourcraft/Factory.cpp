@@ -37,7 +37,7 @@ void Factory::SetPool(ObjectPool<Rigidbody, 100>* pool)
 	sFactory.rRigidbodyPool = pool;
 }
 
-void Factory::SetPool(ObjectPool<SkyRender, 3>* pool)
+void Factory::SetPool(ObjectPool<SkyRender, 1>* pool)
 {
 	sFactory.rSkyRenderPool = pool;
 }
@@ -45,6 +45,11 @@ void Factory::SetPool(ObjectPool<SkyRender, 3>* pool)
 void Factory::SetPool(ObjectPool<ParticleSystem, 20>* pool)
 {
 	sFactory.rParticleSystemPool = pool;
+}
+
+void Factory::SetPool(ObjectPool<Camera, 3>* pool)
+{
+	sFactory.rCameraPool = pool;
 }
 
 void Factory::SetDevice(ComPtr<ID3D11Device> device)
@@ -99,6 +104,14 @@ ParticleSystem * Factory::CreateParticleSystem(ParticleEffect * effect, const st
 	ComPtr<ID3D11ShaderResourceView> tex2DArray = CreateDDSTexture2DArrayFromFile(sFactory.rDevice, sFactory.rDeviceContext,tex2DStringArray);
 	auto component = sFactory.rParticleSystemPool->AddObject(sFactory.rDevice, effect, tex2DArray, maxParticles);
 	int index = sFactory.rParticleSystemPool->GetIndexByPointer(component);
+	component->SetIndex_WARNING(index);
+	return component;
+}
+
+Camera * Factory::CreateCamera()
+{
+	auto component = sFactory.rCameraPool->AddObject();
+	int index = sFactory.rCameraPool->GetIndexByPointer(component);
 	component->SetIndex_WARNING(index);
 	return component;
 }

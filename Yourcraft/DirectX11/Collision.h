@@ -4,7 +4,7 @@
 #include <DirectXCollision.h>
 #include <vector>
 #include <VertexTypes.h>
-#include "Camera.h"
+//#include "Camera.h"
 
 
 struct Ray
@@ -12,7 +12,7 @@ struct Ray
 	Ray();
 	Ray(const DirectX::XMFLOAT3& origin, const DirectX::XMFLOAT3& direction);
 
-	static Ray ScreenToRay(const Camera& camera, float screenX, float screenY);
+	//static Ray ScreenToRay(const Camera& camera, float screenX, float screenY);
 
 	bool Hit(const DirectX::BoundingBox& box, float* pOutDist = nullptr, float maxDist = FLT_MAX);
 	bool Hit(const DirectX::BoundingOrientedBox& box, float* pOutDist = nullptr, float maxDist = FLT_MAX);

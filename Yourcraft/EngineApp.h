@@ -17,13 +17,17 @@
 #include "PhysicsWorld.h"
 #include "SkyRender.h"
 #include "ParticleSystem.h"
+#include "Camera.h"
 
 class EngineApp :public D3DApp
 {
 public:
 	EngineApp(HINSTANCE hInstance);
 	 ~EngineApp();
+
 	 bool Init();
+	 void InitGameObjects();
+
 	 void UpdateScene(float dt)override;
 	 void DrawScene()override;
 	 void OnResize();
@@ -37,11 +41,10 @@ protected:
 
 	BasicEffect mBasicEffect;								// 对象渲染特效管理
 	SkyEffect mSkyEffect;									// 天空渲染特效管理
-	ParticleEffect mFireEffect;								// 
-	ParticleEffect mRainEffect;								//
+	ParticleEffect mFireEffect;								// 火焰粒子特效
+	ParticleEffect mRainEffect;								// 雨滴粒子特效
 
-	std::shared_ptr<Camera> mCamera;						// 摄像机
-	CameraMode mCameraMode;									// 摄像机模式
+	Camera* rMainCamera;									// 主体摄像机
 	ObjReader mObjReader;									// 模型读取对象
 
 	PhysicsWorld mPhysicsWorld;								// 物理世界
@@ -51,8 +54,9 @@ protected:
 	ObjectPool<BatchMeshRender,10> mBatchMeshRenderPool;
 	ObjectPool<MeshRender, 100> mMeshRenderPool;
 	ObjectPool<Rigidbody, 100> mRigidbodyPool;
-	ObjectPool<SkyRender, 3> mSkyRenderPool;
+	ObjectPool<SkyRender, 1> mSkyRenderPool;
 	ObjectPool<ParticleSystem, 20> mParticleSystemPool;
+	ObjectPool<Camera,3> mCameraPool;
 
 	//10个游戏对象测试
 	GameObject* go[10];

@@ -20,4 +20,3 @@ protected:
 	GameObject* mGameObject;
 	int mIndex;
 };
-

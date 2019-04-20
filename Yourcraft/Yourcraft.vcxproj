@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="BatchMeshRender.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DirectX11\MathHelper.cpp" />
@@ -29,7 +30,6 @@
     <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="SkyRender.cpp" />
     <ClCompile Include="DirectX11\BasicEffect.cpp" />
-    <ClCompile Include="DirectX11\Camera.cpp" />
     <ClCompile Include="DirectX11\Collision.cpp" />
     <ClCompile Include="DirectX11\d3dApp.cpp" />
     <ClCompile Include="DirectX11\d3dUtil.cpp" />
@@ -58,6 +58,7 @@
   <ItemGroup>
     <ClInclude Include="BatchMeshRender.h" />
     <ClInclude Include="BoxCollider.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentHelper.h" />
@@ -65,7 +66,6 @@
     <ClInclude Include="DirectX11\Particle.h" />
     <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="SkyRender.h" />
-    <ClInclude Include="DirectX11\Camera.h" />
     <ClInclude Include="DirectX11\Collision.h" />
     <ClInclude Include="DirectX11\d3dApp.h" />
     <ClInclude Include="DirectX11\d3dUtil.h" />

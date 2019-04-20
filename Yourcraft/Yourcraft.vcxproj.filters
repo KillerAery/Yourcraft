@@ -190,7 +190,7 @@
     <ClCompile Include="DirectX11\MathHelper.cpp">
       <Filter>图形库框架层\DirectX11</Filter>
     </ClCompile>
-    <ClCompile Include="DirectX11\Camera.cpp">
+    <ClCompile Include="Camera.cpp">
       <Filter>引擎框架层\对象类\组件类\摄像机组件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -303,7 +303,7 @@
     <ClInclude Include="DirectX11\MathHelper.h">
       <Filter>图形库框架层\DirectX11</Filter>
     </ClInclude>
-    <ClInclude Include="DirectX11\Camera.h">
+    <ClInclude Include="Camera.h">
       <Filter>引擎框架层\对象类\组件类\摄像机组件</Filter>
     </ClInclude>
   </ItemGroup>

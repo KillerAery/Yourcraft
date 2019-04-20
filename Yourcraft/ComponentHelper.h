@@ -8,5 +8,6 @@ enum class ComponentType
 	Rigidbody,
 	SkyRender,
 	ParticleSystem,
+	Camera,
 	ComponentType_Max
 };

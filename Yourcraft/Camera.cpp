@@ -1,4 +1,6 @@
 #include "Camera.h"
+#include "ComponentHelper.h"
+
 using namespace DirectX;
 
 Camera::Camera()
@@ -9,14 +11,42 @@ Camera::~Camera()
 {
 }
 
-DirectX::XMVECTOR Camera::GetPositionXM() const
+void Camera::Init()
 {
-	return XMLoadFloat3(&mPosition);
 }
 
-DirectX::XMFLOAT3 Camera::GetPosition() const
+void Camera::Update()
 {
-	return mPosition;
+	//只有游戏对象改变了，才去更新矩阵
+	if(mGameObject->HasChanged())
+		UpdateViewMatrix();
+}
+
+void Camera::BindGameObject(GameObject * gameObject)
+{
+	if (mGameObject) {
+		UnbindGameObject();
+	}
+	if (gameObject) {
+		mGameObject = gameObject;
+		mGameObject->AddComponentInfor(static_cast<int>(ComponentType::Camera), mIndex);
+	}
+}
+
+void Camera::UnbindGameObject()
+{
+	if (mGameObject) {
+		mGameObject->RemoveComponentInfor(static_cast<int>(ComponentType::Camera));
+		mGameObject = nullptr;
+	}
+}
+
+DirectX::XMVECTOR Camera::GetPositionXM() const{
+	return mGameObject->GetPosition();
+}
+
+DirectX::XMFLOAT3 Camera::GetPosition() const{
+	return mGameObject->GetPosition();
 }
 
 DirectX::XMVECTOR Camera::GetRightXM() const
@@ -118,86 +148,63 @@ void Camera::SetViewPort(float topLeftX, float topLeftY, float width, float heig
 }
 
 
-// ********************
-// 第一人称/自由视角摄像机
-//
-
-FirstPersonCamera::FirstPersonCamera()
-	: Camera()
-{
-}
-
-FirstPersonCamera::~FirstPersonCamera()
-{
-}
-
-void FirstPersonCamera::SetPosition(float x, float y, float z)
-{
-	SetPosition(XMFLOAT3(x, y, z));
-}
-
-void FirstPersonCamera::SetPosition(const DirectX::XMFLOAT3 & v)
-{
-	mPosition = v;
-}
-
-void FirstPersonCamera::LookAt(DirectX::FXMVECTOR pos, DirectX::FXMVECTOR target, DirectX::FXMVECTOR up)
+void Camera::LookAt(DirectX::FXMVECTOR pos, DirectX::FXMVECTOR target, DirectX::FXMVECTOR up)
 {
 	LookTo(pos, target - pos, up);
 }
 
-void FirstPersonCamera::LookAt(const DirectX::XMFLOAT3 & pos, const DirectX::XMFLOAT3 & target,const DirectX::XMFLOAT3 & up)
+void Camera::LookAt(const DirectX::XMFLOAT3 & pos, const DirectX::XMFLOAT3 & target,const DirectX::XMFLOAT3 & up)
 {
 	LookAt(XMLoadFloat3(&pos), XMLoadFloat3(&target), XMLoadFloat3(&up));
 }
 
-void FirstPersonCamera::LookTo(DirectX::FXMVECTOR pos, DirectX::FXMVECTOR to, DirectX::FXMVECTOR up)
+void Camera::LookTo(DirectX::FXMVECTOR pos, DirectX::FXMVECTOR to, DirectX::FXMVECTOR up)
 {
 	XMVECTOR L = XMVector3Normalize(to);
 	XMVECTOR R = XMVector3Normalize(XMVector3Cross(up, L));
 	XMVECTOR U = XMVector3Cross(L, R);
 
-	XMStoreFloat3(&mPosition, pos);
+	mGameObject->SetWorldPosition(pos);
 	XMStoreFloat3(&mLook, L);
 	XMStoreFloat3(&mRight, R);
 	XMStoreFloat3(&mUp, U);
 }
 
-void FirstPersonCamera::LookTo(const DirectX::XMFLOAT3 & pos, const DirectX::XMFLOAT3 & to, const DirectX::XMFLOAT3 & up)
+void Camera::LookTo(const DirectX::XMFLOAT3 & pos, const DirectX::XMFLOAT3 & to, const DirectX::XMFLOAT3 & up)
 {
 	LookTo(XMLoadFloat3(&pos), XMLoadFloat3(&to), XMLoadFloat3(&up));
 }
 
-void FirstPersonCamera::Strafe(float d)
+void Camera::Strafe(float d)
 {
-	XMVECTOR Pos = XMLoadFloat3(&mPosition);
+	XMVECTOR Pos = XMLoadFloat3(&mGameObject->GetPosition());
 	XMVECTOR Right = XMLoadFloat3(&mRight);
 	XMVECTOR Dist = XMVectorReplicate(d);
 	// DestPos = Dist * Right + SrcPos
-	XMStoreFloat3(&mPosition, XMVectorMultiplyAdd(Dist, Right, Pos));
+	mGameObject->SetWorldPosition(XMVectorMultiplyAdd(Dist, Right, Pos));
 }
 
-void FirstPersonCamera::Walk(float d)
+void Camera::Walk(float d)
 {
-	XMVECTOR Pos = XMLoadFloat3(&mPosition);
+	XMVECTOR Pos = XMLoadFloat3(&mGameObject->GetPosition());
 	XMVECTOR Right = XMLoadFloat3(&mRight);
 	XMVECTOR Up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 	XMVECTOR Front = XMVector3Normalize(XMVector3Cross(Right, Up));
 	XMVECTOR Dist = XMVectorReplicate(d);
 	// DestPos = Dist * Front + SrcPos
-	XMStoreFloat3(&mPosition, XMVectorMultiplyAdd(Dist, Front, Pos));
+	mGameObject->SetWorldPosition(XMVectorMultiplyAdd(Dist, Front, Pos));
 }
 
-void FirstPersonCamera::MoveForward(float d)
+void Camera::MoveForward(float d)
 {
-	XMVECTOR Pos = XMLoadFloat3(&mPosition);
+	XMVECTOR Pos = XMLoadFloat3(&mGameObject->GetPosition());
 	XMVECTOR Look = XMLoadFloat3(&mLook);
 	XMVECTOR Dist = XMVectorReplicate(d);
 	// DestPos = Dist * Look + SrcPos
-	XMStoreFloat3(&mPosition, XMVectorMultiplyAdd(Dist, Look, Pos));
+	mGameObject->SetWorldPosition(XMVectorMultiplyAdd(Dist, Look, Pos));
 }
 
-void FirstPersonCamera::Pitch(float rad)
+void Camera::Pitch(float rad)
 {
 	XMMATRIX R = XMMatrixRotationAxis(XMLoadFloat3(&mRight), rad);
 	XMVECTOR Up = XMVector3TransformNormal(XMLoadFloat3(&mUp), R);
@@ -212,7 +219,7 @@ void FirstPersonCamera::Pitch(float rad)
 	XMStoreFloat3(&mLook, Look);
 }
 
-void FirstPersonCamera::RotateY(float rad)
+void Camera::RotateY(float rad)
 {
 	XMMATRIX R = XMMatrixRotationY(rad);
 
@@ -221,12 +228,12 @@ void FirstPersonCamera::RotateY(float rad)
 	XMStoreFloat3(&mLook, XMVector3TransformNormal(XMLoadFloat3(&mLook), R));
 }
 
-void FirstPersonCamera::UpdateViewMatrix()
+void Camera::UpdateViewMatrix()
 {
 	XMVECTOR R = XMLoadFloat3(&mRight);
 	XMVECTOR U = XMLoadFloat3(&mUp);
 	XMVECTOR L = XMLoadFloat3(&mLook);
-	XMVECTOR P = XMLoadFloat3(&mPosition);
+	XMVECTOR P = XMLoadFloat3(&mGameObject->GetPosition());
 
 	// 保持摄像机的轴互为正交，且长度都为1
 	L = XMVector3Normalize(L);
@@ -251,104 +258,3 @@ void FirstPersonCamera::UpdateViewMatrix()
 		x, y, z, 1.0f
 	};
 }
-
-// ********************
-// 第三人称摄像机
-//
-
-ThirdPersonCamera::ThirdPersonCamera()
-	: Camera(), mTheta(), mPhi(), mDistance(), mTarget()
-{
-}
-
-ThirdPersonCamera::~ThirdPersonCamera()
-{
-}
-
-DirectX::XMFLOAT3 ThirdPersonCamera::GetTargetPosition() const
-{
-	return mTarget;
-}
-
-float ThirdPersonCamera::GetDistance() const
-{
-	return mDistance;
-}
-
-float ThirdPersonCamera::GetRotationX() const
-{
-	return mPhi;
-}
-
-float ThirdPersonCamera::GetRotationY() const
-{
-	return mTheta;
-}
-
-void ThirdPersonCamera::RotateX(float rad)
-{
-	mPhi -= rad;
-	// 将上下视野角度Phi限制在[pi/6, pi/2]，
-	// 即余弦值[0, cos(pi/6)]之间
-	if (mPhi < XM_PI / 6)
-		mPhi = XM_PI / 6;
-	else if (mPhi > XM_PIDIV2)
-		mPhi = XM_PIDIV2;
-}
-
-void ThirdPersonCamera::RotateY(float rad)
-{
-	mTheta = XMScalarModAngle(mTheta - rad);
-}
-
-void ThirdPersonCamera::Approach(float dist)
-{
-	mDistance += dist;
-	// 限制距离在[mMinDist, mMaxDist]之间
-	if (mDistance < mMinDist)
-		mDistance = mMinDist;
-	else if (mDistance > mMaxDist)
-		mDistance = mMaxDist;
-}
-
-void ThirdPersonCamera::SetTarget(const DirectX::XMFLOAT3 & target)
-{
-	mTarget = target;
-}
-
-void ThirdPersonCamera::SetDistance(float dist)
-{
-	mDistance = dist;
-}
-
-void ThirdPersonCamera::SetDistanceMinMax(float minDist, float maxDist)
-{
-	mMinDist = minDist;
-	mMaxDist = maxDist;
-}
-
-void ThirdPersonCamera::UpdateViewMatrix()
-{
-	// 球面坐标系
-	float x = mTarget.x - mDistance * sinf(mPhi) * cosf(mTheta);
-	float z = mTarget.z - mDistance * sinf(mPhi) * sinf(mTheta);
-	float y = mTarget.y + mDistance * cosf(mPhi);
-	mPosition = { x, y, z };
-	XMVECTOR P = XMLoadFloat3(&mPosition);
-	XMVECTOR L = XMVector3Normalize(XMLoadFloat3(&mTarget) - P);
-	XMVECTOR R = XMVector3Normalize(XMVector3Cross(XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f), L));
-	XMVECTOR U = XMVector3Cross(L, R);
-	
-	// 更新向量
-	XMStoreFloat3(&mRight, R);
-	XMStoreFloat3(&mUp, U);
-	XMStoreFloat3(&mLook, L);
-
-	mView = {
-		mRight.x, mUp.x, mLook.x, 0.0f,
-		mRight.y, mUp.y, mLook.y, 0.0f,
-		mRight.z, mUp.z, mLook.z, 0.0f,
-		-XMVectorGetX(XMVector3Dot(P, R)), -XMVectorGetX(XMVector3Dot(P, U)), -XMVectorGetX(XMVector3Dot(P, L)), 1.0f
-	};
-}
-

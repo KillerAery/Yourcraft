@@ -1,6 +1,7 @@
 #pragma once
-#include <Camera.h>
+
 #include "Component.h"
+#include "Camera.h"
 #include "Effects.h"
 
 class ParticleSystem :

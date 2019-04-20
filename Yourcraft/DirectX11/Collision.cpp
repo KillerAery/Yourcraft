@@ -18,35 +18,35 @@ Ray::Ray(const DirectX::XMFLOAT3 & origin, const DirectX::XMFLOAT3 & direction)
 	XMStoreFloat3(&this->direction, XMVector3Normalize(XMLoadFloat3(&direction)));
 }
 
-Ray Ray::ScreenToRay(const Camera & camera, float screenX, float screenY)
-{
-	//
-	// 节选自DirectX::XMVector3Unproject函数，并省略了从世界坐标系到局部坐标系的变换
-	//
-	
-	// 将屏幕坐标点从视口变换回NDC坐标系
-	static const XMVECTORF32 D = { { { -1.0f, 1.0f, 0.0f, 0.0f } } };
-	XMVECTOR V = XMVectorSet(screenX, screenY, 0.0f, 1.0f);
-	D3D11_VIEWPORT viewPort = camera.GetViewPort();
-
-	XMVECTOR Scale = XMVectorSet(viewPort.Width * 0.5f, -viewPort.Height * 0.5f, viewPort.MaxDepth - viewPort.MinDepth, 1.0f);
-	Scale = XMVectorReciprocal(Scale);
-
-	XMVECTOR Offset = XMVectorSet(-viewPort.TopLeftX, -viewPort.TopLeftY, -viewPort.MinDepth, 0.0f);
-	Offset = XMVectorMultiplyAdd(Scale, Offset, D.v);
-
-	// 从NDC坐标系变换回世界坐标系
-	XMMATRIX Transform = XMMatrixMultiply(camera.GetViewXM(), camera.GetProjXM());
-	Transform = XMMatrixInverse(nullptr, Transform);
-
-	XMVECTOR Target = XMVectorMultiplyAdd(V, Scale, Offset);
-	Target = XMVector3TransformCoord(Target, Transform);
-
-	// 求出射线
-	XMFLOAT3 direction;
-	XMStoreFloat3(&direction, XMVector3Normalize(Target - camera.GetPositionXM()));
-	return Ray(camera.GetPosition(), direction);
-}
+//Ray Ray::ScreenToRay(const Camera & camera, float screenX, float screenY)
+//{
+//	//
+//	// 节选自DirectX::XMVector3Unproject函数，并省略了从世界坐标系到局部坐标系的变换
+//	//
+//	
+//	// 将屏幕坐标点从视口变换回NDC坐标系
+//	static const XMVECTORF32 D = { { { -1.0f, 1.0f, 0.0f, 0.0f } } };
+//	XMVECTOR V = XMVectorSet(screenX, screenY, 0.0f, 1.0f);
+//	D3D11_VIEWPORT viewPort = camera.GetViewPort();
+//
+//	XMVECTOR Scale = XMVectorSet(viewPort.Width * 0.5f, -viewPort.Height * 0.5f, viewPort.MaxDepth - viewPort.MinDepth, 1.0f);
+//	Scale = XMVectorReciprocal(Scale);
+//
+//	XMVECTOR Offset = XMVectorSet(-viewPort.TopLeftX, -viewPort.TopLeftY, -viewPort.MinDepth, 0.0f);
+//	Offset = XMVectorMultiplyAdd(Scale, Offset, D.v);
+//
+//	// 从NDC坐标系变换回世界坐标系
+//	XMMATRIX Transform = XMMatrixMultiply(camera.GetViewXM(), camera.GetProjXM());
+//	Transform = XMMatrixInverse(nullptr, Transform);
+//
+//	XMVECTOR Target = XMVectorMultiplyAdd(V, Scale, Offset);
+//	Target = XMVector3TransformCoord(Target, Transform);
+//
+//	// 求出射线
+//	XMFLOAT3 direction;
+//	XMStoreFloat3(&direction, XMVector3Normalize(Target - camera.GetPositionXM()));
+//	return Ray(camera.GetPosition(), direction);
+//}
 
 bool Ray::Hit(const DirectX::BoundingBox & box, float * pOutDist, float maxDist)
 {
