@@ -81,7 +81,7 @@ void ParticleSystem::Update(float dt, float gameTime)
 	mAge += dt;
 }
 
-void ParticleSystem::Draw(ComPtr<ID3D11DeviceContext> dc, const Camera & cam)
+void ParticleSystem::Draw(ComPtr<ID3D11DeviceContext> dc, const Camera* cam)
 {
 	UINT stride = sizeof(Particle);
 	UINT offset = 0;
@@ -89,11 +89,11 @@ void ParticleSystem::Draw(ComPtr<ID3D11DeviceContext> dc, const Camera & cam)
 	//
 	// Set constants.
 	//
-	mEffect->SetViewProj(cam.GetViewProjXM());
+	mEffect->SetViewProj(cam->GetViewProjXM());
 	mEffect->SetGameTime(mGameTime);
 	mEffect->SetTimeStep(mTimeStep);
-	mEffect->SetEyePosW(cam.GetPositionXM());
-	mEffect->SetEmitPosW(cam.GetPositionXM());
+	mEffect->SetEyePosW(cam->GetPositionXM());
+	mEffect->SetEmitPosW(cam->GetPositionXM());
 	mEffect->SetEmitDirW(mEmitDirW);
 	mEffect->SetTexArray(mTexArraySRV);
 	mEffect->SetAccelW({ -1.0f, -9.8f, 0.0f });

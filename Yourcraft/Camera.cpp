@@ -3,7 +3,7 @@
 
 using namespace DirectX;
 
-Camera::Camera()
+Camera::Camera():mChanged(false)
 {
 }
 
@@ -18,7 +18,7 @@ void Camera::Init()
 void Camera::Update()
 {
 	//只有游戏对象改变了，才去更新矩阵
-	if(mGameObject->HasChanged())
+	if(mGameObject->HasChanged() || mChanged)
 		UpdateViewMatrix();
 }
 
@@ -30,6 +30,7 @@ void Camera::BindGameObject(GameObject * gameObject)
 	if (gameObject) {
 		mGameObject = gameObject;
 		mGameObject->AddComponentInfor(static_cast<int>(ComponentType::Camera), mIndex);
+		UpdateViewMatrix();
 	}
 }
 
@@ -130,11 +131,15 @@ void Camera::SetFrustum(float fovY, float aspect, float nearZ, float farZ)
 	mFarWindowHeight = 2.0f * mFarZ * tanf(0.5f * mFovY);
 
 	XMStoreFloat4x4(&mProj, XMMatrixPerspectiveFovLH(mFovY, mAspect, mNearZ, mFarZ));
+
+	mChanged = true;
 }
 
 void Camera::SetViewPort(const D3D11_VIEWPORT & viewPort)
 {
 	mViewPort = viewPort;
+
+	mChanged = true;
 }
 
 void Camera::SetViewPort(float topLeftX, float topLeftY, float width, float height, float minDepth, float maxDepth)
@@ -145,6 +150,8 @@ void Camera::SetViewPort(float topLeftX, float topLeftY, float width, float heig
 	mViewPort.Height = height;
 	mViewPort.MinDepth = minDepth;
 	mViewPort.MaxDepth = maxDepth;
+
+	mChanged = true;
 }
 
 
@@ -168,6 +175,8 @@ void Camera::LookTo(DirectX::FXMVECTOR pos, DirectX::FXMVECTOR to, DirectX::FXMV
 	XMStoreFloat3(&mLook, L);
 	XMStoreFloat3(&mRight, R);
 	XMStoreFloat3(&mUp, U);
+
+	mChanged = true;
 }
 
 void Camera::LookTo(const DirectX::XMFLOAT3 & pos, const DirectX::XMFLOAT3 & to, const DirectX::XMFLOAT3 & up)
@@ -182,6 +191,8 @@ void Camera::Strafe(float d)
 	XMVECTOR Dist = XMVectorReplicate(d);
 	// DestPos = Dist * Right + SrcPos
 	mGameObject->SetWorldPosition(XMVectorMultiplyAdd(Dist, Right, Pos));
+
+	mChanged = true;
 }
 
 void Camera::Walk(float d)
@@ -193,6 +204,8 @@ void Camera::Walk(float d)
 	XMVECTOR Dist = XMVectorReplicate(d);
 	// DestPos = Dist * Front + SrcPos
 	mGameObject->SetWorldPosition(XMVectorMultiplyAdd(Dist, Front, Pos));
+
+	mChanged = true;
 }
 
 void Camera::MoveForward(float d)
@@ -202,6 +215,8 @@ void Camera::MoveForward(float d)
 	XMVECTOR Dist = XMVectorReplicate(d);
 	// DestPos = Dist * Look + SrcPos
 	mGameObject->SetWorldPosition(XMVectorMultiplyAdd(Dist, Look, Pos));
+
+	mChanged = true;
 }
 
 void Camera::Pitch(float rad)
@@ -217,6 +232,8 @@ void Camera::Pitch(float rad)
 	
 	XMStoreFloat3(&mUp, Up);
 	XMStoreFloat3(&mLook, Look);
+
+	mChanged = true;
 }
 
 void Camera::RotateY(float rad)
@@ -226,10 +243,14 @@ void Camera::RotateY(float rad)
 	XMStoreFloat3(&mRight, XMVector3TransformNormal(XMLoadFloat3(&mRight), R));
 	XMStoreFloat3(&mUp, XMVector3TransformNormal(XMLoadFloat3(&mUp), R));
 	XMStoreFloat3(&mLook, XMVector3TransformNormal(XMLoadFloat3(&mLook), R));
+
+	mChanged = true;
 }
 
 void Camera::UpdateViewMatrix()
 {
+	mChanged = false;
+
 	XMVECTOR R = XMLoadFloat3(&mRight);
 	XMVECTOR U = XMLoadFloat3(&mUp);
 	XMVECTOR L = XMLoadFloat3(&mLook);

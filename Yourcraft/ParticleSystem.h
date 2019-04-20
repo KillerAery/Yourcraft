@@ -26,7 +26,7 @@ public:
 
 	void Reset();
 	void Update(float dt, float gameTime);
-	void Draw(ComPtr<ID3D11DeviceContext> dc, const Camera& cam);
+	void Draw(ComPtr<ID3D11DeviceContext> dc, const Camera* cam);
 
 protected:
 	void BuildVB(ComPtr<ID3D11Device> device);

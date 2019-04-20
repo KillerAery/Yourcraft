@@ -114,15 +114,15 @@ void SkyRender::InitResource(ComPtr<ID3D11Device> device, float skySphereRadius)
 	HR(device->CreateBuffer(&ibd, &InitData, &mIndexBuffer));
 }
 
-void SkyRender::Draw(ComPtr<ID3D11DeviceContext> deviceContext, SkyEffect & skyEffect, const Camera & camera)
+void SkyRender::Draw(ComPtr<ID3D11DeviceContext> deviceContext, SkyEffect & skyEffect, const Camera* camera)
 {
 	UINT strides[1] = { sizeof(XMFLOAT3) };
 	UINT offsets[1] = { 0 };
 	deviceContext->IASetVertexBuffers(0, 1, mVertexBuffer.GetAddressOf(), strides, offsets);
 	deviceContext->IASetIndexBuffer(mIndexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0);
 
-	XMFLOAT3 pos = camera.GetPosition();
-	skyEffect.SetWorldViewProjMatrix(XMMatrixTranslation(pos.x, pos.y, pos.z) * camera.GetViewProjXM());
+	XMFLOAT3 pos = camera->GetPosition();
+	skyEffect.SetWorldViewProjMatrix(XMMatrixTranslation(pos.x, pos.y, pos.z) * camera->GetViewProjXM());
 	skyEffect.SetTextureCube(mTextureCubeSRV);
 	skyEffect.Apply(deviceContext);
 	deviceContext->DrawIndexed(mIndexCount, 0, 0);

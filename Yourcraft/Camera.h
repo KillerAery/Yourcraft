@@ -87,4 +87,6 @@ protected:
 
 	// 当前视口
 	D3D11_VIEWPORT mViewPort;
+
+	bool mChanged;
 };

@@ -31,14 +31,9 @@ bool EngineApp::Init()
 	// 务必先初始化所有渲染状态，以供下面的特效使用
 	RenderStates::InitAll(md3dDevice);
 
-	if (!mBasicEffect.InitAll(md3dDevice))
-		return false;
-
-	if (!mSkyEffect.InitAll(md3dDevice))
-		return false;
-
-	if (!mRainEffect.InitAll(md3dDevice,L"RainParticle"))
-		return false;
+	if (!mBasicEffect.InitAll(md3dDevice))	return false;
+	if (!mSkyEffect.InitAll(md3dDevice))	return false;
+	if (!mRainEffect.InitAll(md3dDevice,L"RainParticle"))	return false;
 
 	if (!InitResource())
 		return false;
@@ -68,24 +63,61 @@ void EngineApp::InitGameObjects()
 	Factory::SetDevice(md3dDevice);
 	Factory::SetDeviceContext(md3dImmediateContext);
 
-	// ---------- 测试初始化部分 ---------------------
+	//--------------------------------------------------------------//
+	// --------------------- 测试初始化部分 ---------------------	//
 
-	//世界对象
+	// ---------  世界对象 --------- //
 	GameObject* world = Factory::CreateGameObject();
 	world->BecomeRoot();
 
-	//摄像机对象
+	// ------  摄像机对象 ------- //
 	GameObject* cameraObj = Factory::CreateGameObject();
 	world->AddChild(cameraObj);
-	auto c = Factory::CreateCamera();
-	c->BindGameObject(cameraObj);
-	//设置主摄像机
-	rMainCamera = c;
+	auto camera = Factory::CreateCamera();
+	camera->BindGameObject(cameraObj);
+	// 初始化摄像机值
+	camera->SetViewPort(0.0f, 0.0f, (float)mClientWidth, (float)mClientHeight);
+	camera->SetFrustum(XM_PI / 3, AspectRatio(), 1.0f, 1000.0f);
+	camera->LookTo(
+		XMVectorSet(0.0f, 0.0f, -10.0f, 1.0f),
+		XMVectorSet(0.0f, 0.0f, 1.0f, 1.0f),
+		XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f));
+	// 设置主摄像机
+	rMainCamera = camera;
 
+
+	// -------  天空对象 ------- //
+	GameObject* sky = Factory::CreateGameObject();
+	world->AddChild(sky);
+	auto skyrender = Factory::CreateSkyRender(L"Texture\\daylight.jpg", 5000.0f);
+	skyrender->BindGameObject(sky);
+	auto s = Factory::GetComponent<SkyRender>(sky);
+
+
+	// --------  地面对象 -------- //
+	auto ground = Factory::CreateGameObject();
+	ground->SetPosition(Vector3(0, -300, 0));
+	world->AddChild(ground);
+	auto colider = StaticPlaneCollider::Create(0, 1, 0, 1);
+	auto groundBody = Factory::CreateRigidbody(colider, 0);
+	groundBody->BindGameObject(ground);
+	auto groundmesh = Factory::CreateMeshRender();
+	groundmesh->BindGameObject(ground);
+	groundmesh->SetModel(Model(md3dDevice, MeshData::CreateBox(500, 0.1f, 3000)));
+
+
+	// -----  雨粒子系统对象 ------- //
+	auto rain = Factory::CreateGameObject();
+	world->AddChild(rain);
+	std::vector<std::wstring> raindrops{ L"Texture\\raindrop.dds" };
+	auto particleSystem = Factory::CreateParticleSystem(&mRainEffect, raindrops, 10000);
+	particleSystem->BindGameObject(rain);
+
+
+	// ----- 测试若干个游戏对象任意组合组件 ------- //
 	//房屋模型
 	mObjReader.Read(L"Model\\house.mbo", L"Model\\house.obj");
 	auto model = Model(md3dDevice, mObjReader);
-
 	//批量渲染组件
 	auto bmr = Factory::CreateBatchMeshRender();
 	bmr->SetModel(model);
@@ -115,7 +147,6 @@ void EngineApp::InitGameObjects()
 
 	world->RemoveChild(go[4]);
 
-
 	//auto tc1 = Factory::GetComponent<Rigidbody>(go[5]);
 	//auto tc2 = Factory::GetComponent<Rigidbody>(go[7]);
 	//tc2->UnbindGameObject();
@@ -128,31 +159,6 @@ void EngineApp::InitGameObjects()
 
 	//auto r = Factory::GetComponent<Rigidbody>(mGameObject[4]);
 	//r->UnbindGameObject();
-
-	//创建天空对象
-	GameObject* sky = Factory::CreateGameObject();
-	world->AddChild(sky);
-	auto skyrender = Factory::CreateSkyRender(L"Texture\\daylight.jpg", 5000.0f);
-	skyrender->BindGameObject(sky);
-	auto s = Factory::GetComponent<SkyRender>(sky);
-
-	//创建地面对象
-	auto ground = Factory::CreateGameObject();
-	ground->SetPosition(Vector3(0, -300, 0));
-	world->AddChild(ground);
-	auto colider = StaticPlaneCollider::Create(0, 1, 0, 1);
-	auto groundBody = Factory::CreateRigidbody(colider, 0);
-	groundBody->BindGameObject(ground);
-	auto groundmesh = Factory::CreateMeshRender();
-	groundmesh->BindGameObject(ground);
-	groundmesh->SetModel(Model(md3dDevice, MeshData::CreateBox(500, 0.1f, 3000)));
-
-	//创建雨粒子系统对象
-	auto rain = Factory::CreateGameObject();
-	world->AddChild(rain);
-	std::vector<std::wstring> raindrops{ L"Texture\\raindrop.dds" };
-	auto particleSystem = Factory::CreateParticleSystem(&mRainEffect, raindrops, 10000);
-	particleSystem->BindGameObject(rain);
 }
 
 
@@ -201,10 +207,10 @@ void EngineApp::DrawScene()
 
 	//--------- 绘制天空盒 --------------//
 	mSkyEffect.SetRenderDefault(md3dImmediateContext);
-	mSkyRenderPool.Draw(md3dImmediateContext, mSkyEffect, *rMainCamera);
+	mSkyRenderPool.Draw(md3dImmediateContext, mSkyEffect, rMainCamera);
 
 	//--------- 绘制粒子系统 ---------------//
-	mParticleSystemPool.Draw(md3dImmediateContext, *rMainCamera);
+	mParticleSystemPool.Draw(md3dImmediateContext, rMainCamera);
 
 	// ******************
 	// 绘制Direct2D部分
@@ -259,9 +265,8 @@ void EngineApp::OnResize()
 
 bool EngineApp::InitResource()
 {
-
 	// ******************
-	// 初始化摄像机
+	// 初始化主摄像机
 	//
 
 	// 若主摄像机为空，则不初始化渲染
@@ -269,15 +274,9 @@ bool EngineApp::InitResource()
 		return false;
 	}
 
-	// 初始化摄像机值
-	rMainCamera->SetViewPort(0.0f, 0.0f, (float)mClientWidth, (float)mClientHeight);
-	rMainCamera->SetFrustum(XM_PI / 3, AspectRatio(), 1.0f, 1000.0f);
-	rMainCamera->LookTo(
-		XMVectorSet(0.0f, 0.0f, -10.0f, 1.0f),
-		XMVectorSet(0.0f, 0.0f, 1.0f, 1.0f),
-		XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f));
-	// 初始化并更新观察矩阵、投影矩阵(摄像机将被固定)
+	// 更新摄像机
 	rMainCamera->Update();
+	// 初始化并更新观察矩阵、投影矩阵(摄像机将被固定)
 	mBasicEffect.SetViewMatrix(rMainCamera->GetViewXM());
 	mBasicEffect.SetProjMatrix(rMainCamera->GetProjXM());
 	mRainEffect.SetViewProj(rMainCamera->GetViewProjXM());
