@@ -2,6 +2,7 @@
 #include "Render.h"
 #include "GameObject.h"
 #include "Model.h"
+#include "Camera.h"
 
 
 class MeshRender :
@@ -21,7 +22,7 @@ public:
 	void SetModel(Model&& model);
 	void SetModel(const Model& model);
 
-	void Draw(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect);
+	void Draw(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect, const Camera* camera);
 protected:
 	Model mModel;												// 模型
 	ComPtr<ID3D11Buffer> mInstancedBuffer;						// 实例缓冲区

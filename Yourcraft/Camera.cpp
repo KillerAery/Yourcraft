@@ -13,6 +13,7 @@ Camera::~Camera()
 
 void Camera::Init()
 {
+	Component::Init();
 }
 
 void Camera::Update()

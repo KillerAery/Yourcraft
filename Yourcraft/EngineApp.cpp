@@ -171,10 +171,14 @@ void EngineApp::UpdateScene(float dt)
 	Keyboard::State keyState = mKeyboard->GetState();
 	mKeyboardTracker.Update(keyState);
 
-	// --------- 测试更新部分 -------------//
+	// ------------------- 测试更新部分 ------------------------//
 	mRigidbodyPool.Update();
 
 	mParticleSystemPool.Update(mTimer.GetDeltaTime(), mTimer.TotalTime());
+
+	// -------- 摄像机更新 ----------//
+	rMainCamera->RotateY(0.000008f);	//测试旋转
+	mCameraPool.Update();
 
 	mGameObjectPool.Update();
 	//物理世界更新
@@ -192,18 +196,15 @@ void EngineApp::DrawScene()
 	md3dImmediateContext->ClearRenderTargetView(mRenderTargetView.Get(), reinterpret_cast<const float*>(&DirectX::Colors::Black));
 	md3dImmediateContext->ClearDepthStencilView(mDepthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
-	// -------- 摄像机更新 ----------//
-	mCameraPool.Update();
-
 	//--------- 按对象绘制 ----------//
 	mBasicEffect.SetRenderDefault(md3dImmediateContext, BasicEffect::RenderObject);
 	// 网格渲染组件 全部渲染
-	mMeshRenderPool.Draw(md3dImmediateContext, mBasicEffect);
+	mMeshRenderPool.Draw(md3dImmediateContext, mBasicEffect, rMainCamera);
 
 	//---------- 按实例批量绘制 ----------//
 	mBasicEffect.SetRenderDefault(md3dImmediateContext, BasicEffect::RenderInstance);
 	// 批量网格渲染组件 全部渲染
-	mBatchMeshRenderPool.Draw(md3dImmediateContext, mBasicEffect);
+	mBatchMeshRenderPool.Draw(md3dImmediateContext, mBasicEffect, rMainCamera);
 
 	//--------- 绘制天空盒 --------------//
 	mSkyEffect.SetRenderDefault(md3dImmediateContext);
@@ -276,10 +277,6 @@ bool EngineApp::InitResource()
 
 	// 更新摄像机
 	rMainCamera->Update();
-	// 初始化并更新观察矩阵、投影矩阵(摄像机将被固定)
-	mBasicEffect.SetViewMatrix(rMainCamera->GetViewXM());
-	mBasicEffect.SetProjMatrix(rMainCamera->GetProjXM());
-	mRainEffect.SetViewProj(rMainCamera->GetViewProjXM());
 
 	// ******************
 	// 初始化不会变化的值

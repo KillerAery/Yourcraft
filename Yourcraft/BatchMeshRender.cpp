@@ -89,7 +89,7 @@ GameObject * BatchMeshRender::CheckAlivingGameObject()
 	return nullptr;
 }
 
-void BatchMeshRender::Draw(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect)
+void BatchMeshRender::Draw(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect, const Camera* camera)
 {
 	// 是否绘制纹理
 	effect.SetTextureUsed(mModel.textureUsed);
@@ -124,7 +124,12 @@ void BatchMeshRender::Draw(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffec
 
 	UINT strides[2] = { sizeof(DirectX::VertexPositionNormalTexture), sizeof(InstancedData) };
 	UINT offsets[2] = { 0, 0 };
-	ID3D11Buffer * buffers[2] = { nullptr, mInstancedBuffer.Get() };
+	ID3D11Buffer * buffers[2] = { nullptr, mInstancedBuffer.Get() };		
+	
+	// 更新观察矩阵、投影矩阵
+	effect.SetViewMatrix(camera->GetViewXM());
+	effect.SetProjMatrix(camera->GetProjXM());
+
 	for (auto& part : mModel.modelParts)
 	{
 		buffers[0] = part.vertexBuffer.Get();
@@ -137,6 +142,7 @@ void BatchMeshRender::Draw(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffec
 		effect.SetTextureAmbient(part.texA);
 		effect.SetTextureDiffuse(part.texD);
 		effect.SetMaterial(part.material);
+
 		effect.Apply(deviceContext);
 
 		deviceContext->DrawIndexedInstanced(part.indexCount, numInsts, 0, 0, 0);

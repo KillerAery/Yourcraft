@@ -2,6 +2,7 @@
 #include <set>
 #include "Render.h"
 #include "Model.h"
+#include "Camera.h"
 
 //批量渲染组件
 //特殊地，其生命周期只要游戏对象列表存在一个可用的游戏对象，即可存活
@@ -22,7 +23,7 @@ public:
 	void SetModel(Model&& model);
 	void SetModel(const Model& model);
 
-	void Draw(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect);
+	void Draw(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect, const Camera* camera);
 protected:
 	void ResizeBuffer(ComPtr<ID3D11Device> device, size_t count);	// 重新设置实例缓冲区可容纳实例的数目
 private:

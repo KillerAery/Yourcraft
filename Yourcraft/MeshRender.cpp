@@ -50,13 +50,18 @@ void MeshRender::SetModel(const Model& model)
 
 
 
-void MeshRender::Draw(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect)
+void MeshRender::Draw(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & effect, const Camera* camera)
 {
 	// 是否绘制纹理
 	effect.SetTextureUsed(mModel.textureUsed);	
 
 	UINT strides = sizeof(DirectX::VertexPositionNormalTexture);
 	UINT offsets = 0;
+
+	// 更新世界矩阵，观察矩阵、投影矩阵
+	effect.SetWorldMatrix(XMLoadFloat4x4(&mGameObject->GetWorldMatrix()));
+	effect.SetViewMatrix(camera->GetViewXM());
+	effect.SetProjMatrix(camera->GetProjXM());
 
 	for (auto& part : mModel.modelParts)
 	{
@@ -65,7 +70,6 @@ void MeshRender::Draw(ComPtr<ID3D11DeviceContext> deviceContext, BasicEffect & e
 		deviceContext->IASetIndexBuffer(part.indexBuffer.Get(), part.indexFormat, 0);
 
 		// 更新数据并应用
-		effect.SetWorldMatrix(XMLoadFloat4x4(&mGameObject->GetWorldMatrix()));
 		effect.SetTextureAmbient(part.texA);
 		effect.SetTextureDiffuse(part.texD);
 		effect.SetMaterial(part.material);
