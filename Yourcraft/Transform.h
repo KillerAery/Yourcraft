@@ -21,17 +21,17 @@ public:
 	void SetPosition(const Vector3& pos);
 	void SetWorldPosition(const Vector3& pos);
 	const Vector3& GetPosition();
-	const Vector3& GetWorldPosition();
+	Vector3 GetWorldPosition();
 
 	void SetScale(const Vector3& scale);
 	void SetWorldScale(const Vector3& scale);
 	const Vector3& GetScale();
-	const Vector3& GetWorldScale();
+	Vector3 GetWorldScale();
 
 	void SetRotation(const Vector4& quaternion);
 	void SetWorldRotation(const Vector4& quaternion);
 	const Vector4& GetRotation();
-	const Vector4& GetWorldRotation();
+	Vector4 GetWorldRotation();
 
 	void CaculateWorldMatrix();
 

@@ -37,11 +37,24 @@ void Rigidbody::Init(PhysicsWorld& world, const ColliderPtr& collider, int mass)
 
 void Rigidbody::Update()
 {
+	//非活跃状态/睡眠中，则不处理
+	if (!mBody.isActive() || mBody.isStaticObject()) {
+		return;
+	}
+
+	//若目标物体有变化，先进行物理世界更新
 	if (mGameObject->HasChanged()) {
 		auto pos = mGameObject->GetWorldPosition();
 		auto rotation = mGameObject->GetWorldRotation();
 		mBody.setCenterOfMassTransform(btTransform(btQuaternion(rotation.x, rotation.y, rotation.z, rotation.w), btVector3(pos.x, pos.y, pos.z)));
 	}
+
+	//更新目标物体的位置
+	const auto & pos = mBody.getWorldTransform().getOrigin();
+	mGameObject->SetWorldPosition(Vector3(pos.x(), pos.y(), pos.z()));
+	//更新目标物体的旋转角度
+	const auto & rotation = mBody.getWorldTransform().getRotation();
+	mGameObject->SetWorldRotation(Vector4(rotation.getX(), rotation.getY(), rotation.getZ(), rotation.getW()));
 }
 
 void Rigidbody::BindGameObject(GameObject * gameObject)
@@ -54,8 +67,8 @@ void Rigidbody::BindGameObject(GameObject * gameObject)
 		mGameObject->AddComponentInfor(static_cast<int>(ComponentType::Rigidbody),mIndex);
 		mBody.setUserPointer(mGameObject);
 		//更新刚体属性
-		auto& pos = mGameObject->GetWorldPosition();
-		auto& rotation = mGameObject->GetWorldRotation();
+		auto pos = mGameObject->GetWorldPosition();
+		auto rotation = mGameObject->GetWorldRotation();
 		mBody.setCenterOfMassTransform(btTransform(btQuaternion(rotation.x, rotation.y, rotation.z, rotation.w), btVector3(pos.x, pos.y, pos.z)));
 	}
 }

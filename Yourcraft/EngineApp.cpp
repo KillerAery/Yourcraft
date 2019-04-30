@@ -172,17 +172,17 @@ void EngineApp::UpdateScene(float dt)
 	mKeyboardTracker.Update(keyState);
 
 	// ------------------- 测试更新部分 ------------------------//
-	mRigidbodyPool.Update();
-
 	mParticleSystemPool.Update(mTimer.GetDeltaTime(), mTimer.TotalTime());
-
 	// -------- 摄像机更新 ----------//
-	rMainCamera->RotateY(0.000008f);	//测试旋转
+	//rMainCamera->RotateY(0.000005f);	//测试旋转
 	mCameraPool.Update();
 
-	mGameObjectPool.Update();
 	//物理世界更新
 	mPhysicsWorld.StepWorld(dt);
+
+	mRigidbodyPool.Update();
+
+	mGameObjectPool.Update();
 }
 
 void EngineApp::DrawScene()

@@ -102,7 +102,7 @@ const Vector3& Transform::GetPosition()
 	return mPosition;
 }
 
-const Vector3 & Transform::GetWorldPosition()
+Vector3 Transform::GetWorldPosition()
 {
 	if (!mParent)return mPosition;
 	return mParent->GetWorldPosition() + mPosition;
@@ -126,7 +126,7 @@ const Vector3& Transform::GetScale()
 	return mScale;
 }
 
-const Vector3 & Transform::GetWorldScale()
+Vector3 Transform::GetWorldScale()
 {
 	if (!mParent)return mScale;
 	return mParent->GetWorldScale()*mScale;
@@ -158,7 +158,7 @@ const Vector4 & Transform::GetRotation()
 	return mRotation;
 }
 
-const Vector4 & Transform::GetWorldRotation()
+Vector4 Transform::GetWorldRotation()
 {
 	if (mParent) {
 		XMMATRIX m = XMMatrixRotationQuaternion(mRotation) * XMMatrixRotationQuaternion(mParent->GetWorldRotation());

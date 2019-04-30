@@ -432,7 +432,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>LinearMath.lib;BulletSoftBody.lib;BulletDynamics.lib;BulletCollision.lib;Bullet3Geometry.lib;Bullet3Dynamics.lib;Bullet3Collision.lib;Bullet3Common.lib;DirectXTK.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>LinearMath.lib;BulletSoftBody.lib;BulletDynamics.lib;BulletCollision.lib;DirectXTK.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>
       </EntryPointSymbol>
       <NoEntryPoint>false</NoEntryPoint>
@@ -455,7 +455,7 @@
       <EntryPointSymbol>
       </EntryPointSymbol>
       <NoEntryPoint>false</NoEntryPoint>
-      <AdditionalDependencies>LinearMath.lib;BulletSoftBody.lib;BulletDynamics.lib;BulletCollision.lib;Bullet3Geometry.lib;Bullet3Dynamics.lib;Bullet3Collision.lib;Bullet3Common.lib;DirectXTK.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>LinearMath.lib;BulletSoftBody.lib;BulletDynamics.lib;BulletCollision.lib;DirectXTK.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -476,7 +476,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>LinearMath.lib;BulletSoftBody.lib;BulletDynamics.lib;BulletCollision.lib;Bullet3Geometry.lib;Bullet3Dynamics.lib;Bullet3Collision.lib;Bullet3Common.lib;DirectXTK.lib;user32.lib;kernel32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>LinearMath.lib;BulletSoftBody.lib;BulletDynamics.lib;BulletCollision.lib;DirectXTK.lib;user32.lib;kernel32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>
       </EntryPointSymbol>
       <NoEntryPoint>false</NoEntryPoint>
@@ -503,7 +503,7 @@
       <EntryPointSymbol>
       </EntryPointSymbol>
       <NoEntryPoint>false</NoEntryPoint>
-      <AdditionalDependencies>LinearMath.lib;BulletSoftBody.lib;BulletDynamics.lib;BulletCollision.lib;Bullet3Geometry.lib;Bullet3Dynamics.lib;Bullet3Collision.lib;Bullet3Common.lib;DirectXTK.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>LinearMath.lib;BulletSoftBody.lib;BulletDynamics.lib;BulletCollision.lib;DirectXTK.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
