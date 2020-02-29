@@ -20,9 +20,6 @@
     <Filter Include="引擎框架层\内存管理类\工厂类">
       <UniqueIdentifier>{022d58b0-f381-43e0-a2c1-78de3570058b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="引擎框架层\内存管理类\内存池类">
-      <UniqueIdentifier>{e7f1c814-4301-41c5-a683-5eb67296e7d7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="图形库框架层">
       <UniqueIdentifier>{19aa2ab7-a9cf-446b-bfaf-c760018b279f}</UniqueIdentifier>
     </Filter>
@@ -85,6 +82,9 @@
     </Filter>
     <Filter Include="引擎框架层\对象类\组件类\摄像机组件">
       <UniqueIdentifier>{c58e5e71-c373-4850-80b5-918dd3921fb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="引擎框架层\内存管理类\对象池类">
+      <UniqueIdentifier>{e7f1c814-4301-41c5-a683-5eb67296e7d7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -253,7 +253,7 @@
       <Filter>引擎框架层\工具类</Filter>
     </ClInclude>
     <ClInclude Include="ObjectPool.h">
-      <Filter>引擎框架层\内存管理类\内存池类</Filter>
+      <Filter>引擎框架层\内存管理类\对象池类</Filter>
     </ClInclude>
     <ClInclude Include="Object.h">
       <Filter>引擎框架层\内存管理类\内存对象类</Filter>

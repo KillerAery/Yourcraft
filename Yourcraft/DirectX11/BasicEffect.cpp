@@ -3,7 +3,6 @@
 #include "EffectHelper.h"	// 必须晚于Effects.h和d3dUtil.h包含
 #include <VertexTypes.h>
 using namespace DirectX;
-using namespace std::experimental;
 
 //
 // 这些结构体对应HLSL的结构体，仅供该文件使用。需要按16字节对齐

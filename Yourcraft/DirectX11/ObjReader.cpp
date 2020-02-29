@@ -1,14 +1,14 @@
 #include "ObjReader.h"
 
 using namespace DirectX;
-using namespace std::experimental;
+
 bool ObjReader::Read(const wchar_t * mboFileName, const wchar_t * objFileName)
 {
-	if (mboFileName && filesystem::exists(mboFileName))
+	if (mboFileName && std::filesystem::exists(mboFileName))
 	{
 		return ReadMbo(mboFileName);
 	}
-	else if (objFileName && filesystem::exists(objFileName))
+	else if (objFileName && std::filesystem::exists(objFileName))
 	{
 		bool status = ReadObj(objFileName);
 		if (status && mboFileName)

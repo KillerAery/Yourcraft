@@ -6,7 +6,6 @@
 #include "Particle.h"
 
 using namespace DirectX;
-using namespace std::experimental;
 
 struct CBPerFrame
 {

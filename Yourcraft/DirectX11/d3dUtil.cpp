@@ -4,7 +4,6 @@
 
 using namespace Microsoft::WRL;
 using namespace DirectX;
-using namespace std::experimental;
 
 HRESULT CreateShaderFromFile(const WCHAR * objFileNameInOut, const WCHAR * hlslFileName, LPCSTR entryPoint, LPCSTR shaderModel, ID3DBlob ** ppBlobOut)
 {
@@ -13,7 +12,7 @@ HRESULT CreateShaderFromFile(const WCHAR * objFileNameInOut, const WCHAR * hlslF
 	HRESULT hr = S_OK;
 
 	// 寻找是否有已经编译好的顶点着色器
-	if (objFileNameInOut && filesystem::exists(objFileNameInOut))
+	if (objFileNameInOut && std::filesystem::exists(objFileNameInOut))
 	{
 		HR(D3DReadFileToBlob(objFileNameInOut, ppBlobOut));
 	}
